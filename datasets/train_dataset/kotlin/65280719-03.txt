@@ -1,0 +1,17 @@
+val args = Bundle()
+args.putString("yourarg", "Argument Value")
+
+val deeplink = findNavController().createDeepLink()
+               .setDestination(R.id.FragmentB)
+               .setArguments(args)
+               .createPendingIntent()
+val builder = NotificationCompat.Builder(
+                context, "deeplink")
+                .setContentTitle("Deep link with data")
+                .setContentText("Deep link with data to Android")
+                .setSmallIcon(R.drawable.ic_android)
+                .setContentIntent(deeplink)
+                .setAutoCancel(true)
+val notificationManager =
+                context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+notificationManager.notify(0, builder.build())

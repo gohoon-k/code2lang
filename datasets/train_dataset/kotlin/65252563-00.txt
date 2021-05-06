@@ -1,0 +1,24 @@
+fun readlinesToAddEntryAndValidation(): List<String> {
+    println(ENTER_DESCRIPTION_ID_TEKST)
+    val entryId: String? = readLine()
+    if (!entryId.isNullOrEmpty()) {
+        println(ENTER_DESCRIPTION_NAME_TEKST)
+        val name: String? = readLine()
+        if (!name.isNullOrEmpty()) {
+            println(ENTER_DESCRIPTION_TEKST_TEKST)
+            val tekst: String? = readLine()
+            if (!tekst.isNullOrEmpty()) {
+                return listOf(entryId, name, tekst)
+            } else {
+                println(EMPTY_READLINE_ERROR)
+                return readlinesToAddEntryAndValidation()
+            }
+        } else {
+            println(EMPTY_READLINE_ERROR)
+            return readlinesToAddEntryAndValidation()
+        }
+    } else {
+        println(EMPTY_READLINE_ERROR)
+        return readlinesToAddEntryAndValidation()
+    }
+}

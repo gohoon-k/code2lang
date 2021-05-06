@@ -1,0 +1,12 @@
+val data = mutableListOf<String>()
+var currentData = ""
+for(line in lines){
+    if(line.isEmpty()) {
+        data.add(currentData)
+        currentData = ""
+    }
+    else{
+        currentData = "$currentData $line"
+    }
+}
+data.add(currentData)

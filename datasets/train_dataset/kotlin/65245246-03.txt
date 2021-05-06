@@ -1,0 +1,83 @@
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class PrinterEditActivity: AppCompatActivity() {
+    private val TAG = "PrinterEditActivity"
+    private lateinit var pMap: PrinterManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_printer_edit)
+
+        val sharedPreferences: SharedPreferences
+                = applicationContext.getSharedPreferences("Printers", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+        val btnSave: Button  = findViewById(R.id.btnSave)
+        val btnDelete: Button = findViewById(R.id.btnDelete)
+
+        val editName: EditText = findViewById(R.id.p_name)
+        val editDiam: EditText = findViewById(R.id.material_diameter)
+        val editPrice: EditText = findViewById(R.id.p_price)
+        val editDepH: EditText = findViewById(R.id.depreciation_time)
+        val editSvc: EditText = findViewById(R.id.service_costs)
+        val editEnergy: EditText = findViewById(R.id.energy_consumption)
+        //val db = DatabaseManager(this)
+
+        val selectedId: Int = intent.getIntExtra("id", -1)
+        //val selectedName: String = intent.getStringExtra("name").toString()
+
+        pMap = PrinterManager(sharedPreferences.all as MutableMap<Int, Printers>)
+        val printer = pMap.getPrinterById(selectedId)
+
+        btnSave.setOnClickListener {
+            val item1 = editName.text.toString()
+            val item2 = editDiam.text.toString().toDouble()
+            val item3 = editPrice.text.toString().toDouble()
+            val item4 = editDepH.text.toString().toDouble()
+            val item5 = editSvc.text.toString().toDouble()
+            val item6 = editEnergy.text.toString().toDouble()
+
+            //AsyncTask.execute() {
+            if (item1 != "" || !item3.equals(null)
+                || !item4.equals(null) || !item6.equals(null)
+            ) {
+
+                pMap.updatePrinter(
+                    selectedId, item1, item2, item3,
+                    item4, item5, item6
+                )
+                editor.putStringSet(selectedId.toString(),
+                    printer?.let { it1 -> pMap.toMutableString(it1) })
+                editor.apply()
+                //db.connect()
+                //db.updatePrinters(selectedId, item1, item2, item3, item4, item5, item6)
+            } else {
+                Toast.makeText(
+                    this, "Important Fields have not been filled out",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            //}
+        }
+
+        btnDelete.setOnClickListener {
+            //db.deletePrinter(selectedId)
+            editor.remove(selectedId.toString())
+            editName.setText("")
+            editDiam.setText("")
+            editPrice.setText("")
+            editDepH.setText("")
+            editSvc.setText("")
+            editEnergy.setText("")
+            Toast.makeText(
+                this, "Successfully Deleted",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+}

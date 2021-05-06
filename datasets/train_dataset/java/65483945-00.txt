@@ -1,0 +1,13 @@
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter 
+{
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception 
+    {
+        //This will add default + CSP headers
+        http.headers().contentSecurityPolicy("script-src 'self'");                        
+    }
+    
+}

@@ -1,0 +1,21 @@
+class PetViewModel : ViewModel() {
+
+ private val cachedPetDetailsViewState: PetDetailsViewState? = null
+ private val cachedPetId: String = "" 
+
+ fun getPetDetailsForId(id: String?): LiveData<PetDetailsViewState> {
+   if (id == cachedPetId && cachedPetDetailsViewState != null) return MutableLiveData(cachedPetDetailsViewState)
+
+   cachedPetId == id
+
+   if (id.isNullOrEmpty() { ... }
+   else { 
+     val petIdViewState = // make the API call
+ 
+     cachedPetDetailsViewState = petIdViewState
+     
+     return MutableLiveData(petIdViewState)
+   }   
+ }
+}
+

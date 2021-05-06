@@ -1,0 +1,17 @@
+final class StudentRecordsSpecification{
+public static Specification<ClassesForFall> findByStudentRegisteredforClasses(Student student){
+    return(fallClasses, criteriaQuery, criteriaBuilder) ->{
+         List<Predicate> sqlCriteria = new ArrayList<>();
+         sqlCriteria.add(criteriaBuilder.equal(fallClasses.get("profile"), student.getProfile()));
+         if (!student.getSubjectTeachers().isEmpty()) {
+            student
+              .getSubjectTeachers()
+              .forEach(
+                (subject, teacher) ->
+                sqlCriteria.add(criteriaBuilder.equal(fallClasses.get(subject), teacher)));
+        }
+         criteriaQuery.where(criteriaBuilder.and(sqlCriteria.toArray(new Predicate[] {})));
+      return criteriaQuery.getRestriction();
+    }
+  }
+}

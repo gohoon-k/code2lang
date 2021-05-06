@@ -1,0 +1,21 @@
+public class MainActivity extends AppCompatActivity implements NoteListener {
+...
+private RelativeLayout noteLayout;
+...
+@SuppressLint("SupportAnnotationUsage")
+@AnimRes
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    ....
+    noteLayout = findViewById(R.id.rl_note);
+    ...
+
+@Override
+public void onNoteClicked(Note note, RelativeLayout noteLayout) {
+    this.noteLayout = noteLayout;
+    if (!isClick) {
+        DetailNoteActivity.start(this, note, noteLayout);
+        isClick = true;
+    }
+}

@@ -1,0 +1,188 @@
+package com.example.weatherapp2;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
+
+public class MainActivity extends AppCompatActivity {
+
+// Declare API Key and weather URL
+final String API_KEY = "****19d9086a360a7f9283cedac0****";
+final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
+
+// Min time and distance are the min that the user has to wait and travel for
+// the weather to refresh
+final long MinTime = 5000;
+final float MinDistance = 1000;
+final int RequestCode = 101;
+
+// Get Users GPS location
+String LocationProvider = LocationManager.GPS_PROVIDER;
+TextView view_city, view_temp, view_desc, view_hum, view_pres, view_wspeed;
+ImageView view_weather;
+RelativeLayout mCityFinder;
+LocationManager mLocationManager;
+LocationListener mLocationListener;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    view_city = findViewById(R.id.location);
+    view_temp = findViewById(R.id.temp);
+    view_desc = findViewById(R.id.condition);
+    view_hum = findViewById(R.id.humidity);
+    view_pres = findViewById(R.id.pressure);
+    view_wspeed = findViewById(R.id.wspeed);
+    view_weather = findViewById(R.id.weathericon);
+    mCityFinder = findViewById(R.id.cityFinder);
+
+    // Launches City Finder when user clicks 'Search for a city'
+    mCityFinder.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(MainActivity.this, cityFinder.class);
+            startActivity(intent);
+        }
+    });
+}
+
+// When the user opens the app, get the current weather.
+@Override
+protected void onResume() {
+    super.onResume();
+    getWeatherForCurrentLocation();
+}
+
+private void getWeatherForCurrentLocation() {
+    mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    mLocationListener = new LocationListener() {
+        @Override
+        // Get users locations via their latitude and longitude
+        public void onLocationChanged(@NonNull Location location) {
+            String Latitude = String.valueOf(location.getLatitude());
+            String Longitude = String.valueOf(location.getLongitude());
+
+            RequestParams params = new RequestParams();
+            params.put("lat", Latitude);
+            params.put("lon", Longitude);
+            params.put("appid", API_KEY);
+            letsdoSomeNetworking(params);
+        }
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+        @Override
+        public void onProviderDisabled(String provider) {
+            // Not able to get a location
+        }
+    };
+
+    // Ask the users permission to use their location
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        // TODO: Consider calling
+        //    Activity#requestPermissions
+        // here to request the missing permissions, and then overriding
+        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //                                          int[] grantResults)
+        // to handle the case where the user grants the permission. See the documentation
+        // for Activity#requestPermissions for more details.
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},RequestCode);
+        return;
+    }
+    mLocationManager.requestLocationUpdates(LocationProvider, MinTime, MinDistance, mLocationListener);
+}
+
+// Checks if the user allowed us to access their location or not
+@Override
+public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    if(requestCode==RequestCode){
+        // User allowed us to access their location
+        if(grantResults.length > 0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
+            Toast.makeText(MainActivity.this, "Location Permissions Granted", Toast.LENGTH_SHORT).show();
+            getWeatherForCurrentLocation();
+        }
+        // User denied us access to their location
+        else {
+
+        }
+    }
+}
+
+private void letsdoSomeNetworking(RequestParams params){
+
+    AsyncHttpClient client = new AsyncHttpClient();
+    client.get(WEATHER_URL, params, new JsonHttpResponseHandler(){
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+            Toast.makeText(MainActivity.this, "Successfully Obtained the Data",
+                    Toast.LENGTH_SHORT).show();
+            // super.onSuccess(statusCode, headers, response);
+
+            weatherData weatherD = weatherData.fromJson(response);
+            updateUI(weatherD);
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+            // super.onFailure(statusCode, headers, throwable, errorResponse);
+        }
+    });
+
+}
+
+private void updateUI(weatherData weather){
+
+    view_temp.setText(weather.getTemperature());
+    view_city.setText(weather.getCity());
+    view_desc.setText(weather.getWeatherType());
+    view_hum.setText(weather.getHumid());
+    view_pres.setText(weather.getPressure());
+    view_wspeed.setText(weather.getWSpeed());
+    int resourceID = getResources().getIdentifier(weather.getIcon(),
+            "drawable",getPackageName());
+    view_weather.setImageResource(resourceID);
+}
+
+@Override
+protected void onPause() {
+    super.onPause();
+    // Stops the app from constantly getting the weather
+    if (mLocationManager != null){
+        mLocationManager.removeUpdates(mLocationListener);
+    }
+}
+}

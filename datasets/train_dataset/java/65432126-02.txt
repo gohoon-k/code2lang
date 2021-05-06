@@ -1,0 +1,6 @@
+public class Example {
+    private String foo;
+
+    public Example(String foo) {
+    }
+}

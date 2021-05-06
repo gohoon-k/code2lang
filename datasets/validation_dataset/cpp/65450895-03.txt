@@ -1,0 +1,110 @@
+#include <iostream>
+#include <queue>
+
+const int MAX_VERTICES = 10000;
+struct EdgeNode {
+private:
+    int y{ -1 };
+    EdgeNode* next{ nullptr };
+public: 
+    EdgeNode(int _y,  EdgeNode* _next) : y{ _y }, next{ _next }{}
+    EdgeNode(int _y) : y{ _y }, next{ nullptr}{}
+    const int getY() const { return y; } ;
+    const EdgeNode* const getNext() const { return next; };
+    
+};
+
+class Graph {
+    EdgeNode* edges[MAX_VERTICES]{ nullptr };
+    int degree[MAX_VERTICES]{ 0 };
+    int totalVertices{ 0 };
+    int totalEdges{ 0 };    
+    bool directed{ false };
+    bool processed[MAX_VERTICES]{ false };
+    bool discovered[MAX_VERTICES]{ false };
+    bool finished = false;
+    int parents[MAX_VERTICES];
+    void initializeSearch() {
+        for (int i = 0; i < MAX_VERTICES; i++)
+        {
+            parents[i] = -1;
+            processed[i] = false;
+            discovered[i] = false;
+        }
+        finished = false;
+    }
+public:
+    int Vertices() const    {return totalVertices; }
+    int Edges() const { return totalEdges; }
+    const EdgeNode* getEdge(int x) const {
+        if (x > MAX_VERTICES)  return nullptr;
+        return edges[x];
+    }
+    bool insertEdge(int x, int y) { return insertEdge(x, y,  false); }
+    bool insertEdge(int x, int y,  bool _directed) {
+        if (x > MAX_VERTICES) { std::cout << std::endl << "Unable to insert edge. Max vertices allowed:" << MAX_VERTICES; return false; }
+        EdgeNode* temp = new EdgeNode(y,  edges[x]);
+        if (degree[x] == 0) totalVertices++;
+        edges[x] = temp;
+        degree[x]++;
+        totalEdges++;
+        if (!_directed) {
+            insertEdge(y, x,  true);
+        }
+        return true;
+    }
+        void process_vertex_late(int vertex) {}
+        void process_vertex_early(int vertex) {std::cout << std::endl << "Processing Vertex: " << vertex;}
+    void process_edge_dfs(int x, int y) {       
+        std::cout << std::endl << "\tProcessing Edge(" << x << "," << y << ")";
+        if (discovered[y] && (parents[x] != y)) {
+            std::cout << std::endl << "Cycle(" << x << "," << y << ")";
+            std::cout << std::endl << std::endl;
+            finished = true;
+        }
+    }
+        void dfs1(int start) {
+        initializeSearch();
+        dfs(start, false);
+    }
+    void dfs(int v, bool print) {
+        const EdgeNode* p;
+        int y;
+        if (finished) 
+            return;
+        discovered[v] = true;
+        process_vertex_early(v);
+        p = getEdge(v);
+        while (p != nullptr) {
+            y = p->getY();
+            if (!discovered[y]) {
+                parents[y] = v;
+                process_edge_dfs(v, y);
+                dfs(y, false);
+            }
+            else if (((!processed[y]) && (parents[v] != y)) || (directed))
+            {
+                process_edge_dfs(v, y);
+                if (finished) 
+                    return;
+                p = p->getNext();
+            }
+        }
+        process_vertex_late(v);
+        processed[v] = true;
+    }
+    
+};
+int main()
+{
+    Graph graph;    
+    graph.insertEdge(1, 2);
+    graph.insertEdge(1, 5);
+    graph.insertEdge(1, 6);
+    graph.insertEdge(2, 5);
+    graph.insertEdge(2, 3);
+    graph.insertEdge(3, 4);    
+    graph.insertEdge(4, 5);
+    graph.dfs1(1);
+    return 0;
+}

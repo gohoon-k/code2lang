@@ -1,0 +1,23 @@
+string hana(long long int n)
+{
+  string* memoize = new string[n+1];
+  memoize[0] = "0";
+  memoize[1] = "1";
+  for(long long int i = 2; i <= n; ++i)
+  {
+    if(i%2 == 0) memoize[i] = memoize[i/2] + "0" + memoize[i/2];
+    else memoize[i] = memoize[i/2] + "1" + memoize[i/2];
+  }
+
+  return memoize[n];
+}
+//
+long long int sumOfOnes (long long int n, long long int l, long long int r){
+    string result = hana(n);
+    long long int ans = 0;
+    for(long long int i = l - 1; i <= r - 1; ++i)
+    {
+        if(result[i] == '1') ++ans;
+    }
+    return ans;
+}

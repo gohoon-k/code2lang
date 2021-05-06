@@ -1,0 +1,22 @@
+    from flask import Flask
+    from flask_sqlalchemy import SQLAlchemy
+
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqldb://<username>:<pwd>@asdhfsf:3306/tools_log'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db = SQLAlchemy(app)
+
+    class xyz(db.Model):
+        __tablename__ = 'XYZ'
+        # id = db.Column('id', db.Integer)
+        action =db.Column('action',db.String(100))
+        time = db.Column('time',db.String(100))
+        user = db.Column('user',db.String(100))
+        response_statuscode = db.Column('response_statuscode',db.Integer, primary_key=True)
+
+        def __init__(self,action,time,user,response_statuscode):
+            # self.id = id
+            self.action = action
+            self.time = time
+            self.user = user
+            self.response_statuscode =response_statuscode

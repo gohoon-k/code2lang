@@ -1,0 +1,11 @@
+private fun initSync() {
+    rootView.btn_sync.setOnClickListener {
+        context?.applicationContext?.let {
+            lifecycleScope.launch {
+                val repo = InjectorUtils.provideRepository(it)
+                repo.doSomething()
+                repo.purgeTable()
+            }
+        }
+    }
+}

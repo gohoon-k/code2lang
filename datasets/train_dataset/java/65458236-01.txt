@@ -1,0 +1,23 @@
+class MainClass {
+
+  private onMyEvent1() {
+    print("my event 1 fired")
+  }
+
+  private onMyEvent2() {
+    print("my event 2 fired")
+  }
+
+  public MainClass() {
+      myObservable = new MyObservable()
+
+      // Pass in the function that i want to be called
+      // when myEvent1 is fired.
+      myObservable.myEvent1.Connect(onMyEvent1)
+
+      // Pass in the function that i want to be called
+      // when myEvent2 is fired.
+      myObservable.myEvent1.Connect(onMyEvent2)
+  } 
+
+}

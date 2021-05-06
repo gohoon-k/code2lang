@@ -1,0 +1,112 @@
+#include <iostream>
+
+// The base class all the "network messages" will inherit from
+class Base
+{
+
+};
+
+// Forward declaration of the handler Foo class (and the troublemaking line)
+class Foo;
+
+// Curiously recurring pattern class to have a Dispatch function calling the
+// right Bar function in Foo objects
+template<typename TDerived>
+class BaseCRP : public Base
+{
+public:
+    void Dispatch(Foo* foo)
+    {
+        foo->Bar(static_cast<TDerived&>(*this));
+    }
+};
+
+// All our N derived classes from Base
+class Derived1 : public BaseCRP<Derived1>
+{
+
+};
+
+class Derived2 : public BaseCRP<Derived2>
+{
+
+};
+
+// This creates a class with a Bar function for each
+// type in the TAllTuple tuple passed
+template<typename TBase, typename TAllTuple>
+class GenericFoo;
+
+template <typename TBase, typename TFirst, typename... TRest>
+class GenericFoo<TBase, std::tuple<TFirst, TRest...> > : public GenericFoo<TBase, std::tuple<TRest...> >
+{
+public:
+    using GenericFoo<TBase, std::tuple<TRest...> >::Bar;
+    virtual void Bar(TFirst& derived)
+    {
+        this->Bar(static_cast<TBase&>(derived));
+    }
+};
+
+template<typename TBase>
+class GenericFoo<TBase, std::tuple<> >
+{
+public:
+    virtual void Bar(TBase&)
+    {
+
+    }
+};
+
+// Actually create the Foo class, with a Bar function for
+// each of our DerivedN class
+class Foo : public GenericFoo<Base, std::tuple<Derived1, Derived2>> 
+{
+
+};
+
+// Now we can inherit Foo and specify how we want
+// to react to each Derived. RealFoo1 only reacts to Derived1
+class RealFoo1 : public Foo
+{
+public:
+    virtual void Bar(Derived1& d) override
+    {
+        std::cout << "Derived1" << std::endl;
+    }
+};
+
+// RealFoo2 reacts to both Derived1 and Derived2
+class RealFoo2 : public Foo
+{
+public:
+    virtual void Bar(Derived1& d) override
+    {
+        std::cout << "Derived1" << std::endl;
+    }
+
+    virtual void Bar(Derived2& d) override
+    {
+        std::cout << "Derived2" << std::endl;
+    }
+};
+
+int main(int argc, char* argv[])
+{
+    RealFoo1 rf1;
+    RealFoo2 rf2;
+
+    Derived1 d1;
+    Derived2 d2;
+
+    std::cout << "Process d1 with rf1:" << std::endl;
+    d1.Dispatch(&rf1);
+    std::cout << "Process d1 with rf2:" << std::endl;
+    d1.Dispatch(&rf2);
+    std::cout << "Process d2 with rf1:" << std::endl;
+    d2.Dispatch(&rf1);
+    std::cout << "Process d2 with rf2:" << std::endl;
+    d2.Dispatch(&rf2);
+
+    return 0;
+}

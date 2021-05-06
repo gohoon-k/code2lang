@@ -1,0 +1,18 @@
+import numpy as np
+import pandas as pd
+from sklearn.metrics.pairwise import cosine_similarity
+
+data = {"use_vector": [[-0.1, -0.2, 0.3], [0.1, -0.2, -0.3], [-0.1, 0.2, -0.3]]}
+df = pd.DataFrame(data)
+print("Data: \n{}\n".format(df))
+
+vectors = []
+for v in df['use_vector']:
+    vectors.append(v)
+vectors_num = len(vectors)
+A=np.array(vectors)
+# Get similarities matrix, value for each pair at corresponding index of upper triangle of matrix
+similarities = cosine_similarity(A)
+# Set symmetrical(repetitive) and diagonal(similarity to self) to -2
+similarities[np.tril_indices(vectors_num)] = -2
+print("Similarities: \n{}\n".format(similarities))

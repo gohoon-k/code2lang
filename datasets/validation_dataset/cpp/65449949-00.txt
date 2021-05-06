@@ -1,0 +1,12 @@
+struct Type_Which_std_cout_MayAccept {};
+
+template <typename T>
+struct AAA
+{
+    AAA(T t) { if constexpr (false) std::cout << t; }
+};
+
+int main()
+{
+    AAA{ Type_Which_std_cout_MayAccept() };
+}

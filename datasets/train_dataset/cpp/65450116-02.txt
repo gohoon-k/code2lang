@@ -1,0 +1,23 @@
+#include <iostream>
+#include <type_traits>
+
+struct A {};
+
+template<typename T>
+void fun(T) {
+    std::cout << "T";
+}
+
+template<typename T, typename AA = A> // <<==== HERE
+void caller(T t) {
+    fun(AA{});
+    fun(t);
+}
+
+void fun(A) {
+    std::cout << "A";
+}
+
+int main() {
+    caller(A{}); // Does AA
+}

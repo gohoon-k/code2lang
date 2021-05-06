@@ -1,0 +1,22 @@
+class Repository private constructor(private val retrofitService: ApiService) {
+
+    companion object {
+        @Volatile
+        private var INSTANCE: Repository? = null
+
+        fun getInstance(retrofitService: ApiService): Repository {
+            synchronized(this) {
+                var instance = INSTANCE
+                if (instance == null) {
+                    instance = Repository(retrofitService)
+                }
+                INSTANCE = instance
+                return instance
+            }
+        }
+    }
+
+    suspend fun getProducts(): ProductsResponse = withContext(IO) {
+        retrofitService.getProducts()
+    }
+}

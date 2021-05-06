@@ -1,0 +1,26 @@
+    @SuppressLint("SetTextI18n")
+    override fun onSensorChanged(event: SensorEvent?) {
+        Log.i("TEST_TEST","ssssssssssss")
+        if(event!!.sensor==sensor)
+            showToastMessage("movment")
+
+    }
+
+    override fun onResume() {
+        Log.i("TEST_TEST","f RESume")
+
+        super.onResume()
+        if(sensoreManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)!=null){
+            sensoreManager!!.registerListener(this,sensor,SensorManager.SENSOR_DELAY_FASTEST)
+            Log.i("TEST_TEST","not null")}
+        else{
+            Log.i("TEST_TEST","null")
+        }
+    }
+
+    override fun onPause() {
+        Log.i("TEST_TEST","f onPause")
+        super.onPause()
+        if(sensoreManager!!.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)!=null)
+           sensoreManager!!.unregisterListener(this,sensor)
+    }

@@ -1,0 +1,5 @@
+val things : List<MyThing> = /* some stuff */
+val results : List<Either<Failure, List<MyResult>>> = things.map { doThingThatReturnsEither(it) }
+val successes : List<MyResult> = results.mapNotNull { it.orNull() }.flatten()
+val firstFailure : Failure? = results.mapNotNull { it.swap().orNull() }.firstOrNull()
+return firstFailure?.let {it.left()} ?: success.right() 

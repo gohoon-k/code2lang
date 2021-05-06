@@ -1,0 +1,42 @@
+prices = pd.DataFrame(index=pd.date_range(start='1-1-2020', end=(date.today()), freq="D"))
+volume = pd.DataFrame(index=pd.date_range(start='1-1-2020', end=(date.today()), freq="D"))
+prices_filename = 'Prices.csv'
+volume_filename = 'Volume.csv'
+failed_tickers=[]
+i=0
+time_beg=timer()
+for ticker in data['Ticker']:
+    try:
+        prices[ticker] = web.DataReader(ticker, data_source='yahoo')['Adj Close']
+        volume[ticker] = web.DataReader(ticker, data_source='yahoo')['Volume']
+        i+=1
+        print(i, end='\r')
+
+    except Exception:
+        try:
+          prices[ticker] = web.DataReader(ticker+'U',  data_source='yahoo')['Adj Close']
+          volume[ticker] = web.DataReader(ticker+'U',  data_source='yahoo')['Volume']
+          i+=1
+          print(i, end='\r') 
+
+        except:
+            try:
+              prices[ticker] = web.DataReader(ticker+'-UN',data_source='yahoo')['Adj Close']
+              volume[ticker] = web.DataReader(ticker+'-UN',data_source='yahoo')['Volume']
+              i+=1
+              print(i, end='\r') 
+
+            except Exception:
+                print(f'{ticker} failed')
+                failed_tickers.append(ticker)
+                pass
+        
+prices.dropna(how='all', axis=1, inplace=True)
+prices['CLA'].dropna()[0] = np.nan
+prices.to_csv(prices_filename)
+volume.dropna(how='all', axis=1, inplace=True)
+volume['CLA'].dropna()[0] = np.nan
+volume.to_csv(volume_filename)
+
+time_end=timer()
+print('Download done in ' + str(time_end - time_beg) + ' seconds')

@@ -1,0 +1,18 @@
+    client.on('message', message => {
+
+    if (message.author.bot) return undefined //bot does not reply to itself
+  
+    let msg = message.content.toLowerCase()
+    let args = message.content
+      .slice(prefix.length)
+      .trim()
+      .split(' ') //arguments
+    let command = args.shift().toLowerCase() //shifts args to lower case letters
+  
+    if (command === 'wts') {
+      let say = args.join(' ') //space
+      //message.delete() - remove // if you want to have each message deleted
+      const generalChannel = message.guild.channels.cache.get('793494585123465875')
+      generalChannel.send(message.author.toString() + ": " + say)
+
+    }

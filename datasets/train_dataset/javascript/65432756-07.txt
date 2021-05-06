@@ -1,0 +1,7 @@
+function done() {
+    var d = $.Deferred();
+    $("#myObject").once("click",function() {
+        d.resolve();
+    });
+    return d.promise();
+}

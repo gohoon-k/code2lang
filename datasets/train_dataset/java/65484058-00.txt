@@ -1,0 +1,20 @@
+import java.util.*;
+class GFG
+{
+    public static void main (String[] args)
+    {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt(); //t>1
+        for(int p=1; p<=t; p++)
+        {
+            sc.nextLine();
+            String s = sc.nextLine();
+            System.out.println(s);
+        }
+    }
+}   // Input-
+    // 2
+    // HOW ARE YOU
+    // GOD IS ONE
+    // Output-
+    // HOW ARE YOU -(followed by run time error)

@@ -1,0 +1,4 @@
+fun checkName(name: String): Boolean {
+    val names = name.split(' ')
+    return names.size == 2 && names.all { it[0].isUpperCase() }
+}

@@ -1,0 +1,25 @@
+#include <iostream>
+ #include <string>
+ #include <cmath>
+
+using namespace std;
+
+int main() {;
+    string s = "";
+    for (int i = 1; i < 100; i++) {
+        if (fmod(i, 3) == 0) {  //Checks if integer 'i' is divisible by 3
+            s = s + "Fizz";
+        }
+        if (fmod(i, 5) == 0) {  //Checks if integer 'i' is divisible by 5
+            s = s + "Buzz";
+        }
+/*        if (s == "") {
+            s == s + to_string(i);  //Sets string 's' to 'i' if integer 'i' doesn't match the previous if statemets
+        }*/
+        s = s + "\n";   //Appends a new line after string to make the result look nicer
+        auto var = (s == "") ? to_string(i) : s;
+        cout << var;
+    }
+    //system("pause");
+    return 0;   //That's pretty self-explanatory
+}

@@ -1,0 +1,23 @@
+#include<iostream>
+#include<string>
+#include<limits>//For cleaning buffer i used some code in the line 19
+#include<ios>//For cleaning buffer i used some code in the line 19
+using namespace std;
+
+class node{
+    public:
+    node *link;
+    int info1;
+    string info2;
+};
+node *START=NULL;
+node *createNode(){
+    node *obj=new node();
+    obj->link=NULL;
+    cout<<"Enter the integer info 1"<<endl;
+    cin>>obj->info1;
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    cout<<"Enter the String info 2"<<endl;
+    getline(cin,obj->info2);
+    return obj;
+}

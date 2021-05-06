@@ -1,0 +1,62 @@
+/*
+This is a minimalistic example to show Qt window flickering on Windows (not observed on Linux nor MacOS).
+
+This is observable ONLY when the window is being resized by dragging lower right (or upper right or lower left) corner
+so that one dimension (e.g. width) is increasing and the other dimension (is decreasing).
+In that case the newly emerging areas are always filled in with white color which can be observed as terrible flickering.
+
+Curiously the flickering does not happen:
+- when you resize the window so that BOTH width and height are increasing
+- when you resize the window by dragging the upper left corner
+
+This is not a problem when you have light theme (then window background is probably white anyway).
+But this is a big issue when you have dark theme, in which case it is superugly.
+
+Notes:
+1) there seems to be the same problem in QtWidgets and QtQuick applications,
+   I have not found any Qt application which would behave correctly
+2) This is not a problem of Windows OS. Non-Qt applications which I have tested
+   seem to behave correctly, i.e. no flickering.
+*/
+
+#include <QApplication>
+#include <QWidget>
+#include <QPainter>
+#include <QThread>
+
+class Widget : public QWidget
+{
+public:
+    Widget()
+    {
+        /*
+        The following code was used for experiments. But nothing worked, I could not get rid of flickering.
+        The documentation says:
+        autoFillBackground : bool
+        This property holds whether the widget background is filled automatically
+        If enabled, this property will cause Qt to fill the background of the widget before invoking the paint event.
+        The color used is defined by the QPalette::Window color role from the widget's palette.
+        */
+        //setAttribute(Qt::WA_OpaquePaintEvent, true);
+        //setAttribute(Qt::WA_NoSystemBackground, true);
+        //setAutoFillBackground(false);
+        //QPalette p = palette();
+        //p.setColor(QPalette::Window, Qt::blue);
+        //setPalette(p);
+    }
+
+    void paintEvent(QPaintEvent *) override
+    {
+        QPainter p(this);
+        p.fillRect(0, 0, width(), height(), Qt::blue);
+        QThread::msleep(50); // just to simulate slower painting
+    }
+};
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    Widget w;
+    w.show();
+    return a.exec();
+}

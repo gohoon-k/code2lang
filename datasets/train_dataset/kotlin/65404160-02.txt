@@ -1,0 +1,53 @@
+override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_update, container, false)
+
+        // set menu
+        setHasOptionsMenu(true)
+
+        view.current_title_et.setText(args.currentItem.title)
+        view.current_description_et.setText(args.currentItem.description)
+        view.current_mood_spinner.setSelection(mSharedViewModel.parseMood(args.currentItem.mood))
+        view.current_mood_spinner.onItemSelectedListener = mSharedViewModel.listener
+
+        // Opens gallery when image button clicked, gets image
+        view.current_image_et.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 1218)
+        }
+
+        return view
+    }
+
+    // Handle result of picked image
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 1001) {
+
+            // Converts image URI to bitmap
+            if (data != null && data.data != null) {
+                val uri = data.data!!
+                val inputStream = requireContext().contentResolver.openInputStream(uri)
+                val cursor = requireContext().contentResolver.query(uri, null, null, null, null)
+                cursor?.use { c ->
+                    val nameIndex = c.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (c.moveToFirst()) {
+                        val name = c.getString(nameIndex)
+                        inputStream?.let { inputStream ->
+                            // create same file with same name
+                            val file = File(requireContext().cacheDir, name)
+                            val os = file.outputStream()
+                            os.use {
+                                inputStream.copyTo(it)
+                            }
+                            bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                            preview_image.setImageBitmap(bitmap)
+                        }
+                    }
+                }
+            }
+        }
+    }

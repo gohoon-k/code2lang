@@ -1,0 +1,13 @@
+enqueue(data) {
+
+    const queue = this;
+    // returns the Promise
+    return new Promise(function (resolve, reject) {
+        setTimeout(()=> {
+                queue.source.push(data);
+                resolve(queue); //call native resolve when finish
+            }
+            , 10); // resolve() will be called in 10 ms
+    });
+
+}

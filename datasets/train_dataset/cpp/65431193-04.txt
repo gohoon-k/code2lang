@@ -1,0 +1,6 @@
+template <unsigned N>
+int compare(char const(&ar1)[N], char const(&ar2)[N])
+{   
+    std::cout << "compare(char const(&)[N], char const(&)[N])\n";
+    return strcmp(ar1, ar2);
+}

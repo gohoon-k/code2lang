@@ -1,0 +1,55 @@
+    WebDriverManager.chromedriver().setup();
+    
+    WebDriver driver = new ChromeDriver();
+    
+    driver.manage().window().maximize();
+    
+    driver.get("https://www.amazon.in");
+    
+    
+    
+    driver.findElement(By.xpath("//input[@id='twotabsearchtextbox']")).sendKeys("one");
+    
+    Thread.sleep(2000);
+    
+    List<WebElement> all_mobile= driver.findElements(By.xpath("//div[@id='suggestions']/div/span"));
+    
+    //Thread.sleep(2000);
+    
+    int total= all_mobile.size();
+    
+    //System.out.println(total);
+    
+    for(int i=0; i<total;i++)
+    
+    {
+    
+    String mobiles = all_mobile.get(i).getText();
+    
+    //System.out.println(mobiles);
+    
+    if(all_mobile.get(i).getText().equals("plus nord 5g"))
+    
+    {
+    
+    all_mobile.get(i).click();
+    
+    break;
+    
+    }
+    
+    }
+    
+    Thread.sleep(2000);
+    
+    String  text = driver.findElement(By.xpath("(//span[@aria-label='FREE Delivery by Amazon'])[1]/span")).getText();
+    
+    System.out.println(text); //it prints FREE Delivery by Amazon working fine if I use /span at end or not both ways but below iam getting issue in price
+    
+    String  price = driver.findElement(By.xpath("(//span[@class='a-price'])[1]/span[1]")).getText();
+    
+    System.out.println(price); //it prints nothing if iam using /span[1] at end   
+    
+    String  PRICE = driver.findElement(By.xpath("(//span[@class='a-price'])[1]")).getText();
+    
+    System.out.println(PRICE); //it prints ₹29,990 if iam not using /span[1] at end    

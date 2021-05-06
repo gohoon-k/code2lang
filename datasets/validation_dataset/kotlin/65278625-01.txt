@@ -1,0 +1,29 @@
+package com.pluralsight.springdataoverview
+import com.pluralsight.springdataoverview.entity.Flight
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.boot.test.context.SpringBootTest
+import java.time.LocalDateTime
+import javax.persistence.EntityManager
+
+
+@SpringBootTest
+@DataJpaTest
+class SpringDataOverviewApplicationTests {
+    @Autowired
+    private val entityManager: EntityManager? = null
+    @Test
+    fun verifyFlighTCanBeSaved() {
+        var flight = Flight()
+        flight.origin = "London"
+        flight.destination = "New York"
+        flight.scheduledAt = LocalDateTime.parse("2011-12-13T12:12:00")
+        entityManager!!.persist(flight)
+        val flights = entityManager
+            .createQuery("SELECT f FROM Flight f", Flight::class.java)
+            .resultList
+        Assertions.assertEquals(flights.first(), flight)
+    }
+}

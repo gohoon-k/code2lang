@@ -1,0 +1,8 @@
+var a = new Date();
+function f1(b)
+{
+    b.setDate(b.getDate()+1);
+    alert(b.getDate());
+}
+f1(a);
+alert(a.getDate());

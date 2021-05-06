@@ -1,0 +1,12 @@
+int factorial(int n)
+{
+    int an = std::abs(n);
+
+    int result = 1;
+    for( int i = 1; i <= an; i++)
+    {
+        result *= i;
+    }
+
+    return ( n<0 ? -result : result );
+}

@@ -1,0 +1,35 @@
+@RestController
+@RequestMapping("/simulation")
+public class SimulationController
+{
+    @Autowired
+    SimulationService simulationService;
+
+    @PostMapping
+    public SimulationDTO addSimulation(@RequestBody Simulation simulation)
+    {
+        System.out.println(simulation);
+        simulation.createRecords();
+        return new SimulationDTO(simulationService.save(simulation));
+    }
+
+    @GetMapping("/all")
+    @ResponseBody
+    public List<SimulationDTO> getAll()
+    {
+        List<SimulationDTO> simulationDTOs = new ArrayList<>();
+
+        for(Simulation simulation : simulationService.findAll())
+            simulationDTOs.add(new SimulationDTO(simulation));
+
+        return simulationDTOs;
+    }
+
+    @GetMapping
+    @ResponseBody
+    public SimulationDTO getByName(@RequestBody String name)
+    {
+        return new SimulationDTO(simulationService.findByName(name));
+
+    }
+}

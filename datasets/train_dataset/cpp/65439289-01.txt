@@ -1,0 +1,11 @@
+template<typename H>
+class HandlerInfoClass;
+
+template<>
+class HandlerInfoClass<HandlerType>
+{
+    static std::string_view getName()
+    {
+        return "HandlerType";
+    }
+};

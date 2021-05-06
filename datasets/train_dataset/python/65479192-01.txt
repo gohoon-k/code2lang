@@ -1,0 +1,24 @@
+import time
+
+import concurrent.futures
+from selenium import webdriver
+
+
+def task(driver):
+    driver.get('https://www.google.com')
+    text = driver.find_element_by_xpath('//input[@class="gLFyf gsfi"]')
+    text.send_keys('Hello')
+    driver.find_element_by_xpath('//div[@class="FPdoLc tfB0Bf"]//input[1]').click()
+    time.sleep(3)
+    driver.close()
+
+
+if __name__ == '__main__':
+    futures = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        for i in range(3):
+            driver = webdriver.Chrome(executable_path="./chromedriver")
+            driver.maximize_window()
+            futures.append(executor.submit(task, driver))
+    for future in futures:
+        print(future.result())

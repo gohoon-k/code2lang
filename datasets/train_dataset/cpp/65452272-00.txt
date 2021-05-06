@@ -1,0 +1,27 @@
+#include <iostream>
+#include <thread>
+#include <functional>
+#include <vector>
+
+template<
+    typename RETURN,
+    typename ... INPUTS
+>
+std::vector<RETURN> thread_transform(std::function<RETURN(INPUTS ...)> function, std::vector<INPUTS>& ... inputs)
+{
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    /* Code to loop over the vectors in 'inputs' and call 'function' with */
+}
+
+int func(int a, int b)
+{
+    std::cout << a << ' ' << b << std::endl;
+}
+
+int main(int argc, char** argv)
+{
+    std::vector<int> a;
+    std::vector<int> b;
+    std::vector<int> ret = thread_transform(std::function<int(int, int)>(func), a, b);
+    return 0;
+}

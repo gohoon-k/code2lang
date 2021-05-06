@@ -1,0 +1,39 @@
+@Controller
+public class UserController {
+
+
+    private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+
+    @GetMapping("/register")
+    public String register(@ModelAttribute AppUser appUser, Model model) {
+        model.addAttribute("appUser", new AppUser());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerOk(@Valid @ModelAttribute("appUser") AppUser appUser, BindingResult bindingResult, Model model) {
+
+//        if (userService.appUserUsernameExists(appUser.getUsername())) {
+//            bindingResult.addError(new FieldError
+//                    ("appUser", "username", "Login already exists"));
+//        }
+
+        if (userService.appUserEmailExists(appUser.getEmail())) {
+            bindingResult.addError(new FieldError
+                    ("appUser", "email", "Email already exists"));
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "register";
+        } else {
+            userService.addUser(appUser);
+            return "redirect:register?success";
+        }
+    }
+}

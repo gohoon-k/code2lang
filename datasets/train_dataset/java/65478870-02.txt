@@ -1,0 +1,12 @@
+public List<Message> read(long sender_id, long receiver_id, Date date) {
+        long count = store.values()
+            .stream()
+            .filter(
+                    message -> !message.isReadOrNot()
+                            && message.getSender_id() == sender_id
+                            && message.getReceiver_id() == receiver_id
+                            && Long.parseLong(message.getTransmitted_time().toString()) > Long.parseLong(date.toString())
+            ).count();
+
+        return null;
+    }

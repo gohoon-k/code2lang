@@ -1,0 +1,15 @@
+fun getPetDetailsForId(id: String?): LiveData<PetDetailsViewState> {
+   return if (id.isNullOrEmpty()) {
+         liveData {
+             emit(
+                 viewState.copy(
+                     loading = false,
+                     error = ErrorType.PET_ID_NULL_OR_EMPTY
+                 )
+             )
+         }
+        } else {
+            petService.performPetAction(PetAction.GetPetDetails("2")).map {
+              // ...
+            }.asLiveData(Dispatchers.Default + viewModelScope.coroutineContext)
+    }

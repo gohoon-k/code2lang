@@ -1,0 +1,11 @@
+class LayerIterator : Iterator<Int> {
+    private var current = -1
+
+    override fun hasNext() = true
+
+    override fun next(): Int {
+        // increment the current index, wrapping back to zero
+        current = (current + 1) % layers.size
+        return layers[current]
+    }
+}

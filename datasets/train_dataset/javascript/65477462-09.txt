@@ -1,0 +1,10 @@
+window.onload = function() {
+    // process DOM elements here
+};
+
+// or
+
+// does not work IE 8 and below
+document.addEventListener('DOMContentLoaded', function() {
+    // process DOM elements here
+});

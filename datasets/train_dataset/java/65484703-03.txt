@@ -1,0 +1,10 @@
+@Component
+public class CampaignJob implements Job{
+    
+        @Override
+        public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+            System.out.println("Hi, the job works");
+        
+    }
+
+}

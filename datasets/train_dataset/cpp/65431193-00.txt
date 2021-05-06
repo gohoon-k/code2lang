@@ -1,0 +1,12 @@
+// first version; can compare any two types
+template <typename T>
+int compare(T const& x, T const& y)
+{
+    std::cout << "compare(T const&, T const&)\n";
+
+    if(std::less<T>()(x, y))
+        return -1;
+    if(std::less<T>()(y, x))
+        return 1;
+    return 0;
+}

@@ -1,0 +1,16 @@
+class A{
+  public void methodA(){
+    new B().methodB();
+    //or
+    B.methodB1();
+  }
+}
+
+class B{
+  //instance method
+  public void methodB(){
+  }
+  //static method
+  public static  void methodB1(){
+  }
+}

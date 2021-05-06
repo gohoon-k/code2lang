@@ -1,0 +1,88 @@
+var c = document.getElementById("frame");
+
+c.width = window.innerWidth * 0.31;
+c.height = window.innerHeight * 0.55;
+
+var ctx = c.getContext("2d");
+
+var x = 10;
+var y = 10;
+var rx = 10;
+var ry = (window.innerHeight*0.55)-10;
+var height = 70;
+var width = 12;
+var radius = 10;
+var vx = Math.floor(Math.random() * 2);
+var vy = Math.floor(Math.random() * 4);
+let moveUp = false;
+let moveDown = true;
+
+drawPad(rx, ry, height, width);
+
+function drawPad(rx, ry, height, width) {
+    ctx.fillStyle = "#f2a34b";
+    ctx.fillRect(rx, ry, height, width);
+}
+
+function drawCircle() {
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fill();
+
+
+}
+
+function moveCircle() {
+
+    requestAnimationFrame(moveCircle);
+
+    /*if ((x + radius > 500) || (x - radius < 0)) {
+        vx = 0 - vx;
+    }*/
+
+    if((x+radius>=rx)&&(y+radius>=ry))
+    {
+      moveUp = true;
+      moveDown = false;
+    }
+    if(y+radius<=0)
+    {
+      moveUp = false;
+      moveDown = true;
+    }
+
+    /*if ((y + radius > 420) || (y - radius < 0)) {
+        vy = 0 - vy;
+    }*/
+
+    if(moveUp){
+      //x = x + vx;
+      y = y - vy;
+    }
+    if(moveDown){
+      //x = x - vx;
+      y = y + vy;
+    }
+    ctx.clearRect(0, 0, 500, 500);
+    drawPad(rx, ry, height, width);
+    drawCircle();
+}
+
+moveCircle();
+
+
+window.onkeydown = function(event) {
+
+    if (event.keyCode == 37 && rx > 20) {
+        rx = rx - 20;
+
+    } else if (event.keyCode == 39 && rx <= 420) {
+        rx = rx + 20;
+    }
+
+    ctx.clearRect(0, 0, 500, 500);
+    drawPad(rx, ry, height, width);
+
+}

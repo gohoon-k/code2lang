@@ -1,0 +1,1 @@
+a = [word for word in a if word.isdigit()]

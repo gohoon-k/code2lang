@@ -1,0 +1,53 @@
+public class ManagerServiceImpl implements ManagerService {
+    
+    @Autowired
+    private ProducerQueue producer;
+    
+    @Autowired
+    private ManagementDatabase managementDatabase;
+    
+    @Autowired
+    private Scheduler scheduler;
+    
+    @Override
+    public String processCampaign(ScheduleCampaign scheduleCampaign) {
+        try {
+            ZonedDateTime dateTime = ZonedDateTime.of(scheduleCampaign.getDateTime(), scheduleCampaign.getTimeZone());
+            JobDetail jobDetail = buildJobDetail(scheduleCampaign);
+            Trigger trigger = buildJobTrigger(jobDetail, dateTime);
+            scheduler.scheduleJob(jobDetail, trigger);
+            } catch (SchedulerException e) {
+            System.out.println("There was an error creating the scheduler: "+e);
+        }
+        
+        return "Scheduler created";
+    }
+    
+
+     private JobDetail buildJobDetail(ScheduleCampaign scheduleCampaign) {
+            JobDataMap jobDataMap = new JobDataMap();
+            System.out.println("Function: buildJobDetail -  campaign value: "+scheduleCampaign.getCampaign());
+            jobDataMap.put("campaign", scheduleCampaign.getCampaign());
+            return JobBuilder.newJob(CampaignJob.class)
+                    .withIdentity(UUID.randomUUID().toString(), "campaign-jobs")
+                    .requestRecovery(true)
+                    .storeDurably(true)
+                    .withDescription("campaign job planned")
+                    .usingJobData(jobDataMap)
+                    .storeDurably()
+                    .build();
+        }
+
+     private Trigger buildJobTrigger(JobDetail jobDetail, ZonedDateTime startAt) {
+            return TriggerBuilder.newTrigger()
+                    .forJob(jobDetail)
+                    .withIdentity(jobDetail.getKey().getName(), "campaign-triggers")
+                    .withDescription("campaign job Trigger")
+                    .startAt(Date.from(startAt.toInstant()))
+                    .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
+                    .build();
+        }
+
+    
+
+}

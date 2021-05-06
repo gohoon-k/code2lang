@@ -1,0 +1,12 @@
+//foo.h
+namespace LMS
+{
+    class foo
+    {
+        foo();         //implementation in cpp
+        foo(int dummy) //implemented here
+        {
+            //something
+        }
+    };
+} // namespace LMS

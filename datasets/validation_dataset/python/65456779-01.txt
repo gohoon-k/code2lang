@@ -1,0 +1,11 @@
+import requests as rq
+from bs4 import BeautifulSoup as bs
+    
+url = "https://news.guidants.com/#Ticker/Profil/?i=133962&e=74"
+    
+response = rq.get(url)
+soup = bs(response.text, "lxml")
+
+price = soup.find_all("div", {"class":"left"})[0].find("span")
+
+print(price["data-bg_quotepush_c"])

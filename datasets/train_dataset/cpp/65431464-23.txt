@@ -1,0 +1,11 @@
+// src2.cpp
+extern "C" int printf (const char*, ...);
+
+extern int global_var_name;
+//extern int local_var_name;
+
+void print ()
+{
+    // printf("%d%d\n", global_var_name, local_var_name);
+    printf("%d\n", global_var_name);
+}

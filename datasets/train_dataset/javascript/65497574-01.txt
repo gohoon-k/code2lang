@@ -1,0 +1,140 @@
+document.addEventListener("DOMContentLoaded", function(event) {
+      let canvas = document.getElementById('mainmask');
+      let gradcanvas = document.getElementById('gradmask');
+            let aWrapper = document.querySelector('.canvas-wrap');
+            let ctx = canvas.getContext('2d');
+      let ctxGrad = gradcanvas.getContext('2d');
+            let win = {};
+            let markerShow = false;
+
+            // for reszing canvas 
+            function setCanvasScalingFactor() {
+               return window.devicePixelRatio || 1;
+            }
+            
+            function resizeViaCanvas() {
+                //Gets the devicePixelRatio
+                var pixelRatio = setCanvasScalingFactor();
+                //The viewport is in portrait mode, so var width should be based off viewport WIDTH
+                if (window.innerHeight < window.innerWidth) {
+                    //Makes the canvas 100% of the viewport width
+                    var width = Math.round(1.0 * window.innerWidth);
+                }
+                //The viewport is in landscape mode, so var width should be based off viewport HEIGHT
+                else {
+                    //Makes the canvas 100% of the viewport height
+                    var width = Math.round(1.0 * window.innerHeight);
+                }
+                //This is done in order to maintain the 1:1 aspect ratio, adjust as needed
+                //var height = width*.5625;
+                var height = Math.round(1.0 * window.innerHeight);
+                //This will be used to downscale the canvas element when devicePixelRatio > 1
+                aWrapper.style.width = width + "px";
+                aWrapper.style.height = height + "px";
+                canvas.width = width * pixelRatio;
+                canvas.height = height * pixelRatio;
+        gradcanvas.width = width * pixelRatio;
+                gradcanvas.height = height * pixelRatio;
+            }
+            // two colors for mask gradient
+            //let color1 = [201, 237, 223]
+            let color1 = [5, 5, 5]
+            let color2 = [226, 124, 99]
+            
+            // various rgb colors
+            let mint = [201, 237, 223]
+            let red = [239, 65, 35]
+            let fadedred = [226, 124, 99]
+            let purple = [28, 16, 42]
+            let beige = [255, 236, 173]
+            let peach = [251, 199, 143]
+
+            
+            let scaleAmt = 1;
+            // where the mask is drawn based on tweening scaleAmt
+            function drawMask() {
+                //the length of each square
+                var w = Math.round(canvas.width);
+                var h = Math.round(canvas.height);
+        console.log( w + "WIDTH" + h + "HEIGHT")
+                ctxGrad.clearRect(0, 0, canvas.width, canvas.height);
+                ctxGrad.save();
+                // ctx.fillStyle = `rgba(239, 65, 35, ${viaAlpha.alpha})`;
+                ctxGrad.fillStyle = `"rgb(" + color1[0] + "," + color1[1] + "," + color1[2] + ")"`
+                //
+
+                
+                let wdth = w;
+                let ht = h;
+                let xShift = 0;
+                let yShift = 0;
+                
+                let p1x = -.1;
+                let p2x = .1;
+        
+        var gradient = ctxGrad.createLinearGradient(0, 0, w, 0);
+                gradient.addColorStop(.4, "rgb(" + color1[0] + "," + color1[1] + "," + color1[2] + ")");
+                gradient.addColorStop(1, "rgb(" + color2[0] + "," + color2[1] + "," + color2[2] + ")");
+                ctxGrad.fillStyle = gradient;
+                ctxGrad.fillRect(0, 0, w, h);
+        ctxGrad.save();
+        
+        
+        ctx.beginPath();
+                ctx.lineWidth = 0;
+                ctx.fillStyle = 'blue';
+                // first line
+                //ctx.transform(1,0,0,1,xShift,yShift);
+                ctx.moveTo(wdth*(.093), ((ht*0)));
+                ctx.lineTo(wdth*(.096), ((ht*0)));
+                ctx.lineTo(wdth*(.302), ((ht*1)));
+                ctx.lineTo(wdth*(.299), ((ht*1)));
+        ctx.fill();
+        //ctx.save();
+
+
+                //
+                ctx.beginPath();
+                ctx.moveTo(wdth*(.326+p1x), ((ht*1)));
+                ctx.lineTo(wdth*(.329+p2x), ((ht*1)));
+                ctx.lineTo(wdth*(.537+p2x), ((ht*0)));
+                ctx.lineTo(wdth*(.534+p1x), ((ht*0)));
+        ctx.fill();
+
+                //
+        ctx.beginPath();
+        
+                ctx.moveTo(wdth*.680, ((ht*0)));
+                ctx.lineTo(wdth*.683, ((ht*0)));
+                ctx.lineTo(wdth*.464, ((ht*1)));
+                ctx.lineTo(wdth*.461, ((ht*1)));
+        ctx.fill();
+
+
+                //
+        ctx.beginPath();
+                ctx.moveTo(wdth*.926, ((ht*1)));
+                ctx.lineTo(wdth*.929, ((ht*1)));
+                ctx.lineTo(wdth*.702, ((ht*0)));
+                ctx.lineTo(wdth*.699, ((ht*0)));
+                ctx.fill();
+
+                //ctx.beginPath();
+                //
+                //ctx.clip(region, "nonzero");
+                //ctx.clip();
+        
+        ctxGrad.globalCompositeOperation='destination-in';
+        ctxGrad.drawImage(canvas, 0, 0);
+                
+                ctx.setTransform(1,0,0,1,0,0);
+                
+
+                //ctx.restore();
+            }
+
+//window.addEventListener("resize", resizeViaCanvas, false);
+resizeViaCanvas();
+drawMask();
+});
+      

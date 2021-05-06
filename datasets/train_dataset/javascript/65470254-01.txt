@@ -1,0 +1,33 @@
+function formValidate() {
+  var fname = document.getElementById("fname").value;
+  var lname = document.getElementById("lname").value;
+  var email = document.getElementById("email").value;
+  var tc = document.getElementById("tc");
+  if (fname.length === 0) {
+    document.getElementById("errfname").style.display = "block";
+    document.getElementById("errorbox").style.display = "block";
+  } else {
+    document.getElementById("errfname").style.display = "none";
+  }
+  if (lname.length === 0) {
+    document.getElementById("errlname").style.display = "block";
+    document.getElementById("errorbox").style.display = "block";
+  } else {
+    document.getElementById("errlname").style.display = "none";
+  }
+  if (email.length === 0) {
+    document.getElementById("erremail").style.display = "block";
+    document.getElementById("errorbox").style.display = "block";
+  } else {
+    document.getElementById("erremail").style.display = "none";
+  }
+  if (tc.checked === false) {
+    document.getElementById("errtandc").style.display = "block";
+    document.getElementById("errorbox").style.display = "block";
+  } else {
+    document.getElementById("errtandc").style.display = "none";
+  }
+  if (fname.length !== 0 && lname.length !== 0 && email.length !== 0 && tc.checked === true) {
+    window.location.href = "https://stackoverflow.com";
+  }
+}

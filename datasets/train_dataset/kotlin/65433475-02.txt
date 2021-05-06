@@ -1,0 +1,34 @@
+package com.example.myapplication
+import android.os.Bundle
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val context= this
+        var db=DataBaseHandler(context)
+        val etvName:TextView=findViewById(R.id.etvName)
+        val etvAge:TextView=findViewById(R.id.etvAge)
+        val btn_insert:Button = findViewById(R.id.btn_insert)
+        btn_insert.setOnClickListener {
+            if(etvName.text.toString().length>0 &&etvAge.text.toString().length>0){
+                var user=User(etvName.text.toString(),etvAge.text.toString().toInt())
+                db.insertData(user)
+}
+            else(Toast.makeText(context,"Please fill all data",Toast.LENGTH_SHORT).show())
+        }
+        val btn_read:Button
+        btn_read=findViewById(R.id.btn_read)
+        btn_read.setOnClickListener {
+        var data=db.readData()
+        val tvResult:TextView
+        tvResult=findViewById(R.id.tvResult)
+    for (i in 0..data.size-1){
+        tvResult.append(data.get(i).id.toString() + "  " + data.get(i).name + "  " + data.get(i).age)
+    }
+}
+    }
+}

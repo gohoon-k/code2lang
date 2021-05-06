@@ -1,0 +1,37 @@
+<html>
+<html>
+<head>
+    <link rel=stylesheet type="text/css" href="grid.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="code.js"> </script>
+</head>
+
+<body style="background-color:black">
+<div class="container">
+    <img src="Clayvision.png" width=120% height=auto>
+    <div id="load">
+        <video id="loading" autoplay muted loop>
+            <source src="Loading.webm" type="video/webm">
+        </video>
+    </div>
+    <div id="video">
+        <video id="content" width=50% height=auto autoplay muted>
+            <source src="friend.webm" type="video/webm">
+        </video>
+    </div>
+    <div id="cv">
+        <video id ="resume" muted>
+            <source src="resume.webm" type="video/webm">
+        </video>
+    </div>
+    <div id="hand">
+        <video id ="control">
+            <source src="hand1.webm" type="video/webm">
+        </video> 
+    </div>
+    <div id="button1" class="grid"></div>
+    <div id="button2" class="grid"></div>
+</div>
+</body>
+
+</html>

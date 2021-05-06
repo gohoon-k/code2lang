@@ -1,0 +1,8 @@
+let i = 0;
+let colors = ['red','blue','purple'];
+let button = document.getElementById('change-color');
+
+function changeColor(){
+    button.style.backgroundColor = colors[i];
+    i = (i + 1) % colors.length;
+}

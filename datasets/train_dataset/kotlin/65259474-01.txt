@@ -1,0 +1,6 @@
+@Parcelize
+data class Place(
+    var name: String = "",
+    var address: String = "",
+    var distance: Double = 0.0
+) : Parcelable

@@ -1,0 +1,29 @@
+// second version to handle string literals
+template <unsigned N, unsigned M>
+int compare(char const(&ar1)[N], char const(&ar2)[M])
+{
+    std::cout << "compare(char const(&)[N], char const(&)[M])\n";
+    return strcmp(ar1, ar2);
+}
+
+
+// special version of compare to handle pointers to character arrays
+template <>
+int compare(const char* const &p1, const char* const &p2)
+{
+    std::cout << "compare(char const* const&, char const* const&)\n";
+
+    return strcmp(p1, p2);
+}
+
+
+int main()
+{
+
+    const char *p1 = "hi", *p2 = "mom";
+    compare(p1, p2); // calls the third version (pointers to character strings)
+    compare("hi", "mom"); // calls the template with two nontype parameters
+    compare("high", "HIGH"); // error: call ambiguous
+
+    std::cout << "\nDone!\n";
+}

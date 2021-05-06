@@ -1,0 +1,72 @@
+#CLIENT
+from ftplib import FTP
+import socket
+
+def CreateUser():
+        print("Enter a username and password: ")
+        data = open("userDat.dat", 'a')
+        newUser = input("Username: ")
+        newPassword = input("Password: ")
+        data.write('{0} {1} {2}\n'.format(newUser, ";", newPassword))
+        data.close()
+
+def CheckUserAndPass():
+        z = open("userDat.dat", 'r')
+        username = input("Enter username: ")
+        if z.mode == 'r':
+            content = z.read()
+            for i in content:
+                if username in content:
+                    password = input("Enter password: ")
+                    if password in content:
+                        #z.close()
+                        FTPCommands()
+                        return
+                    else:
+                        for i in range(1,4):
+                            password=input("Password not found. Re-enter password: ")
+                            if (password in content and i<=3):
+                                #z.close()
+                                FTPCommands()
+                                return
+                            elif i>=3:
+                                print("No matches found.")
+                                return
+
+def FTPCommands():
+    s = input("Login successful. What would you like to do?\n"
+              "  a. Create Folder\n"
+              "  b. Delete Folder\n"
+              "  c. Upload File\n"
+              "  d. Download File\n"
+              "  e. Move File\n"
+              "  f. Delete File\n"
+              "  g. Rename File\n"
+              "  h. List Files\n"
+              "  i. Quit\n"
+              "Desired operation: ")
+    if s=="a":
+        #name=input("Input folder name: ")
+        #destination=input("Input folder destination: ")
+        FTP.cwd('C:\\Users\\User\\Desktop\\Fax')
+        FTP.mkd('C:\\Users\\User\\Desktop\\Fax\\lo')
+
+serverName = 'localhost'
+serverPort = 21
+clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Creates client's socket. SOCK_STREAM indicates TCP
+clientSocket.connect((serverName,serverPort)) #Initiates TCP Connection between client and server
+#.encode(encoding='UTF-8')
+clientSocket.send("Let's establish a connection".encode(encoding='UTF-8')) #Sends the string connection through ClientSocket into the TCP connection without explicit packeting
+clientSocket.recv(1024) #Characters get placed into this string on arrival from Server
+x=input("Connection established. Choose 1 of the following options: "
+      "1. Register new user; "
+      "2. Log-in to FTP server; "
+      "Enter [1 or 2] and press ENTER: ")
+
+if x=="1":
+    CreateUser()
+
+if x=="2":
+    CheckUserAndPass()
+
+clientSocket.close()

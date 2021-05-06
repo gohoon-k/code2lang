@@ -1,0 +1,16 @@
+var elem = document.getElementsByClassName("progressBar");
+var time = document.getElementsByClassName("container");
+var width = 1;
+setInterval(frame, 100);
+
+function frame() {
+  if (width >= 100) {
+    window.location.replace("gameover.html");
+  } else {
+    width++;
+    for (var i = 0; i < elem.length; i++) {
+      elem[i].style.width = width + "%";
+      elem[i].innerHTML = width + "%";
+    }
+  }
+}

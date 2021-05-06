@@ -1,0 +1,16 @@
+bool CSVReader::read(const std::string &filename) {
+  // TODO add exception when separator ist not CSV_SEPARATOR
+  std::ifstream filestream;
+  std::string line;
+  std::string content;
+
+  // clear previously read data
+  data.clear();
+
+  filestream.open(filename.c_str());
+  if (!filestream) {
+    std::cerr << "CSVReader: could not open file" << std::endl;
+    // spdlog::get("CSVReader")->error("CSVReader: could not open file");
+    return false;
+  }
+...

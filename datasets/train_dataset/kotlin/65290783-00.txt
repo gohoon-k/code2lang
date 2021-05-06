@@ -1,0 +1,11 @@
+class MyViewHolder(val binding: ListElementBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ListElementBinding.inflate(inflater, parent, false)
+        val bindinglist = ActivityProductListBinding.inflate(inflater, parent, false)
+        return MyViewHolder(binding)
+
+    }

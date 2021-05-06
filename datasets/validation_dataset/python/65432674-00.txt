@@ -1,0 +1,10 @@
+def Food(snake_List, food_placed, foodX, foodY):
+    while food_placed == False:
+        foodX = round(random.randrange(0,display_width))
+        foodY = round(random.randrange(0,display_height))
+        food_pos = [foodX, foodY]
+        food_placed = True
+        return foodX
+        return foodY
+        if food_pos in snake_List:
+            food_placed = False

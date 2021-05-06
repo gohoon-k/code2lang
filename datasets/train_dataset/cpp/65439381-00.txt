@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+void swap(int *x,int *y){
+    int temp=*x;
+    *x=*y;
+    *y=temp;
+}
+
+void subarr(vector<int> arr,int start, int end){
+    vector<int> a;
+    vector<int> A;  
+    int sum=0;
+    if(end==arr.size())
+        return;
+    else if(start>end)
+        subarr(arr,0, end+1);
+    else{
+        for(int i=start;i<end+1;i++){
+            sum+=arr[i];
+        }
+        int num_of_elements=(end+1)-start;
+        a.push_back(sum);
+        A.push_back(num_of_elements);
+        subarr(arr,start+1,end);
+    }
+
+    for(int j=100;j<a.size();j++){
+        if(a.at(j)%2!=0){
+            if(a.at(j)>a.at(0)){
+                swap(&a.at(j),&a.at(0));
+                swap(&A.at(j),&A.at(0));
+            }
+        }
+        else{
+            a.at(j)=-1;
+        }
+    }
+    cout<<A.at(0);
+
+    return;
+}
+
+int main(){
+    int elements;
+    cout<<"Enter number of elements: ";
+    cin>>elements;
+
+    int a[elements];
+
+    cout<<"Enter "<<elements<<" elements in an array: ";
+    for(int i=0;i<elements;i++){
+        cin>>a[i];
+    }
+
+    vector<int> arr;
+    for(int i=0;i<elements;i++){
+        arr.push_back(a[i]);
+    }
+    
+    subarr(arr,0,0);
+
+    return 0;
+}

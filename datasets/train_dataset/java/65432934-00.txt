@@ -1,0 +1,126 @@
+public class MainActivity extends AppCompatActivity {
+        private TextView results, calculationField;
+    
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+    
+            TextView calculationField = (TextView) findViewById(R.id.calculationField);
+            TextView results = (TextView) findViewById(R.id.results);
+            Button button0 = (Button) findViewById(R.id.button0);
+            Button button1 = (Button) findViewById(R.id.button1);
+            Button button2 = (Button) findViewById(R.id.button2);
+            Button button3 = (Button) findViewById(R.id.button3);
+            Button button4 = (Button) findViewById(R.id.button4);
+            Button button5 = (Button) findViewById(R.id.button5);
+            Button button6 = (Button) findViewById(R.id.button6);
+            Button button7 = (Button) findViewById(R.id.button7);
+            Button button8 = (Button) findViewById(R.id.button8);
+            Button button9 = (Button) findViewById(R.id.button9);
+            Button buttonDot = (Button) findViewById(R.id.buttonDot);
+    
+            Button buttonDivide = (Button) findViewById(R.id.buttonDivide);
+            Button buttonMultiply = (Button) findViewById(R.id.buttonMultiply);
+            Button buttonPlusMinus = (Button) findViewById(R.id.buttonPlusMinus);
+            Button buttonPercentage = (Button) findViewById(R.id.buttonPercentage);
+            Button buttonPlus = (Button) findViewById(R.id.buttonPlus);
+            Button buttonMinus = (Button) findViewById(R.id.buttonMinus);
+            Button buttonEquals = (Button) findViewById(R.id.buttonEquals);
+            Button buttonReset = (Button) findViewById(R.id.buttonReset);
+    
+            View.OnClickListener numberButtons = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.button0:
+                            calculationField.append(button0.getText().toString());
+                            break;
+                        case R.id.button1:
+                            calculationField.append(button1.getText().toString());
+                            break;
+                        case R.id.button2:
+                            calculationField.append(button2.getText().toString());
+                            break;
+                        case R.id.button3:
+                            calculationField.append(button3.getText().toString());
+                            break;
+                        case R.id.button4:
+                            calculationField.append(button4.getText().toString());
+                            break;
+                        case R.id.button5:
+                            calculationField.append(button5.getText().toString());
+                            break;
+                        case R.id.button6:
+                            calculationField.append(button6.getText().toString());
+                            break;
+                        case R.id.button7:
+                            calculationField.append(button7.getText().toString());
+                            break;
+                        case R.id.button8:
+                            calculationField.append(button8.getText().toString());
+                            break;
+                        case R.id.button9:
+                            calculationField.append(button9.getText().toString());
+                            break;
+                        case R.id.buttonDot:
+                            calculationField.append(buttonDot.getText().toString());
+                            break;
+                    }
+                }
+            };
+    
+            button0.setOnClickListener(numberButtons);
+            button1.setOnClickListener(numberButtons);
+            button2.setOnClickListener(numberButtons);
+            button3.setOnClickListener(numberButtons);
+            button4.setOnClickListener(numberButtons);
+            button5.setOnClickListener(numberButtons);
+            button6.setOnClickListener(numberButtons);
+            button7.setOnClickListener(numberButtons);
+            button8.setOnClickListener(numberButtons);
+            button9.setOnClickListener(numberButtons);
+            buttonDot.setOnClickListener(numberButtons);
+    
+            View.OnClickListener symbolslistener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.buttonReset:
+                            calculationField.setText("");
+                            results.setText("");
+                            break;
+                        case R.id.buttonPlusMinus:
+                            calculationField.append(buttonPlusMinus.getText().toString());
+                            break;
+                        case R.id.buttonPercentage:
+                            calculationField.append(buttonPercentage.getText().toString());
+                            break;
+                        case R.id.buttonDivide:
+                            calculationField.append(buttonDivide.getText().toString());
+                            break;
+                        case R.id.buttonMultiply:
+                            calculationField.append(buttonMultiply.getText().toString());
+                            break;
+                        case R.id.buttonMinus:
+                            calculationField.append(buttonMinus.getText().toString());
+                            break;
+                        case R.id.buttonPlus:
+                            calculationField.append(buttonPlus.getText().toString());
+                            break;
+                        case R.id.buttonEquals:
+                            results.setText(buttonEquals.getText().toString());
+                            break;
+                    }
+                }
+            };
+            buttonReset.setOnClickListener(symbolslistener);
+            buttonPlusMinus.setOnClickListener(symbolslistener);
+            buttonPercentage.setOnClickListener(symbolslistener);
+            buttonDivide.setOnClickListener(symbolslistener);
+            buttonMultiply.setOnClickListener(symbolslistener);
+            buttonMinus.setOnClickListener(symbolslistener);
+            buttonPlus.setOnClickListener(symbolslistener);
+            buttonEquals.setOnClickListener(symbolslistener);
+        }
+    }

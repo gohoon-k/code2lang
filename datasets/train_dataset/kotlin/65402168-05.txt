@@ -1,0 +1,74 @@
+    private fun getAccessToken() {
+
+        if (validateLoginDetails()) {
+
+            // Show the progress dialog.
+            showProgressDialog(resources.getString(R.string.please_wait))
+
+            val request = LoginRequest()
+            request.username = et_email.text.toString()
+            request.password = et_password.text.toString()
+
+
+            // Log in using Retro
+            val retro = RetroCall().getRetroClientInstance().create(ApiService::class.java)
+            retro.login(request).enqueue(object : retrofit2.Callback<LoginResponse> {
+
+                override fun onResponse(
+                    call: Call<LoginResponse>,
+                    response: Response<LoginResponse>
+                ) {
+                    hideProgressDialog()
+
+                    if (!response.isSuccessful) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "" + response.message(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e(TAG, "onResponse: fail " + response.code())
+                        return
+                    }
+
+                    Log.e(TAG, "onResponse: success " + response.code() + " " + response)
+
+                    if (response.body() != null) {
+                        val login = response.body()
+                        var content = ""
+                        if (response.body()!!.getError() == "false") {
+
+//                            val access_token: String = prefClass.getToken()
+                            prefClass.setToken(login!!.getToken())
+                            prefClass.setId(login.getId())
+
+
+                            // Redirect to the Main Screen after profile completion.
+                            startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+                            finish()
+
+                        } else {
+                            content += login!!.getError_Msg()
+                            showErrorSnackBar(login.getError_Msg().toString(), true)
+                        }
+//                        Log.e("id", login!!.id.toString())
+//                        Log.e("token", login.token.toString())
+//                        Log.e("message", login.message.toString()
+                        Log.e(TAG, "onResponse: login res: $content")
+
+                    } else {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Invalid response from server",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                }
+
+                override fun onFailure(call: Call<LoginResponse>, task: Throwable) {
+                    Log.e("Error", task.toString())
+                }
+
+            })
+        }
+    }

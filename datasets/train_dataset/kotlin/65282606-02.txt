@@ -1,0 +1,20 @@
+// We get list info (This is an array)
+val jArr = jObj.getJSONArray("list");
+
+// I just use only first value, if you want use all, use loop instead 
+val JSONdata = jArr.getJSONObject(0);
+
+// then use as your code 
+var main = JSONdata?.getJSONObject("main")
+            var sicaklik = main?.getInt("temp")
+
+            tvSicaklik.text = sicaklik.toString()
+            var sehiradi = JSONdata?.getString("name")
+            tvSehir.text = sehiradi
+            var weather = JSONdata?.getJSONArray("weather")
+            var aciklama = weather?.getJSONObject(0)?.getString("description")
+            tvAciklama.text = aciklama
+
+            var icon = weather?.getJSONObject(0)?.getString("icon")
+            var resimDosyaadi = resources.getIdentifier("icon_"+icon?.sonKarakterisil(),"drawable",packageName)
+            imgHavaDurumu.setImageResource(resimDosyaadi)

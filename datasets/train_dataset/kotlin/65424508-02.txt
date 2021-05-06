@@ -1,0 +1,23 @@
+class PreferenceHelper private constructor() {
+fun setBoolean(appContext: Context?, key: String?, value: Boolean?) {
+    PreferenceManager.getDefaultSharedPreferences(appContext).edit()
+        .putBoolean(key, value!!).apply()
+}
+
+fun getBoolean(
+    appContext: Context?, key: String?,
+    defaultValue: Boolean?
+): Boolean {
+    return PreferenceManager.getDefaultSharedPreferences(appContext)
+        .getBoolean(key, defaultValue!!)
+}
+
+fun getInteger(appContext: Context?, key: String?, defaultValue: Int): Int {
+    return PreferenceManager.getDefaultSharedPreferences(appContext)
+        .getInt(key, defaultValue)
+}
+
+
+companion object {
+    val prefernceHelperInstace = PreferenceHelper()
+}

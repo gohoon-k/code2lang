@@ -1,0 +1,93 @@
+#include <cstring>
+#include <iostream>
+#include <limits>
+
+#define NOMINMAX
+#undef max
+
+template <typename T>
+class UntrackedAllocator {
+public:
+    typedef T value_type;
+    typedef value_type* pointer;
+    typedef const value_type* const_pointer;
+    typedef value_type& reference;
+    typedef const value_type& const_reference;
+    typedef std::size_t size_type;
+    typedef std::ptrdiff_t difference_type;
+
+public:
+    template<typename U>
+    struct rebind {
+        typedef UntrackedAllocator<U> other;
+    };
+
+public:
+    inline explicit UntrackedAllocator() {}
+    inline ~UntrackedAllocator() {}
+    inline UntrackedAllocator(UntrackedAllocator const&) {}
+    template<typename U>
+    inline explicit UntrackedAllocator(UntrackedAllocator<U> const&) {}
+
+    //    address
+    inline pointer address(reference r) {
+        return &r;
+    }
+
+    inline const_pointer address(const_reference r) {
+        return &r;
+    }
+
+    //    memory allocation
+    inline pointer allocate(size_type cnt,
+        typename std::allocator<void>::const_pointer = 0) {
+        std::cout << "allocate()" << std::endl;
+        T *ptr = (T*)malloc(cnt * sizeof(T));
+        return ptr;
+    }
+
+    inline void deallocate(pointer p, size_type cnt) {
+        std::cout << "deallocate()" << std::endl;
+        free(p);
+    }
+
+    //   size
+    inline size_type max_size() const {
+        return std::numeric_limits<size_type>::max() / sizeof(T);
+    }
+
+    // construction/destruction
+    inline void construct(pointer p, const T& t) {
+        new(p) T(t);
+    }
+
+    inline void destroy(pointer p) {
+        p->~T();
+    }
+
+    inline bool operator==(UntrackedAllocator const& a) { return this == &a; }
+    inline bool operator!=(UntrackedAllocator const& a) { return !operator==(a); }
+};
+
+typedef std::basic_string<char, std::char_traits<char>, UntrackedAllocator<char>> String;
+
+int main() 
+{
+    String str { "13" };
+    String copy = str;
+    const char* cstr = str.c_str();
+    int out = atoi(cstr);
+
+    std::basic_string<char, std::char_traits<char>, UntrackedAllocator<char> > str1("hello world");
+
+    std::cout << str1 << std::endl;
+
+    std::basic_string<char, std::char_traits<char>, UntrackedAllocator<char> > str2;
+
+    str2 = "hi";
+
+    std::basic_string<char, std::char_traits<char>, UntrackedAllocator<char> > longStr =  str1 + str2;
+
+    std::cout << longStr << std::endl;
+
+}

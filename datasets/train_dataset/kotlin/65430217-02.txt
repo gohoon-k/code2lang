@@ -1,0 +1,15 @@
+@Parcelize
+@Entity(tableName = Barcode.TABLE_NAME)
+@JsonClass(generateAdapter = true)
+data class Barcode (
+    @PrimaryKey
+    @SerializedName("id")
+    var id: Int,
+    @SerializedName("eannr")
+    var eannr: String
+
+)  : Parcelable {
+    companion object {
+        const val TABLE_NAME = "mau_barcode"
+    }
+}

@@ -1,0 +1,40 @@
+object RetrofitInstance {
+
+    private var api: SimpleApi? = null
+
+
+    fun createInstance(username: String, password: String): SimpleApi {
+        val client = OkHttpClient.Builder()
+                .addInterceptor(BasicAuthInterceptor(username, password))
+                .build()
+
+
+        val gson = GsonBuilder().apply {
+            setLenient()
+            registerTypeAdapter(Date::class.java,
+                    JsonDeserializer<Date> { json, typeOfT, context ->
+                        if (json.asJsonPrimitive.isNumber) {
+                            Date(json.asJsonPrimitive.asLong * 1000)
+                        } else {
+                            null
+                        }
+                    })
+        }.create()
+
+
+        if (api == null)
+            api = Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(client)
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build()
+                    .create(SimpleApi::class.java)
+
+        return api
+    }
+
+    fun getInstance() : SimpleApi {
+        return api!!
+    }
+}

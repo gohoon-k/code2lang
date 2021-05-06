@@ -1,0 +1,40 @@
+#include<iostream>
+using namespace std;
+
+class Base {
+    private:
+        int a;
+    public:
+        int x, y, z;
+        int Converter(int data) {
+            cout << "Printing z: " << z << endl;
+            return data * x + y;
+        }
+        Base& operator=(int rhs) {
+            a = Converter(rhs);
+            return *this;
+        }
+        Base(int a, int x, int y, int z) : a(a), x(x), y(y), z(z) {}
+        explicit Base(int a_) : a(a_) {}
+        Base operator+(const Base& obj){ 
+            Base x(*this);
+            return Base(x.a + obj.a);
+        }
+        Base& operator++() { return *this = *this + Base(Converter(1)); }
+};
+
+class Derived : Base {
+    public:
+        Derived() : Base(0, 1, 2, 3) {} // Come constants for x, y, z
+        explicit Derived(int data) : Base(data, 1, 2, 3){}
+        using Base::operator=;
+        using Base::operator++;
+};
+
+int main(){
+    
+    Derived x(10);
+    ++x; 
+    x = 1;
+}
+   

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js
+"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css
+" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { height: 400px; width: 100%; }
+  </style>
+</head>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+
+
+<script>
+  var x = document.getElementById("demo");
+
+  function getLocation() {
+    
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+
+  function showPosition(position) {
+    x.innerHTML = "Latitude: " + vratiH(position) +
+            "<br>Longitude: " + vratiW(position);
+    mapboxgl.accessToken = 'My Token';
+    var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/mapbox/streets-v11', // style URL
+      center: [position.coords.longitude,position.coords.latitude], // starting position [lng, lat]
+      zoom: 18 // starting zoom
+
+  });}
+  function  returnH(position){
+    return position.coords.latitude;
+  }
+  function  returnW(position){
+    return position.coords.longitude;
+  }
+  
+</script>
+<br>
+<div id="map"></div>
+
+<form action=".." method = "POST">
+    < input type: hide; value: returnH; name: H >
+    < input type: hide; value: returnW; name: W >
+    
+
+</form>
+</body>
+</html>

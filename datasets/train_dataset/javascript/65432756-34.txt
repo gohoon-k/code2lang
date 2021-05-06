@@ -1,0 +1,20 @@
+function callbackToPromise(func){
+
+    return function(){
+
+        // change this to use what ever promise lib you are using
+        // In this case i'm using angular $q that I exposed on a util module
+
+        var defered = util.$q.defer();
+
+        var cb = (val) => {
+            defered.resolve(val);
+        }
+
+        var args = Array.prototype.slice.call(arguments);
+        args.push(cb);    
+        func.apply(this, args);
+
+        return defered.promise;
+    }
+}

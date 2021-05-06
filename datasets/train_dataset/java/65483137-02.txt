@@ -1,0 +1,7 @@
+@Override
+public void onNoteClicked(Note note, int position, RelativeLayout noteLayout) {
+    if (!isClick) {
+        DetailNoteActivity.start(this, note, findViewById(R.id.rl_note));
+        isClick = true;
+    }
+}

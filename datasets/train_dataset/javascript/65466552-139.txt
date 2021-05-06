@@ -1,0 +1,11 @@
+const getExchangeRate = async () => {
+  try {
+    const res = await fetch('https://getExchangeRateData');
+    const data = await res.json();
+    console.log(data);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+getExchangeRate();

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Example form</title>
+</head>
+
+<body>
+  <div class="errorbox" id="errorbox">
+    <p id="errfname" style="display: none;">Please enter your first name!</p>
+    <p id="errlname" style="display: none;">Please enter your last name!</p>
+    <p id="erremail" style="display: none;">Please enter your Email address!</p>
+    <p id="errtandc" style="display: none;">Please check the terms and conditions check box!</p>
+  </div>
+  <h1>Test newsletter!</h1>
+  <p>This is a test newsletter</p>
+  <p><span style="color: red;">* </span> Required fields</p><br>
+  <span style="color: red;">*</span>First name:
+  <input type="text" placeholder="First name" id="fname"><br><br>
+  <span style="color: red;">*</span>Last name:
+  <input type="text" placeholder="Last name" id="lname"><br><br>
+  <span style="color: red;">*</span>Email-address:
+  <input type="email" placeholder="Email address" id="email"><br><br><br>
+
+  <input type="checkbox" name="checkbox" id="tc">I agree to the <a href="#">Terms and Conditions</a> of this website.<br>
+  <button onclick="formValidate()">Submit</button>
+
+</body>
+
+</html>

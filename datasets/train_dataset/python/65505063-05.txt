@@ -1,0 +1,4 @@
+for i in range(len(friends1)):
+    print("the name " + (i+1) + " is" + str(friends[i]))
+
+print('it\'s done')

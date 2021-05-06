@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+    <title>{% block title %}{% endblock title %}</title>
+
+</head>
+<body>
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+        <a href="" class="navbar-brand d-flex align-items-center">Главная</a>
+        <a href="searching" class="navbar-brand d-flex align-items-center">Поиск собеседников</a>
+        <a href="contacts" class="navbar-brand d-flex align-items-center">Контакты</a>
+        <a href="faq" class="navbar-brand d-flex align-items-center">FAQ</a>
+        <a href="login" class="navbar-brand d-flex align-items-center">Регистрация/Вход</a>
+    </div>
+    </div>
+</header>
+<main>
+<div>{% block content%}{% endblock content %}</div>
+</main>
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">Давай общаться!</span>
+  </div>
+</footer>
+
+</body>
+</html>

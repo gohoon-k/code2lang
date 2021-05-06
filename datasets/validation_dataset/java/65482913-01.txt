@@ -1,0 +1,24 @@
+@Configuration
+public class MongoConfig {
+    @Value("${db.name}")
+    private String dbName;
+    
+    @Value("${db.url}")
+    private String url;
+ 
+    @Override
+    public MongoClient mongo() {
+        ConnectionString connectionString = new ConnectionString("mongodb:"+url);
+        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
+            .applyConnectionString(connectionString)
+            .build();
+        
+        return MongoClients.create(mongoClientSettings);
+    }
+    
+    @Bean
+    public MongoTemplate mongoTemplate() throws Exception {
+        return new MongoTemplate(mongo(), dbName);
+    }
+
+}

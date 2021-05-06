@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial scale=1.0">>
+  <title>Custom blocks</title>
+  <script src="https://unpkg.com/blockly/blockly_compressed.js"></script>
+  <script src="https://unpkg.com/blockly/blocks_compressed.js"></script>
+  <script src="https://unpkg.com/blockly/javascript_compressed.js"></script>
+  <script src="https://unpkg.com/blockly/msg/en.js"></script>
+  <script src="fields.js"></script>
+ <!-- <script src="onBlock.js"></script>
+  <link rel="stylesheet" type="text/css" href="onBlock.css"> -->
+
+  <style>
+    body {
+      background-color: #fff;
+      font-family: sans-serif;
+    }
+    h1 {
+      font-weight: normal;
+      font-size: 140%;
+    }
+  </style>
+</head>
+<body>
+ 
+    <button onclick="showCode()">Show JavaScript</button>
+    <button onclick="runCode()">Run JavaScript</button>
+  </p>
+
+  <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+
+  <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+    <category name = "Fields">
+      <block type = "angle_field">
+      <field name = "tower">tower</field> 
+      <field name = "building"></field>    
+    </block>
+
+    <block type = "checkbox_field">
+      <field name = "html"></field> 
+      <field name = "css"></field>
+      <field name = "javascript"></field>      
+    </block>
+
+    <block type = "variable">
+      <field name = "var"></field> 
+    </block>  
+
+  </category>
+
+
+<!--  <category name="Logic" colour="%{BKY_LOGIC_HUE}">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+    </category> -->
+<!--    <category name = "onBlock fields">
+      <block type="turtle_basic"></block>
+      <block type="turtle_nullifier" y="120"></block>
+      <block type="turtle_changer" y="230"></block>
+</category>-->
+  <script>
+
+
+      var demoWorkspace = Blockly.inject('blocklyDiv',
+        {media: 'https://unpkg.com/blockly/media/',
+         toolbox: document.getElementById('toolbox')});
+    Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
+                               demoWorkspace);
+
+    function showCode() {
+      // Generate JavaScript code and display it.
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+      alert(code);
+    }
+
+    function runCode() {
+      // Generate JavaScript code and run it.
+      window.LoopTrap = 1000;
+      Blockly.JavaScript.INFINITE_LOOP_TRAP =
+          'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+      var code = Blockly.JavaScript.workspaceToCode(demoWorkspace);
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      try {
+        eval(code);
+      } catch (e) {
+        alert(e);
+      }
+    }
+/*
+    var options = {
+        media: 'https://unpkg.com/blockly/media/',
+        grid: {
+          spacing: 25,
+          length: 3,
+          colour: '#ccc'
+        },
+        move: {
+          scrollbars: true,
+          drag: true,
+          wheel: true,
+        },
+        zoom: {
+          controls: true,
+          startScale: 1.0,
+          maxScale: 4,
+          minScale: 0.25,
+          scaleSpeed: 1.1
+        }
+        //toolbox: document.getElementById('toolbox')
+      } */
+
+  </script>
+
+</body>
+</html>

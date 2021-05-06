@@ -1,0 +1,6 @@
+    #include <cmath>
+
+    double Fact(const int n)
+    {
+      return tgamma(n + 1);
+    }

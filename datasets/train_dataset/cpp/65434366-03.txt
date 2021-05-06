@@ -1,0 +1,43 @@
+void print(){
+    if(START==NULL)
+        cout<<endl<<"There is nothing to print!!"<<endl;
+    else{
+        node *temp=START;
+        while(temp!=NULL){
+            cout<<"Info 1 : "<<temp->info1<<endl;
+            cout<<"Info 2 : "<<temp->info2<<endl<<endl;
+            temp=temp->link;
+        }
+    }
+}
+int menu(){
+    int choice;
+    cout<<endl<<"1. Add"<<endl;
+    cout<<"2. Delete"<<endl;
+    cout<<"3. Print"<<endl;
+    cout<<"0. Exit"<<endl;
+    cin>>choice;
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
+    return choice;
+}
+int main(){
+    int choice;
+    cout<<"Hello There!!"<<endl<<"Choose one option!!"<<endl;
+    do{
+        choice=menu();
+        switch(choice){
+            case 1:{
+                add();
+                break;
+            }
+            case 2:{
+                del();
+                break;
+            }
+            case 3:{
+                print();
+                break;
+            }
+        }
+    }while(choice!=0);
+}

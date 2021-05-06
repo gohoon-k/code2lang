@@ -1,0 +1,6 @@
+document.querySelector("button").addEventListener("click", EventMailing);
+
+function EventMailing() {
+  var email = this.previousElementSibling;
+  console.log(email.value);
+}

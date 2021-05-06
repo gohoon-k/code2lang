@@ -1,0 +1,9 @@
+async def say(ctx, *, message=None):
+message = message or "You have to type a message"
+message_components = message.split()
+if "@everyone" in message_components or "@here" in message_components:
+    await ctx.send("You can not ping everyone")
+    return
+
+await ctx.message.delete()
+await ctx.send(message)

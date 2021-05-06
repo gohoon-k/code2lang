@@ -1,0 +1,21 @@
+ public static String RandomWord() throws IOException {     
+            FileReader fr = new FileReader ("./Hang Man File/Words.txt");           
+            BufferedReader br = new BufferedReader(fr);                             
+            int random = 0;
+            String secretWord =" ";
+            do {
+                random =(int) ((int) 1+(Math.random()*6));
+                for (int lineNo = 1; lineNo < 10; lineNo++) {
+                    if (lineNo == random) {
+                         secretWord = br.readLine();
+                    } 
+                    else {
+                        br.readLine();
+                    }
+                }
+            }
+            while(usedWord.contains(secretWord) || secretWord==null); 
+            
+            usedWord.add(secretWord);
+            return secretWord;
+        }

@@ -1,0 +1,73 @@
+
+@Data
+@Entity
+public class AppUser implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @Size(min = 4, message = "Atleast 4 characters")
+    private String username;
+
+    @Size(min = 6, message = "Atleast 6 characters")
+    private String password;
+
+    private String role;
+
+    @Column(name = "Email")
+    @NotBlank
+    @Email(message = "real e-mail adress required")
+    private String email;
+
+    @Pattern(regexp = "\\d{9}")
+    private String phone;
+
+    @NotBlank
+    private String name;
+
+    @NotBlank
+    private String surname;
+
+    private boolean isEnabled;
+
+    public AppUser() {
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority(role));
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+}

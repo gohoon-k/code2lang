@@ -1,0 +1,18 @@
+private fun loadUrl(url: String) {
+     Glide.with(this)
+         .asBitmap()
+         .load(url)
+         .fitCenter()
+         .centerInside()
+         .into(object : CustomTarget<Bitmap?>() {
+             override fun onResourceReady(
+                 resource: Bitmap,
+                 transition: Transition<in Bitmap?>?
+             ) {
+                 binding.imageview.setImageBitmap(resource)
+                 binding.imageview.setBackgroundResource(R.drawable.white_rectangle)
+             }
+             override fun onLoadCleared(placeholder: Drawable?) {
+             }
+         })
+ }

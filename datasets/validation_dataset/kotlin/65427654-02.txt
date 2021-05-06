@@ -1,0 +1,15 @@
+ class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+ //(...)
+     fun initialize(dataSource: DataSource, action: OnWordItemClickListener)
+         {
+             tv_front.text = dataSource._front
+             tv_back.text = dataSource._back
+
+             view.setOnClickListener(this)                
+
+     override fun onClick(p0: View?) : Boolean{
+     action.onItemClick(dataSource, adapterPosition)
+     }
+
+
+ }

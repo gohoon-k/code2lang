@@ -1,0 +1,18 @@
+#pragma once
+#include <string>
+using namespace std;
+namespace Records
+{
+  class Employee
+  {
+  public:
+    Employee() = default;
+    Employee(const string &firstName, const string &lastName);
+    void display const;
+
+    // methods, getters, setters
+
+  private:
+    // members
+  };
+} // namespace Records

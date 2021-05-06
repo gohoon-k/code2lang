@@ -1,0 +1,19 @@
+fun forwardFailedSMS(context: Context) {
+            var failed = getFailedSms(context)
+
+            failed.forEachIndexed { index, f ->    
+                println("NOW ${index}")
+                GlobalScope.launch(Dispatchers.IO) {
+                    var time = measureTimeMillis {
+                        val fn = async {
+                            callForwardAPI(context, f)
+                        }
+                        val result = fn.await()
+                    }
+                }
+                //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                //I want the above to finish before going to next index...
+            }
+
+            refreshSmsList(context!!)
+        }

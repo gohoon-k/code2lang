@@ -1,0 +1,30 @@
+#include <iostream>
+
+using namespace std;
+
+class Alphabet
+{
+
+private:
+    string name;
+
+public:
+    Alphabet() { cout << "Constructor called" << endl; };
+    ~Alphabet() { cout << "Destructor called" << endl; };
+
+    void getName(string name) { this->name = name; };
+    void speak() const { cout << name << endl; };
+};
+
+
+int main()
+{
+
+    Alphabet* pAlbet = new Alphabet[26];
+    pAlbet->getName(name);
+    pAlbet->speak();
+
+    delete[] pAlbet;
+
+    return 0;
+}

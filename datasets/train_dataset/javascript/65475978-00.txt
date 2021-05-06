@@ -1,0 +1,22 @@
+var zz = document.getElementById("title").textContent;
+
+switch(zz) {
+
+    case "Homepage":
+        console.log(document.getElementById("title").textContent);
+        document.getElementById("title").textContent = "Case 1";
+        console.log(document.getElementById("title").textContent + "(HAS CHANGED)")
+        break;
+
+    case "Homepage2":
+        console.log(document.getElementById("title").textContent);
+        document.getElementById("title").textContent = "Case 2";
+        console.log(document.getElementById("title").textContent + "(HAS CHANGED)")
+        break;
+
+    default:
+        console.log(document.getElementById("title").textContent);
+        document.getElementById("title").textContent = "Default case";
+        console.log(document.getElementById("title").textContent + "(HAS CHANGED)")
+        break;
+}

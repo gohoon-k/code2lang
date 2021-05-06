@@ -1,0 +1,20 @@
+async function doSomethingWith(theArray) {
+    const results = [];
+    for (const entry of theArray) {
+        results.push(await doSomethingAsync(entry));
+    }
+    return results;
+}
+doSomethingWith([1, 2, 3]).then(function(results) {
+    console.log("Results:", results);
+});
+
+function doSomethingAsync(value) {
+    console.log("Starting async operation for " + value);
+    return new Promise(function(resolve) {
+        setTimeout(function() {
+            console.log("Completing async operation for " + value);
+            resolve(value * 2);
+        }, Math.floor(Math.random() * 200));
+    });
+}

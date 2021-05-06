@@ -1,0 +1,18 @@
+#include <iostream>
+
+#define DEBUG 1
+
+#if DEBUG
+    #define X(x) std::cout << x << std::endl;
+#else
+    #define X(x) 
+#endif
+
+int main(){
+    X("hi")
+    X("37")
+    std::cout << "Hello" << std::endl;
+    
+
+    return 0;
+}

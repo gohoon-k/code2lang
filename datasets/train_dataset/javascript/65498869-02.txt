@@ -1,0 +1,18 @@
+var prodArr=[{SKU: "9372983-382L", retail_price: "11.75", list_price: "3.50", 
+product_name: "Tennis balls"}];
+
+function buildTable(data){
+    var table = document.getElementById('table');
+    const arr = data;
+    for(var obj of arr){
+        var row = document.createElement('tr');
+        for(var val of Object.values(obj)){
+            var col = document.createElement('td');
+            col.textContent = val;
+            row.appendChild(col);
+        }
+        table.appendChild(row);
+    }
+}
+
+buildTable(prodArr);

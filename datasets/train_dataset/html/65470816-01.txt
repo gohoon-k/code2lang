@@ -1,0 +1,14 @@
+            <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+                <body> 
+                            <div class="test wow bounceInUp">
+                                    Content to Reveal Here
+                            </div>
+                </body> 
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+             <script src="js/wow.min.js"></script>
+             <script>
+              new WOW().init();
+            </script>

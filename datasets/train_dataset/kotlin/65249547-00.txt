@@ -1,0 +1,23 @@
+fun Fragment.openAgentOverlay(context: Context, activity: FragmentActivity, viewGroup: ViewGroup ) {
+    val params =
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        PixelFormat.TRANSLUCENT
+                )
+            } else {
+                WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.TYPE_PHONE,
+                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        PixelFormat.TRANSLUCENT
+                )
+            }
+
+    activity.window.attributes = params
+    val wm = context.applicationContext
+            .getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    if(viewGroup.windowToken == null){
+        wm.addView(viewGroup, params)
+    }
+}

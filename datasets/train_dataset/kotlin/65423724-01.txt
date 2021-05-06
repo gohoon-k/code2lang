@@ -1,0 +1,27 @@
+class MusicService : Service() {
+
+    private lateinit var player: MediaPlayer
+
+    override fun onBind(intent: Intent?): IBinder? {
+        TODO("Return the communication channel to the service.")
+        return null
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        player = MediaPlayer.create(this, R.raw.music)
+        player.setLooping(true)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        player.start()
+        return START_STICKY
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.stop()
+        player.release()
+    }
+
+}

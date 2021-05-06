@@ -1,0 +1,16 @@
+class ExploreViewModel @Inject constructor(
+    @Inject @JvmField var commentRepository: CommentRepository,
+) :
+    ViewModel() {
+
+
+    private val promoIdLiveData: MutableLiveData<String?> = MutableLiveData()
+
+    var commentsLiveData: LiveData<PagingData<Comment>> = promoIdLiveData.switchMap { promoId ->
+        commentRepository.getCommentsByPromo(promoId?:"")
+    }
+
+    fun getComments(promoId: String) {
+        promoIdLiveData.value = promoId
+    }
+}

@@ -1,0 +1,19 @@
+const bannerColletion = [
+  ["masaje", "https://hottdates.com/es/other-services-massages"],
+  ["scorts", "https://hottdates.com/es/other-services-agencies"],
+  ["dinero", "https://hottdates.com/es/make-money"]
+];
+
+const getElementInMultiDimentionalArray = (arr = [], indices = [])  => {
+  // return element at final index if reached
+  if(indices.length===1) return arr[indices[0]];
+  // recur on element at first index
+  const currentIndex = indices.shift();
+  if(currentIndex >= arr.length) return;
+  return getElementInMultiDimentionalArray(arr[currentIndex], indices);
+}
+
+console.log(getElementInMultiDimentionalArray(bannerColletion,[0,0]))
+console.log(getElementInMultiDimentionalArray(bannerColletion,[0,1]))
+console.log(getElementInMultiDimentionalArray(bannerColletion,[2,1]))
+console.log(getElementInMultiDimentionalArray(bannerColletion,[3,3]))

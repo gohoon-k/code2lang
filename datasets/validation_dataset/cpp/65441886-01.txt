@@ -1,0 +1,35 @@
+#include <iostream>
+#include <memory>
+#include <string>
+#include <utility>
+#include <cassert>
+
+template <typename T>
+class optional {
+    bool isSet = false;
+    union { T value; };
+    void destroy() { if (this->isSet) { this->isSet = true; this->value.~T(); } }
+
+public:
+    optional() {}
+    ~optional() { this->destroy(); }
+    optional& operator=(T&& v) {
+        this->destroy();
+        new(&this->value) T(std::move(v));
+        this->isSet = true;
+        return *this;
+    }   
+
+    explicit operator bool() const { return this->isSet; }
+    T&       operator*()       { assert(this->isSet); return this->value; }
+    T const& operator*() const { assert(this->isSet); return this->value; }
+};  
+
+int main()
+{   
+    optional<std::string> o, p;
+    o = "hello";
+    if (o) {
+        std::cout << "optional='" << *o << "'\n";
+    }   
+}   

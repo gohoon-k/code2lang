@@ -1,0 +1,12 @@
+let lotto = new Set;
+
+lottoGame()
+
+function lottoGame () {
+    do {
+        let addNumber = Math.floor(Math.random()* 30);
+        lotto.add(addNumber)
+        console.log(addNumber)
+    }  while(lotto.size <= 5 );
+    document.querySelector('.loti').textContent = [...lotto];
+}

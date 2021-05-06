@@ -1,0 +1,70 @@
+  <div class="my-table table-responsive">
+    <table class="table my-dark-tb" style="overflow: hidden;">
+      <thead class="my-thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">First Data</th>
+          <th scope="col">Second Data</th>
+          <th scope="col">Address</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td> Lorem ipsum dolor sit amet consectetur. </td>
+          <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis consectetur autem quis.</td>
+          <td>London</td>
+          <td>981638027901</td>
+          <td class="my-table-action">
+            <a href="#view" class="action-button view">
+              <span>Detail</span>
+            </a>
+            <a href="#edit" class="action-button edit">
+              <span>Edit</span>
+            </a>
+            <a href="#delete" class="action-button delete" data-toggle="modal" data-target="#delete">
+              <span>Delete</span>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>The quick, brown fox jumps over a lazy dog</td>
+          <td>The quick, brown fox jumps over a lazy dog. DJs flock by when MTV ax quiz prog</td>
+          <td>Tokyo</td>
+          <td>62926281012</td>
+          <td class="my-table-action">
+            <a href="#view" class="action-button view">
+              <span>Detail</span>
+            </a>
+            <a href="#edit" class="action-button edit">
+              <span>Edit</span>
+            </a>
+            <a href="#delete" class="action-button delete" data-toggle="modal" data-target="#delete">
+              <span>Delete</span>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>Far far away, behind the word mountains</td>
+          <td>far from the countries Vokalia and Consonantia,</td>
+          <td>Berlin</td>
+          <td>1214123145112</td>
+          <td class="my-table-action">
+            <a href="#view" class="action-button view">
+              <span>Detail</span>
+            </a>
+            <a href="#edit" class="action-button edit">
+              <span>Edit</span>
+            </a>
+            <a href="#delete" class="action-button delete" data-toggle="modal" data-target="#delete">
+              <span>Delete</span>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

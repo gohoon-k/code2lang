@@ -1,0 +1,19 @@
+public List<Message> read(long sender_id, long receiver_id, Date date) {
+     List<Message> results = new ArrayList<>();
+     for (Message message : store.values()) {
+        // filter here
+        if (!message.isReadOrNot()
+                         && message.getSender_id() == sender_id
+                         && message.getReceiver_id() == receiver_id
+                         ...
+                         ...
+             ) {
+                results.add(message);
+                message.setReadOrNot(true);
+                // other changes to message here
+                ...
+                ...
+        }
+     }
+     return results;
+}

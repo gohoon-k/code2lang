@@ -1,0 +1,40 @@
+  override fun onGifSelected(media: Media, searchTerm: String?, selectedContentType: GPHContentType) {
+
+
+   val image = media.images.fixedWidth
+        val  gif_url = image!!.gifUrl
+        val gifUri = Uri.parse(gif_url)
+        
+        
+        val reference2 = FirebaseDatabase.getInstance().getReference("Friends")
+        reference2.child(firebaseUser!!.uid)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+
+                        if (snapshot.hasChild(visitorsUid!!)) {
+                            //progressDialog
+                            val pd = ProgressDialog(this@ChatActivity)
+                            pd.setTitle("Please wait...")
+                            pd.setMessage("Sending Gif...")
+                            pd.setCanceledOnTouchOutside(false)
+                            pd.show()
+
+                            val databaseReference = FirebaseDatabase.getInstance().reference
+                            //file name and path in firebase storage
+                            val filenamePath = "Gif Images/" + firebaseUser!!.uid + System.currentTimeMillis()
+                            val storageReference = FirebaseStorage.getInstance().getReference(filenamePath)
+                            //upload image
+                            storageReference.putFile(gifUri!!)
+                                    .addOnSuccessListener { taskSnapshot ->
+                                        //image uploaded, get url
+                                        val p_uriTask = taskSnapshot.storage.downloadUrl
+                                        while (!p_uriTask.isSuccessful);
+                                        val p_downloadUri = p_uriTask.result
+                                        if (p_uriTask.isSuccessful) {
+                                            //image url recieved, save in db
+                                            //timestamp
+                                            val timestamp = "" + System.currentTimeMillis()
+
+                                            //setup message data
+                                            val hashMap = HashMap<String, Any>()
+                                            hashMap["sender"] = firebaseUser!!.uid

@@ -1,0 +1,25 @@
+<div class="row no-gutters">
+    <div class="col-2 chart-container form-col">
+        <h2>Opciones</h2>
+        <form id="get-data-form" data-jumps-url="{% url 'charts:ajax_load_jump' %}" novalidate>
+            {{form}}
+            <button id="data-form-btn" insert-data-url="{% url 'charts:insert_data' %}" class="data-form_btn full-width hov green-border transparent" type="submit">Graficar</button>
+        </form>
+    </div>
+
+    <div class="col-7 chart-container">
+        <div id="container2"></div>
+    </div>
+    <div class="col-3 table-col">
+        <table id="jump-table" class="data-table">
+            <tr>
+                <th>Tipo de salto</th>
+                <th>Altura</th>
+                <th>Tiempo de salto</th>
+                <th>Velocidad</th>
+                <th>Potencia</th>
+            </tr>
+        </table>
+    </div>
+</div>
+<script src="{% static 'js/script.js' %}"></script>

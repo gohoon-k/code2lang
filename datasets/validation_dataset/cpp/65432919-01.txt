@@ -1,0 +1,7 @@
+ class a{
+     private:
+     int b_;
+     char c_;
+     public:
+     c(int b, char c):b_(b),c_(c){}
+}

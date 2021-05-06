@@ -1,0 +1,28 @@
+private val permissionTaskSource = HashMap<Int, TaskCompletionSource<Boolean>>()
+
+interface PermissionHandler {
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun Activity.permissionRequest(requestCode: Int, vararg permissions: String): Task<Boolean> {
+        requestPermissions(permissions, requestCode)
+        val tcs = TaskCompletionSource<Boolean>()
+        permissionTaskSource[requestCode] = tcs
+        return tcs.task
+    }
+
+    fun permissionResult(requestCode: Int, grantResults: IntArray) {
+        permissionTaskSource[requestCode]!!.setResult(grantResults.all { it == PERMISSION_GRANTED })
+        permissionTaskSource.remove(requestCode)
+    }
+}
+
+suspend fun <T> T.requiresPermission(vararg permissions: String): Unit? where T : Activity, T : PermissionHandler {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
+        return Unit   // If version lower than M then no need of runtime permissions.
+    if (permissions.all { ContextCompat.checkSelfPermission(this, it) == PERMISSION_GRANTED })
+        return Unit   // If already all permissions granted, then no need to ask again.
+
+    val granted = permissionRequest(System.currentTimeMillis().toInt(), *permissions).await()
+    if (granted)
+        return Unit   // Permission granted now
+    return null   // Permission denied now
+}

@@ -1,0 +1,12 @@
+public class Message {
+    private long index;
+    private long sender_id;
+    private long receiver_id;
+    private Date transmitted_time;
+    private Date read_time;
+    private boolean readOrNot;
+    private String text;
+    .
+    .
+    .
+}

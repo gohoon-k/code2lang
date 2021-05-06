@@ -1,0 +1,34 @@
+PlannerAdapter(private val plannerList: RealmResults<Planner>, private val onDupeListenerListener: OnDupeListenerListener):
+    RecyclerView.Adapter<PlannerAdapter.RecipeHolder>(),OnDupeListener,OnDeletePlannerListener,Serializable {
+
+...
+ holder.bindRow(itemRow, position, this, this, onDupeListenerListener)
+...
+}
+
+
+
+class Holder(var v: View): RecyclerView.ViewHolder(v){
+    var planner = Planner()
+
+    fun bindRow(planner: AKPlanner, position: Int, dupeListener: OnDupeListener, deletePlannerListener: OnDeletePlannerListener, onDupeListenerListener:OnDupeListenerListener) {
+        akplanner = planner
+        
+        v.btn_dots.setOnClickListener{
+            val dialogFragment = AlertDialogFragment()
+            val activity = v.context as FragmentActivity
+            val fm: FragmentManager = activity.supportFragmentManager
+            val args = Bundle()
+            args.putSerializable("dupeListener", dupeListener)
+            args.putSerializable("deleteListener",deletePlannerListener)
+            args.putSerializable("dupeListenerListener",onDupeListenerListener)
+            args.putSerializable("title",planner.title)
+            dialogFragment.arguments = args
+            dialogFragment.show(fm, AlertDialogFragment::class.java.simpleName)
+        }
+    }
+}
+
+override fun onDupeClicked(title: String, onDupeListenerListener: OnDupeListenerListener) {
+   onDupeListenerListener.onDupeClickedForReal(title)
+}

@@ -1,0 +1,13 @@
+private ListSelect generateBrokerSelects() {
+        ListSelect broker_ListSelect = new ListSelect("Broker:");
+        JPAContainer<ReservationsBroker> containerBroker = JPAContainerFactory.makeReadOnly(ReservationsBroker.class, em);
+
+        containerBroker.sort(new Object[]{"name"}, new boolean[]{true});
+
+        broker_ListSelect.setContainerDataSource(containerBroker);
+        broker_ListSelect.setMultiSelect(true);
+        broker_ListSelect.setRows(4);
+        broker_ListSelect.setItemCaptionPropertyId("name");
+
+        return broker_ListSelect;
+    }

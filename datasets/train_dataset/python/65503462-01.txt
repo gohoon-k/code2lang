@@ -1,0 +1,6 @@
+    def test_get_list_csv_manager(self):
+        with self.client.session_transaction() as session:
+            session['role'] = 'manager'
+            session['id'] = 2
+        res = self.client.get("/getListCSV", follow_redirects=True)
+        self.assertEqual(res.status_code, 200)

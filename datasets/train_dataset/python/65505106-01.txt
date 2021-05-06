@@ -1,0 +1,85 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
+             
+import pandas as pd
+             
+
+driver = webdriver.Firefox()
+
+stats = []
+
+# go to page with match summary 
+driver.get('https://www.flashscore.co.uk/match/dxm5iiWh/#match-summary')
+
+# ----------------------------------------------------------------------------------------------------------------
+wait = WebDriverWait(driver, 5)
+data = wait.until(EC.visibility_of_element_located((By.ID, "utime"))).text
+hometeam = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id='flashscore']/div[1]/div[1]/div[2]/div/div/a"))).text
+awayteam = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[@id='flashscore']/div[1]/div[3]/div[2]/div/div/a"))).text
+
+# ----------------------------------------------------------------------------------------------------------------
+
+#match_details = driver.find_element_by_class_name("detailMS__incidentRow")
+
+match_details = driver.find_elements_by_xpath('//div[contains(@class,"incidentRow--home")] | //div[contains(@class, "incidentRow--away")]')
+
+print(' {:4} | {:4} | {:5} | {:17} | {:17} | {:17} |'.format('h/a', 'time', 'icon', 'participant', 'substitution_in', 'substitution_out'))
+
+for row in match_details:
+     home_or_away = row.get_attribute('class')
+     home_or_away = 'home' if 'home' in home_or_away else 'away'
+     #print('home_or_away:', home_or_away)
+     
+     time_box = row.find_element_by_class_name('time-box').text.strip()
+     icon     = row.find_element_by_class_name('icon').get_attribute('class').replace('icon ', '')
+     
+     try:
+         participant_name = row.find_element_by_class_name('participant-name').text.strip()
+     except:
+         participant_name = ''
+         
+     try:
+         substitution_in_name = row.find_element_by_class_name('substitution-in-name').text.strip()
+     except:
+         substitution_in_name = ''
+         
+     try:
+         substitution_out_name = row.find_element_by_class_name('substitution-out-name').text.strip()
+     except:
+         substitution_out_name = ''
+         
+     print(' {:4} | {:4} | {:5} | {:17} | {:17} | {:17} |'.format(home_or_away, time_box, icon, participant_name, substitution_in_name, substitution_out_name))
+
+# ----------------------------------------------------------------------------------------------------------------
+
+try:
+    extrainfo = driver.find_element_by_xpath("//*[@id='flashscore']/div[1]/div[2]/div[2]").text
+except NoSuchElementException:
+    extrainfo = " "
+    
+print('extrainfo:', extrainfo)
+
+# ----------------------------------------------------------------------------------------------------------------
+
+# go to page with stats
+driver.find_element_by_xpath("//*[@id='a-match-statistics']")
+wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='a-match-statistics']"))).click()   
+
+# ----------------------------------------------------------------------------------------------------------------
+
+# get stats 
+for row in driver.find_elements_by_xpath('//div[@id="tab-statistics-0-statistic"]//div[@class="statTextGroup"]'):
+    columns = row.find_elements_by_tag_name('div')
+    columns = [x.text.strip() for x in columns]
+    print('{:17} | {:>3} | {:>3} |'.format(columns[1], columns[0], columns[2]))
+
+# ----------------------------------------------------------------------------------------------------------------
+
+#stats.append((data, hometeam, awayteam, print(g.text), extrainfo, home_shot, away_shot, home_shotontarget, away_shotontarget))
+
+#df = pd.DataFrame(stats, columns=['data', 'hometeam', 'awayteam', 'goals', 'extrainfo', 'hs', 'as', 'hot', 'aot'])
+#df.to_csv('stats.csv', index=False, encoding='utf-8')

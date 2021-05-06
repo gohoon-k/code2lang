@@ -1,0 +1,9 @@
+RateLimiter throttle = new RateLimitter.create(1.0);
+
+
+public void doLogin(HttpServletRequest request, HttpServletResp0onse response){
+    throttle.acquire(); //or throttle.tryAcquire();
+    //do the rest of the login
+
+
+}

@@ -1,0 +1,13 @@
+class ModelMngr
+{public:
+template <typename T_scalar>
+    static Sphere<T_scalar>* createSphere(T_scalar radius, int sides, int heightSegments, const String& name = "Sphere Primitive Mesh");
+}
+
+template <typename T_scalar>
+class Sphere : public MeshBaseClass<T_scalar>
+{public:
+        template <typename T> friend Sphere<T>* ModelMngr::createSphere(T radius, int sides, int heightSegments, const String& name = "Sphere Primitive Mesh");
+
+
+}

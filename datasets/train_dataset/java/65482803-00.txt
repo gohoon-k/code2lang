@@ -1,0 +1,40 @@
+    public class ConfigDaoTest
+    {
+        private static final Logger LOGGER = LoggerFactory.getLogger(ConfigDaoTest.class);
+        private static final String DOC_ID="12345678";
+        private static final String STATUS_INDICATOR="S";
+        private static final String FILE_NAME="Testing.txt";
+        private DaoTestResources resources;
+    
+        @Before
+        public void setUp()
+        {
+            resources = new DaoTestResources();
+            System.setProperty("IS_JUNIT_TEST", "TRUE");
+        }
+        
+        @After
+        public void cleanUp()
+        {
+            resources = null;
+        }
+    
+        @Test
+        public void testUpdateNotice() {
+            boolean retVal = false;
+    
+            try {
+                retVal = new ConfigDao(ConfigurationManager.getInstance("test/resources/junit.test.properties")).updateNoticeByFileName(FILE_NAME,DOC_ID,STATUS_INDICATOR);
+    
+            }catch(SQLException e) {
+                LOGGER.debug("ErrorText:" + e.getMessage());
+                assertNotNull(true);
+            }
+            assertTrue(retVal);
+            System.out.println("Return value: " + retVal);
+            assertNotNull(retVal);
+        }
+      
+        // More tests like the above.
+
+}

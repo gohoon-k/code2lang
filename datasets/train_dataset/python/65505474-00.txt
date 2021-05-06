@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+from http.server import HTTPServer, SimpleHTTPRequestHandler, test
+import socketserver
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
+import sys
+import winsound
+
+
+
+class MyHttpRequestHandler(SimpleHTTPRequestHandler):
+    try:
+
+        def do_GET(self):
+            # Sending an '200 OK' response
+            self.send_response(200)
+
+            # Setting the header
+            self.send_header("Content-type", "text/html")
+
+            # Whenever using 'send_header', you also have to call 'end_headers'
+            self.end_headers()
+
+
+            html = "ok"
+            # Writing the HTML contents with UTF-8
+            self.wfile.write(bytes(html, "utf8"))            
+            winsound.PlaySound("SystemExit", winsound.SND_ALIAS)
+
+            return
+
+    except Exception as e:
+        print(str(e))
+
+
+
+# Create an object of the above class
+handler_object = MyHttpRequestHandler
+
+PORT = 8000
+my_server = socketserver.TCPServer(("", PORT), handler_object)
+
+# Star the server
+my_server.serve_forever()

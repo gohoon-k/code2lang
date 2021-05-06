@@ -1,0 +1,25 @@
+#include <iostream>
+
+constexpr unsigned long long primeModulo = 1000000007ULL;
+
+int main() {
+    
+    // Here we will store the result 
+    unsigned long long product{ 1 };
+
+    // Read number of values to multiply
+    if (size_t numberOfValues{}; std::cin >> numberOfValues)
+
+        // Now, read numberOfValues and multiply them with modulo
+        for (size_t i{}; i < numberOfValues; ++i)
+
+            // Read value
+            if (unsigned long long value{}; std::cin >> value)
+
+                // Perform multiplication
+                product = (product * value) % primeModulo;
+
+    // Show result to user
+    std::cout << product;
+    return 0;
+}

@@ -1,0 +1,107 @@
+                            #include <iostream>
+                            #include <string>
+                            #include <cstdlib>
+                            #include <cstring>
+                            #include <fstream>
+                            #include <cstdio>
+
+                            using namespace std;
+
+                            class DataCustomer{    //initialize a class
+
+                            public:
+                                DataCustomer(){
+                                    count = 0 ;
+                                }
+
+
+                                void AddCustomer();
+                                void DisplayAll(int i);
+                                void DeleteFile();
+                                void EditFile();
+                                void quit();
+                                void search();
+                                void searchName();
+                                void searchSurname();
+                                void searchCell();
+                                void searchEmail();
+
+                                int Menu();
+
+                                //defining New Customer's details
+
+                                struct NewCustomer
+                                {
+                                    char Name[20];
+                                    char Surname[20];
+                                    char Birthday[10];
+                                    char PhoneNum [15];
+                                    char Email[20];
+                                };
+
+                                NewCustomer entries [10000];
+                                int count;
+                            };
+
+                            void DataCustomer::AddCustomer()
+                            {
+                                cout<<"Enter a Name: ";
+                                ofstream a_file ("database.txt", ios::app);
+                                cin >> entries[count].Name;
+                                a_file << entries [count].Name<<"\n";
+                                cin.clear();
+                                cin.sync();
+                                cout << "Enter a Surname: ";
+                                cin >> entries[count].Surname;
+                                a_file << entries[count].Surname << "\n";
+                                cin.clear();
+                                cin.sync();
+                                cout << "Enter Date of Birth: ";
+                                cin >> entries[count].Birthday;
+                                a_file << entries[count].Birthday << "\n";
+                                cin.clear();
+                                cin.sync();
+                                cout << "Enter Phone Number: ";
+                                cin >> entries[count].PhoneNum;
+                                a_file << entries[count].PhoneNum << "\n";
+                                cin.clear();
+                                cin.sync();
+                                cout << "Enter Email: ";
+                                cin >> entries[count].Email;
+                                a_file << entries[count].Email << "\n";
+                                a_file.close();
+
+                               ++count;
+                            }
+
+                            void DataCustomer::DisplayAll(int i)
+                            {
+                                    system ("cls");
+                                    cout<<"Entire Customers' database:"<<endl;
+                                    ifstream a_file ( "database.txt" );
+
+                                    a_file>> entries[i].Name;
+                                    a_file>> entries[i].Surname;
+                                    a_file>> entries[i].Birthday;
+                                    a_file>> entries[i].PhoneNum;
+                                    a_file>> entries[i].Email;
+                                    cout << "Name : " << entries[i].Name << endl;
+                                    cout << "Surname: " << entries[i].Surname << endl;
+                                    cout << "Date of birth : " << entries[i].Birthday << endl;
+                                    cout << "Phone number : " << entries[i].PhoneNum << endl;
+                                    cout << "Email: " << entries[i].Email << endl;
+
+                                    cout << "Number of Entries : " << count << endl;
+
+                               for(int i = 0;i < count;++i)
+                                  {cout << endl;
+                                  DisplayAll(i); }
+                            }
+
+                            DataCustomer db;
+
+                            int main ()
+                            {
+                                db.DisplayAll(int i);
+                                return 0;
+                            }

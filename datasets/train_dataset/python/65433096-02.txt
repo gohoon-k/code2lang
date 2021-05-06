@@ -1,0 +1,6 @@
+def f():
+  return True
+
+for i in range(10):
+    if f():
+        break

@@ -1,0 +1,22 @@
+package chapter40;
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class AdditionServer {
+
+    public static void main(String[] args) {
+
+        try {
+            Registry registry = LocateRegistry.getRegistry();
+            AdditionInterface obj = new Addition();
+            registry.rebind("Addition", obj);
+
+            System.out.println("Addition Server is ready");
+        } catch (Exception ex) {
+            System.out.println("Addition Server failed" + ex);
+        }
+
+    }
+
+}

@@ -1,0 +1,37 @@
+if(rotationState==0){
+    this->squareCoordinates[0]+=2;
+    this->squareCoordinates[4]+=2;
+    this->squareCoordinates[1]++;
+    this->squareCoordinates[5]++;
+    this->squareCoordinates[3]--;
+    this->squareCoordinates[7]--;
+    rotationState=1;
+}
+else if(rotationState==1){
+    this->squareCoordinates[0]+=2;
+    this->squareCoordinates[4]-=2;
+    this->squareCoordinates[1]++;
+    this->squareCoordinates[5]--;
+    this->squareCoordinates[3]--;
+    this->squareCoordinates[7]++;
+    rotationState=2;
+}
+else if(rotationState==2){
+    this->squareCoordinates[0]-=2;
+    this->squareCoordinates[4]-=2;
+    this->squareCoordinates[1]--;
+    this->squareCoordinates[5]--;
+    this->squareCoordinates[3]++;
+    this->squareCoordinates[7]++;
+    rotationState=3;
+}
+else if(rotationState==3){
+    this->squareCoordinates[0]-=2;
+    this->squareCoordinates[4]+=2;
+    this->squareCoordinates[1]--;
+    this->squareCoordinates[5]++;
+    this->squareCoordinates[3]++;
+    this->squareCoordinates[7]--;
+    rotationState=0;
+}
+

@@ -1,0 +1,34 @@
+//code prints DisplayNames of all sessions
+void getSessions() {
+
+    CoInitialize(NULL);
+
+    IMMDeviceEnumerator *pDEnumerator = NULL;
+    CoCreateInstance(CLSID_MMDeviceEnumerator, NULL, CLSCTX_ALL, IID_IMMDeviceEnumerator, (void**)&pDEnumerator);
+
+    IMMDevice *pDevice = NULL;
+    pDEnumerator->GetDefaultAudioEndpoint(eRender, eMultimedia, &pDevice);
+
+    IAudioSessionManager2 *pSManager2 = NULL;
+    pDevice->Activate(IID_IAudioSessionManager2, CLSCTX_ALL, NULL, (void**)&pSManager2);
+
+    IAudioSessionEnumerator *pSEnumerator = NULL;
+    pSManager2->GetSessionEnumerator(&pSEnumerator);
+
+    int audioSessionCount;
+    pSEnumerator->GetCount(&audioSessionCount);
+
+    std::cout << audioSessionCount << '\n';
+
+    for (int i = 0; i < audioSessionCount; ++i) {
+        IAudioSessionControl *controls;
+        pSEnumerator->GetSession(i, &controls);
+        LPWSTR name;
+        controls->GetDisplayName(&name);
+        while (*name != 0) {
+            std::wcout << *name;
+            ++name;
+        }
+        std::cout << '\n';
+    }
+}

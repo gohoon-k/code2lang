@@ -1,0 +1,16 @@
+class A {
+ private:
+  int  m_value;
+
+ public:
+  A(const int value):
+    m_value(value) {
+  }
+
+  template<typename T>
+  using return_t = std::pair<bool, T>;
+
+  return_t<int>  get() const {
+    return { true, m_value };
+  }
+};

@@ -1,0 +1,68 @@
+import discord
+import random
+from discord.ext import commands
+from discord.ext.commands import Bot
+
+
+client = discord.Client()
+bot_prefix = "."
+client = commands.Bot(command_prefix=bot_prefix, case_insensitive=True)
+
+ban_words = ['fuck',
+              'shit']
+
+
+@client.event
+async def on_ready():
+    print("Shefkata e spremen")
+
+
+async def on_message(ctx, message):
+    if message.content.lower() in ban_words:
+        await message.delete()
+
+
+@client.command(pass_context=True, case_insensitive=True)
+async def ping(ctx):
+    await ctx.send(f'pong {round(client.latency * 1000)}ms')
+
+
+@client.command(pass_context=True, case_insensitive=True)
+async def shefe(ctx):
+    await ctx.send("Sho sakash kopile")
+
+
+@client.command(pass_context=True, case_insensitive=True)
+async def zdravo(ctx):
+    pozdravi = ["Zdravo",
+                "Kaj si be",
+                "Zdravo sinka"]
+    await ctx.send(f'{random.choice(pozdravi)}')
+
+
+@client.command(pass_context=True, aliases=['8ball'], case_insensitive=True)
+async def _8ball(ctx, *, question):
+    responses = ["It is certain.",
+                 "It is decidedly so.",
+                 "Without a doubt."]
+    await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
+
+
+@client.command(pass_context=True, case_insensitive=True)
+async def dabs(ctx):
+    broj = random.randint(0, 1000)
+    if broj == 666:
+        await ctx.send("JA PRONAJDE NAJRETKATA PORAKA\nIMASHE 0.1% SHANSA DA TI SE PADNI")
+        await ctx.send("https://imgur.com/poI3bZl")
+    broj = random.randint(0, 100)
+    if broj == 69:
+        await ctx.send("https://imgur.com/OOgEaLb")
+    else:
+        await ctx.send("https://imgur.com/RFlt0bz")
+
+
+@client.command(pass_context=True, case_insensitive=True)
+async def commands(ctx):
+    await ctx.send(".ping\n.shefe\n.zdravo\n.8ball\n.dabs")
+
+client.run('token')

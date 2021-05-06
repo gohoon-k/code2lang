@@ -1,0 +1,12 @@
+function replaceAll(str, find, replace) {
+  var i = str.indexOf(find);
+  if (i > -1){
+    str = str.replace(find, replace); 
+    i = i + replace.length;
+    var st2 = str.substring(i);
+    if(st2.indexOf(find) > -1){
+      str = str.substring(0,i) + replaceAll(st2, find, replace);
+    }       
+  }
+  return str;
+}

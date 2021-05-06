@@ -1,0 +1,17 @@
+public class findFirstTest {
+
+    public static void main(String[] args) {
+
+        for(int q=0;q<10;q++) {
+            long start2 = System.currentTimeMillis();
+            int k = 0;
+            for (int j = 0; j < 5000000; j++) {
+                if (j > 4500000) {
+                    k = j;
+                    break;
+                }
+            }
+            System.out.println("for value  " + k + " with time " + (System.currentTimeMillis() - start2));
+        }
+    }
+}

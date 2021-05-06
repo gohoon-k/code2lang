@@ -1,0 +1,121 @@
+template <class T>
+DynArray<T>::DynArray(int size, int capacity){
+    if (capacity >= size){
+        this->size_ = size;
+        this->capacity_ = capacity;
+        data = new T[capacity];
+    }
+    //    for (int i = 0; i < size; ++i) {
+    //        data[i] = 0;
+    //    }
+}
+
+template <class T>
+DynArray<T>::DynArray(const DynArray& d1){
+    //clear();
+    //delete [] data;
+    std::cout << "copy" << std::endl;
+    this->size_ = d1.size_;
+    this->capacity_ = d1.capacity_;
+    data = new T[capacity()];
+    for(int i = 0; i < size(); ++i){
+        data[i] = d1.data[i];
+    }
+}
+
+template <class T>
+DynArray<T>::~DynArray(){
+    delete [] data;
+}
+
+template <class T>
+T& DynArray<T>::operator[]( const int index){
+    return at(index);
+}
+
+template <class T>
+void DynArray<T>::operator=(const DynArray<T>& d1){
+    if (this->size() > 0) {
+        clear();
+    }
+    std::cout << "assign" << std::endl;
+    this->size_ = d1.size_;
+    this->capacity_ = d1.capacity_;
+    data = new T[capacity()];
+    for(int i = 0; i < size(); ++i){
+        data[i] = d1.data[i];
+    }
+
+    //delete [] d1.data;
+}
+
+template <class T>
+int DynArray<T>::size(){
+    return size_;
+}
+
+template <class T>
+int DynArray<T>::capacity(){
+    return capacity_;
+}
+
+template <class T>
+void DynArray<T>::clear(){
+    for( int i = 0; i < size(); ++i){
+        data[i] = 0;
+    }
+    size_ = 0;
+    capacity_ = 2;
+}
+
+template <class T>
+void DynArray<T>::push_back(int n){
+    if (size() >= capacity()) {
+        std::cout << "grow" << std::endl;
+        //redo the array
+        T* copy = new T[capacity_ + 40];
+        for (int i = 0; i < size(); ++i) {
+            copy[i] = data[i];
+        }
+
+        delete [] data;
+        data = new T[ capacity_ * 2];
+        for (int i = 0; i < capacity() * 2; ++i) {
+            data[i] = copy[i];
+        }
+        delete [] copy;
+        capacity_ *= 2;
+    }
+    data[size()] = n;
+    ++size_;
+}
+
+template <class T>
+void DynArray<T>::pop_back(){
+    data[size()-1] = 0;
+    --size_;
+}
+
+template <class T>
+T& DynArray<T>::at(const int n){
+    if (n >= size()) {
+        throw std::runtime_error("invalid index");
+    }
+    return data[n];
+}
+
+template <class T>
+T& DynArray<T>::back(){
+    if (size() == 0) {
+        throw std::runtime_error("vector is empty");
+    }
+    return data[size()-1];
+}
+
+template <class T>
+T& DynArray<T>::front(){
+    if (size() == 0) {
+        throw std::runtime_error("vector is empty");
+    }
+    return data[0];
+    }

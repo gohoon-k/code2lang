@@ -1,0 +1,26 @@
+//Get option DOM-element references
+const op1 = document.getElementById("op1");
+const op2 = document.getElementById("op2");
+const op3 = document.getElementById("op3");
+const op4 = document.getElementById("op4");
+
+//Make an array with all the listed options
+let originalArray= [op1,op2,op3,op4];
+
+//Save a random element "math" as the right answer, and set it's inner text to "Right"                                     
+var correctArrayIndex = Math.floor(Math.random()* originalArray.length);
+originalArray[correctArrayIndex].innerText = "Right";
+//This functions returns a cloned array of the original array with the correct text
+function returnClonedArrayWithWrong(inputArray, correctIndex){
+    var clonedArray = inputArray.splice();
+    for(var i = 0; i<inputArray.length; i++){
+        if(i != correctIndex){
+            clonedArray[i].innerText = "Wrong";
+        }else{
+            clonedArray[i].innerText = "Right";
+        }
+        console.log("Element ID: "+ clonedArray[i].id); // For logging the output
+    }
+    return clonedArray;
+}
+var clonedArrayFilled = returnClonedArrayWithWrong(originalArray, correctArrayIndex);

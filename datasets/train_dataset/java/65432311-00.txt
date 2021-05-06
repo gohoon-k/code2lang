@@ -1,0 +1,20 @@
+public void onBindViewHolder(@NonNull final MyHolderText myHolder, int i) {
+    myHolder.mTitle.setText(models.get(i).getTitle());
+    myHolder.mImageView.setImageResource(models.get(i).getImage());
+    myHolder.mButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (myHolder.mButton.getText().toString().equalsIgnoreCase(c.getString(R.string.more)))
+            {
+                myHolder.mDescription.setMaxLines(Integer.MAX_VALUE);
+                myHolder.mButton.setText(R.string.less);
+            }
+            else
+            {
+                myHolder.mDescription.setMaxLines(5);
+                myHolder.mButton.setText(R.string.more);
+            }
+        }
+    });
+    myHolder.mDescription.setText(models.get(i).getDesc());
+}

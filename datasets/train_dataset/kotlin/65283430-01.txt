@@ -1,0 +1,15 @@
+private val dataStore = context.createDataStore("data_prefs")
+
+companion object{
+    val HAS_SEEN_INTRO = preferencesKey<Boolean>("HAS_SEEN_INTRO")
+}
+
+suspend fun storeHasSeenIntro(intro: Boolean){
+    dataStore.edit {data->
+        data[HAS_SEEN_INTRO] = intro
+    }
+}
+
+val hasSeenIntro : Flow<Boolean> = dataStore.data.map {
+    it[HAS_SEEN_INTRO] ?: false
+}

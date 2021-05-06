@@ -1,0 +1,79 @@
+#include <iostream>
+#include <optional>
+#include <vector>
+#include <array>
+#include <type_traits>
+
+class A{
+    public:
+    A():num_{0}{}
+    int num_;
+};
+
+template <typename FwdIt, typename Fun>
+class projection_iterator
+{
+    mutable FwdIt              it;
+    mutable std::optional<Fun> fun;
+public:
+    using value_type = std::decay_t<decltype(std::declval<Fun>()(*std::declval<FwdIt>()))>;
+    using reference  = value_type&;
+    using pointer    = value_type*;
+    using difference_type = typename std::iterator_traits<FwdIt>::difference_type;
+    using iterator_category = std::forward_iterator_tag;
+
+    projection_iterator(): it(), fun(fun) {}
+    projection_iterator(FwdIt it, Fun fun): it(it), fun(fun) {}
+    reference operator*() const { return (*this->fun)(*this->it); }
+    pointer   operator->() const { return &(*this->fun)(*this->it); }
+
+    projection_iterator& operator++() { ++this->it; return *this; }
+    projection_iterator  operator++(int) { auto rc(*this); ++this->it; return rc; }
+
+    bool operator== (projection_iterator const& other) const { return this->it == other.it; }
+    bool operator!= (projection_iterator const& other) const { return this->it != other.it; }
+    bool operator== (FwdIt const& other) const { return this->it == other; }
+    bool operator!= (FwdIt const& other) const { return this->it != other; }
+
+};
+
+template <typename Range, typename Fun>
+class project_range {
+    Range& range;
+    Fun    fun;
+
+    template <typename FwdIt>
+    static auto make(FwdIt it, Fun fun) {
+        return projection_iterator<FwdIt, Fun>(it, fun);
+    }
+
+public:
+    project_range(Range& range, Fun fun): range(range), fun(fun) {}
+    project_range(std::decay_t<Range>&&, Fun) = delete;
+    auto begin() { return make(range.begin(), fun); }
+    auto end()   { return make(range.end(), fun); }
+};
+
+template <typename Range, typename Fun>
+auto project(Range&& range, Fun fun) {
+    return project_range<Range, Fun>(range, fun);
+}
+
+
+int main()
+{
+    std::array<A, 5> arr;
+    for(int i = 0; i<5; ++i)
+    {
+        arr[i].num_ = i;
+    }
+
+    auto p = project(arr, [](A& x)->int& { return x.num_; });
+    std::vector<int> vec(p.begin(), p.end());
+
+    for(auto& i : vec)
+    {
+        std::cout << i << " ";
+    }
+    return 0;
+}

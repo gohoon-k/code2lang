@@ -1,0 +1,19 @@
+from itertools import islice
+from my_app.models import MyModel
+def create_data(data):
+    bulk_create(MyModel, generator())
+
+def bulk_create(model, generator, batch_size=10000):
+    """
+    Uses islice to call bulk_create on batches of
+    Model objects from a generator.
+    """
+    while True:
+        items = list(islice(generator, batch_size))
+        if not items:
+            break
+        model.objects.bulk_create(items)
+
+def generator(data):
+    for row in data:
+        yield MyModel(field1=data['field1'])

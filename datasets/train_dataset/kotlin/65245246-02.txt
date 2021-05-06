@@ -1,0 +1,95 @@
+import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class PrinterAddActivity: AppCompatActivity() {
+    private val TAG = "PrinterAddActivity"
+    //private val db = DatabaseManager()
+    //private lateinit var pMap: PrinterManager
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_printer_add)
+
+        val sharedPreferences: SharedPreferences
+                = applicationContext.getSharedPreferences("Printers", MODE_PRIVATE)
+        val pMap =
+            PrinterManager(sharedPreferences.all as MutableMap<Int, Printers>)
+        val editor = sharedPreferences.edit()
+
+        val savePrinter: Button = findViewById(R.id.save_printerBtn)
+        val backButton: Button = findViewById(R.id.back_printer)
+
+        val editName: EditText = findViewById(R.id.pAdd_name)
+        val editDiam: EditText = findViewById(R.id.materialAdd_diameter)
+        val editPrice: EditText = findViewById(R.id.pAdd_price)
+        val editDepH: EditText = findViewById(R.id.depreciationAdd_time)
+        val editSvc: EditText = findViewById(R.id.serviceAdd_costs)
+        val editEnergy: EditText = findViewById(R.id.energyAdd_consumption)
+
+
+        savePrinter.setOnClickListener {
+            Log.d(TAG, "onSaveClick: Saving the Printer")
+            val id: Int
+            lateinit var printer: Printers
+            val item1 = editName.text.toString()
+            val item2 = editDiam.text.toString().toDouble()
+            val item3 = editPrice.text.toString().toDouble()
+            val item4 = editDepH.text.toString().toDouble()
+            val item5 = editSvc.text.toString().toDouble()
+            val item6 = editEnergy.text.toString().toDouble()
+
+            //AsyncTask.execute() {
+            if (item1 != "" || !item3.equals(null)
+                || !item4.equals(null) || !item6.equals(null)
+            ) {
+                //addPrinter(item1, item2, item3, item4, item5, item6)
+                printer = Printers(item1, item2, item3, item4, item5, item6)
+                id = printer.printerId(printer)
+
+                if(pMap.getPrinterById(id) != null) {
+                    editor.putStringSet(id.toString(),
+                        pMap.getPrinterById(id)?.let { it1 -> pMap.toMutableString(it1) })
+                    editor.apply()
+                    Log.d(TAG, "PrinterFound: Changes applied")
+                } else {
+                    val map = mutableMapOf<Int, Printers>(id to printer)
+                    val printerMap = PrinterManager(map)
+
+                    editor.putStringSet(id.toString(), printerMap.toMutableString(printer))
+                    editor.commit()
+                    Log.d(TAG, "newPrinter: Printer saved")
+                }
+            } else {
+                Toast.makeText(
+                    this, "Important Fields have not been filled out",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            //}
+        }
+
+        backButton.setOnClickListener {
+            Log.d(TAG, "onBackClick: Returning to MainActivity")
+            val i = Intent(this, MainActivity::class.java)
+            startActivity(i)
+        }
+    }
+
+    /*
+    private fun addPrinter(
+        nameValue: String, materialValue: Double?,
+        priceValue: Double, depTimeValue: Double,
+        srvCostsValue: Double?, energyValue: Double
+    ) {
+        db.connect()
+        db.insertPrinter(nameValue, materialValue, priceValue, depTimeValue, srvCostsValue, energyValue)
+    }
+    */
+}

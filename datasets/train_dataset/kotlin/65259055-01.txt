@@ -1,0 +1,13 @@
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.fragment_view_pager)
+    supportActionBar?.hide()
+    initViewPager2WithFragments()
+}
+
+private fun initViewPager2WithFragments()
+{
+    var viewPager2: ViewPager2 = findViewById(R.id.viewpager)
+    var adapter = ViewPagerAdapter(supportFragmentManager,lifecycle)
+    viewPager2.adapter = adapter
+}

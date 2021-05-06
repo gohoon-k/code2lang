@@ -1,0 +1,6 @@
+fun String.isValidInt()
+    = try {
+        toInt().toString() == this
+    } catch (x: NumberFormatException) {
+        false
+    }

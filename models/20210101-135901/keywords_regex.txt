@@ -1,0 +1,192 @@
+(^|<)typename\s
+(^|=|\s)new\s
+(^|\s+)#define\s
+(^|\s+)#include(\s|<)
+(^|\s+)@Override\s
+(^|\s+|[(=])False($|[\s,:)])
+(^|\s+)InputStream[\s.]
+(^|\s+)None($|[\s,)])
+(^|\s+)OutputStream[\s.]
+(^|[^:]\s+)String\s
+(^|[^:]\s+)String[.]
+(^|\s+)System[\s.]
+(^|\s+|[(=])True($|[\s,):])
+(^|\s+)__init__[\s(]
+(^|\s+)__name__\s
+(^|\s+)__str__[\s(]
+(^|\s+)abstract\s
+(^|\s+)assert\s
+(^|\s+)async\s
+(^|\s+)await\s
+(^|\s+)boolean\s
+(^|\s+)bool\s
+(^|\s+)break$
+(^|\s+)break;$
+(^|\s+|[(])byte\s
+(^|\s+)case\s
+(^|\s+)catch\s*[(]
+(^|\s+)class\s
+[.]class[\s,)]
+(^|\s+)companion\s
+(^|\s+)console[.]
+(^|\s+)const\s
+(^|\s+)constructor\s*[(]
+(^|\s+)continue$
+(^|\s+)continue;$
+(^|\s+)data class\s
+(^|\s+)def\s
+(^|\s+)default:
+(^|\s+)do\s*[{]
+(^|\s+)document($|[.])
+(^|\s+)else if\s*[(]
+(^|\s+)elif\s+\w
+(^|\s+)else\s*($|[{])
+(^|\s+)else:$
+(^|\s+)enum\s
+(^|\s+)equals[(]
+(^|\s+)except.*?:
+(^|\s+)explicit\s
+(^|\s+)export\s
+(^|\s+)extern\s
+(^|\s+)final\s
+(^|\s+)for\s*[(]
+(^|\s+)for\s\w
+(^|\s+)from\s.*?\simport\s
+(^|\s+)fun\s
+(^|\s+)function\s
+[(,]function[\s(]
+(^|\s+)if\s*(constexpr\s*[(]|[(])
+(^|\s+)if\s\w
+(^|\s+)init\s*[{]
+(^|\s+)inline\s
+(^|\s+)inner\s
+(^|\s+)int[(]
+(^|\s+)interface\s
+(^|\s+|[(,=])lambda\s
+(^|\s+)len[(]
+(^|\s+)lateinit\s
+(^|\s+|[(])let\s
+(^|\s+)list[(]
+(^|\s+)long\s\w
+(^|\s+)map[(]
+(^|\s+)namespace\s
+(^|\s+)noexcept\s
+(^|\s+)object\s
+(^|\s+)open class\s
+(^|\s+)override\s
+(^|\s+)pass$
+(^|\s+)private\s
+(^|\s+)private:$
+(^|\s+)protected\s
+(^|\s+)public static void main\s*[(]
+(^|\s+)public\s
+(^|\s+)public:$
+(^|\s+)range[(]
+(^|\s+)return\s
+(^|\s+)self($|[\s,.)])
+(^|\s+)set[(]
+(^|\s+)static\s
+(^|\s+)namespace std;
+(^|\s+)std::
+(^|\s+)cout\W
+([<>]|\s+)endl\W
+(^|\s+)str[(]
+(^|\s+)struct\s
+(^|\s+)super.
+(^|\s+)suspend\s
+(^|\s+)switch\s*[(]
+(^|\s+)synchronized\s
+(^|\s+)template\s
+(^|\s+)throw\s
+(^|\s+)throws\s
+(^|\s+)toString[(][)]
+(^|\s+)transient\s
+(^|\s+)try\s*[{]
+(^|\s+)type[(]
+(^|\s+)using\s
+(^|\s+)val\s
+(^|\s+|[(])var\s
+(^|\s+)void\s
+(^|\s+)when\s*[(]
+(^|\s+)while\s*[(]
+(^|\s+)while\s\w
+(^|\s+)window($|[.])
+(^|\s+)with\s\w
+([:]\s*)Boolean(\s*[=]|[?]|\s*[{])
+([<]|[,]\s)Boolean([,]\s|[>])
+([:]\s*)Double(\s*[=]|[?]|\s*[{])
+([:]\s*)Float(\s*[=]|[?]|\s*[{])
+([<]|[,]\s)Float([,]\s|[>])
+([:]\s*)Int(\s*[=]|[?]|\s*[{])
+([<]|[,]\s)Int([,]\s|[>])
+([:]\s*)Long(\s*[=]|[?]|\s*[{])
+([<]|[,]\s)Long([,]\s|[>])
+([:]\s*)String(\s*[=]|[?]|\s*[{])
+([<]|[,]\s)String([,]\s|[>])
+(^|\s+|=|[(])arrayOf[<(]
+(^|\s+|=|[(])hashMapOf[<(]
+(^|\s+|=|[(])listOf[<(]
+(^|\s+|=|[(])mutableListOf[<(]
+(^|\s+|[(,])char([,*]|[)][;])
+(^|\s+|[(,])char(\s\w|[\[])
+(^|\s+|[(,])double([,*]|[)][;])
+(^|\s+|[(,])double(\s\w|[\[])
+[(]double[)]
+(^|\s+|[(,])float(\s\w|[\[])
+(^|\s+|[(,])int([,*]|[)][;])
+(^|\s+|[(,])int(\s\w|[\[])
+[(]int[)]
+(^|\s+|[(,])short(\s\w|[\[])
+(^|\s+|[(,])unsigned[\s,)*]
+[(,]void[\s,)*]
+[^-]->
+<<
+<a(\s|>) -> IGNORE_CASE
+<b> -> IGNORE_CASE
+<body(\s|>) -> IGNORE_CASE
+<button(\s|>) -> IGNORE_CASE
+<canvas(\s|>) -> IGNORE_CASE
+<div(\s|>) -> IGNORE_CASE
+<!doctype html> -> IGNORE_CASE
+<form(\s|>) -> IGNORE_CASE
+<head(\s|>) -> IGNORE_CASE
+<html(\s|>) -> IGNORE_CASE
+<i> -> IGNORE_CASE
+<input(\s|>) -> IGNORE_CASE
+<link(\s|>) -> IGNORE_CASE
+<meta(\s|>) -> IGNORE_CASE
+<option(\s|>) -> IGNORE_CASE
+<p(\s|>) -> IGNORE_CASE
+<select(\s|>) -> IGNORE_CASE
+<span(\s|>) -> IGNORE_CASE
+<strong> -> IGNORE_CASE
+<table(\s|>) -> IGNORE_CASE
+<tbody(\s|>) -> IGNORE_CASE
+<thead(\s|>) -> IGNORE_CASE
+<td(\s|>) -> IGNORE_CASE
+<title(\s|>) -> IGNORE_CASE
+<tr(\s|>) -> IGNORE_CASE
+<u> -> IGNORE_CASE
+[^A-Z]>>[\sa-z]
+[(\s.=]this($|[,)])
+[(\s=]null($|[,)])
+[(\s=]NULL($|[,)])
+[)]\s*=>\s*[{]
+\s+extends\s
+\s+implements\s
+\sand\s
+\sas\s
+\sin\s
+\sis\s
+\snot\s
+\sor\s
+\w[.]addEventListener[(]
+\w[.]getElementById[(]
+\w[.]querySelector[(]
+\w[.]querySelectorAll[(]
+\w[?][.]\w
+\w[!][!][.]\w
+^import\s
+^package\s
+[\[](.|[\r\n])*?\sfor\s(\w|[\r\n])*?\sin\s(.|[\r\n])*?[\]]
+[{](.|[\r\n])*?:.*?[\s\n]for\s(\w|[\r\n])*?\sin\s(.|[\r\n])*?[}]

@@ -1,0 +1,27 @@
+public class Test extends Thread{
+    
+    Boolean flag = false ;
+    
+    @Override
+    public void run() {
+        while( true ) {
+            try {
+                Thread.sleep(10) ;
+            }catch (Exception e) {}
+        }
+    }
+    
+    public void change() {
+        synchronized (flag ) {
+            flag = true ;
+            flag.notifyAll();
+        }
+    }
+    
+    public static void main(String[] args) {
+        Test test = new Test() ;
+        test.start();
+        test.change();
+    }
+
+}

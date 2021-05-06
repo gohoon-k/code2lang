@@ -1,0 +1,5 @@
+def f():
+  return break
+
+for i in range(10):
+    f()

@@ -1,0 +1,17 @@
+private fun jsonParse(): String? {
+        var space: String? = null
+        val id = "admin" 
+        val url = "https://$id/api/app/Domain/Upload"
+        val request = JsonObjectRequest(Request.Method.GET, url, null, { response ->
+            try {
+                val jsonArray = response.getJSONObject("result")
+
+                space = jsonArray.getString("space")
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }, { error -> error.printStackTrace() })
+        queue.add(request)
+        return space
+    }

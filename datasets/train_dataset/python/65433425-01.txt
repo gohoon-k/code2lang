@@ -1,0 +1,13 @@
+   for d in sort_data:
+        result[d['timestamp']].append(d)
+    result_list = list(result.values())
+    r_list = []
+    for r in result_list:
+        for i in r:
+            pprint(i)
+            i_dict = {
+                'average' : '{:.3f}'.format((sum(float(i['value']) for i in r)) / 16),
+                'timestamp': i['timestamp']
+            }
+        r_list.append(i_dict)   
+    return r_list

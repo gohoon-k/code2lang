@@ -1,0 +1,42 @@
+var numbersDrawn;
+var numbersLeft;
+var maxDraws;
+
+newGame(); // Reset game
+
+// Add listeners
+document.querySelector('button').addEventListener('click', drawNumber);
+document.querySelector('button:last-of-type').addEventListener('click', newGame);
+
+// Draw a random number; update <p>-elements
+function drawNumber() {
+  if (numbersDrawn.length == maxDraws) return;
+  
+  // This takes away a number from 'numbersLeft' and adds it to 'numbersDrawn'
+  numbersDrawn.push(
+    numbersLeft.splice(Math.floor(Math.random() * numbersLeft.length), 1));
+  
+  document.querySelector('#lotto-draws-left').textContent =
+    'Draws left: ' + (maxDraws - numbersDrawn.length);
+  document.querySelector('#lotto-output').textContent = numbersDrawn.join(', ');
+}
+
+// Reset game-state
+function newGame() {
+  // These values may be changed
+  var _maxNumbers = 60;
+  var _maxDraws = 6;
+  
+  numbersDrawn = [];
+  numbersLeft = range(1, _maxNumbers); // Create array of range [1, ..., maxNumbers]
+  maxDraws = _maxDraws;
+  
+  // Reset <p>-elements' text
+  document.querySelector('#lotto-draws-left').textContent = 'Draws left: ' + maxDraws;
+  document.querySelector('#lotto-output').textContent = '';
+}
+
+// Creates an array with numbers of range [min, max]: [min, ..., max]
+function range(min, max) {
+  return [...new Array(max - min + 1).keys()].map(i => i + min);
+}

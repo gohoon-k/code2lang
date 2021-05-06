@@ -1,0 +1,19 @@
+template <typename fn>
+void BinTree::TraverseTree(fn func)
+{
+    std::stack<TreeNode*> s;
+    s.push(root);
+    TreeNode* curentNode = s.top();
+    while (curentNode != nullptr|| s.empty() == false)
+    {
+        while (curentNode != nullptr)
+        {
+            s.push(curentNode);
+            curentNode = curentNode->GetLeft();
+        }
+        curentNode = s.top();
+        s.pop();
+        func(currentNode);  // call custom function
+        curentNode = curentNode->GetRight();
+    }
+}

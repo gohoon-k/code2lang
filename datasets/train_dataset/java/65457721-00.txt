@@ -1,0 +1,14 @@
+byte[] bytes = readFromFile("market.avro");
+long begin = System.nanoTime();
+DatumReader<Market> userDatumReader = new ReflectDatumReader<>(Market.class);
+InputStream inputStream = new SeekableByteArrayInput(bytes);
+BinaryDecoder reuse = DecoderFactory.get().binaryDecoder(inputStream, null);
+Market marketReuse = new Market();
+for (int i = 0; i < loopCount; i++) {
+    inputStream = new SeekableByteArrayInput(bytes);
+    BinaryDecoder decoder = DecoderFactory.get().binaryDecoder(inputStream, reuse);
+    userDatumReader.read(marketReuse, decoder);
+}
+
+long end = System.nanoTime() - begin;
+System.out.println("avro loop " + loopCount + " times: " + (end * 1d / 1000 / 1000));

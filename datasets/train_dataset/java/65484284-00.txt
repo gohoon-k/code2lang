@@ -1,0 +1,55 @@
+public class MainActivity extends AppCompatActivity {
+
+TextView networkTextView;
+TextView locationTextView;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    networkTextView = findViewById(R.id.networkTextView);
+    locationTextView = findViewById(R.id.locationTextView);
+
+    IntentFilter filter1 = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+    registerReceiver(broadcastReceiver1, filter1);
+
+    IntentFilter filter2 = new IntentFilter(LocationManager.PROVIDERS_CHANGED_ACTION);
+    registerReceiver(broadcastReceiver2, filter2);
+}
+
+BroadcastReceiver broadcastReceiver1 = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
+            boolean noNetworkConnectivity = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, false);
+            if (noNetworkConnectivity) {
+                networkTextView.setText("Disconnected");
+            } else {
+                networkTextView.setText("Connected");
+            }
+        }
+    }
+};
+
+BroadcastReceiver broadcastReceiver2 = new BroadcastReceiver() {
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (LocationManager.PROVIDERS_CHANGED_ACTION.equals(intent.getAction())) {
+            boolean noLocationConnectivity = intent.getBooleanExtra(LocationManager.PROVIDERS_CHANGED_ACTION, false);
+            if (noLocationConnectivity) {
+                locationTextView.setText("Disconnected");
+            } else {
+                locationTextView.setText("Connected");
+            }
+        }
+    }
+};
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    unregisterReceiver(broadcastReceiver1);
+    unregisterReceiver(broadcastReceiver2);
+}
+}

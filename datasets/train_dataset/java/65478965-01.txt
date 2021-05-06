@@ -1,0 +1,41 @@
+public class DeleteExcelSheets {
+static String xlsPath = "C:\\Users\\TwoNewProductsTestJava.xls";
+public static void main(String[] args) throws IOException {
+    DeleteEmptySheetsFromWB();
+
+}
+
+public static void DeleteEmptySheetsFromWB() throws IOException {
+    //obtaining input bytes from a file
+    FileInputStream fis = new FileInputStream(new File(xlsPath));
+    //creating workbook instance that refers to .xls file
+    HSSFWorkbook wb = new HSSFWorkbook(fis);
+
+
+    for (int i = wb.getNumberOfSheets() - 1; i >= 0; i--) {
+        HSSFSheet sheet = wb.getSheetAt(i);
+        if (sheet.getLastRowNum() == 0) {
+            // delete the sheet
+            removeSheetFromWB(sheet.getSheetName(), wb);
+            System.out.println("deleting sheet");
+        }
+
+        try {
+            FileOutputStream out = new FileOutputStream(xlsPath);
+            wb.write(out);
+            out.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Caught Exception: " + ex.getMessage());
+        }
+    }
+}
+
+public static void removeSheetFromWB(String sheetName, HSSFWorkbook book) {
+    for (int i = book.getNumberOfSheets() - 1; i >= 0; i--) {
+        System.out.println(i);
+        HSSFSheet tmpSheet = book.getSheetAt(i);
+        if (tmpSheet.getSheetName().equals(sheetName)) {
+            book.removeSheetAt(i);
+        }
+    }
+}}

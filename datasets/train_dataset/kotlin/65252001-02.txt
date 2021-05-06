@@ -1,0 +1,17 @@
+object GenericDialog {
+  fun build(
+    context: Context,
+    title: String = "",
+    content: String = "",
+    acceptButtonTextResId: Int = R.string.general_understood,
+    onAccept: () -> Unit = {}
+  ): AlertDialog = AlertDialog.Builder(context, R.style.Dialog)
+    .setTitle(title)
+    .setMessage(content)
+    .setCancelable(false)
+    .setPositiveButton(acceptButtonTextResId) { dialog, _ ->
+      onAccept()
+      dialog.dismiss()
+    }
+    .create()
+}

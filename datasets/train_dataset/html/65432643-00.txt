@@ -1,0 +1,13 @@
+<table id="kişi">
+  <tr><form method = "POST" action = "../includes/log_check.inc.php">
+        
+        <td> <input name = "search "type="text" placeholder="Ara"></td>
+      <td><button type = "submit" name = "submit" class="button">Ara</button></td>
+      <div class="custom-select" style="width:200px;">
+      <select name = "choose" id="Reymisteryo">
+          <option value="mainpage">Ana Sayfa</option>
+  <option value="wronglogin">Hatalı Giriş</option>
+</select>
+      </div>
+    </tr>
+      </form>

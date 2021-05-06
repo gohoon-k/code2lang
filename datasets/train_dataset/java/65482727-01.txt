@@ -1,0 +1,35 @@
+package battlesystem;
+
+public class BattleSystem {
+
+    public static void main(String[] args) {
+        
+       Monsters m[] = new Monsters[16];
+        
+        //monster-stats
+        m[0] = new Monsters(1,"KNOTTY",1000,5,120,34,350,800);
+        m[1] = new Monsters(1,"SCORPION",290,10,5,20,336,199);
+        m[2] = new Monsters(1,"WERERAT",24,13,100,30,22,21);
+        m[3] = new Monsters(1,"ONION KNIGHT",250,13,200,34,350,115);
+        m[4] = new Monsters(11,"GOLD BEAR",275,13,40,25,185,160);
+        m[5] = new Monsters(11,"RAFLESSIA",2200,13,110,35,767,872);
+        m[6] = new Monsters(11,"MEDUSA CHICKEN",2366,13,105,33,422,770);
+        m[7] = new Monsters(11,"CHIMERA",2237,25,100,45,760,1144);
+        m[8] = new Monsters(11,"MALBORO",2900,30,95,30,2292,780);
+        m[9] = new Monsters(21,"GIGANTOS",6000,20,1,50,0,7550);
+        m[10] = new Monsters(21,"LEVIATHAN",32000,22,140,61,10000,0);
+        m[11] = new Monsters(21,"ABYSS WORM",34000,23,180,42,5000,5000);
+        m[12] = new Monsters(31,"AHIRMAN",10000,11,110,30,1000,2820);
+        m[13] = new Monsters(31,"IFRIT",3300,25,215,35,7500,5000);
+        m[14] = new Monsters(31,"LIZARD",4220,29,90,30,554,1219);
+        m[15] = new Monsters(31,"OMEGA",65000,111,222,88,10000,75000);
+    
+       
+        //test display
+        for(int i = 0; i<m.length; i++) {
+         m[i].display();
+         System.out.println(" ");
+      }
+    }
+    
+}

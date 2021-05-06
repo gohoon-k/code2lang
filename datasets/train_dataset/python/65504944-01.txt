@@ -1,0 +1,13 @@
+class UserAuthentication(authentication.TokenAuthentication):
+    def authenticate(self, request):
+        secret_token = request.META.get('Authorization')
+
+        if not secret_token:
+            return None
+        
+        try:
+            ua = User_Auth.objects.get(secret_token=secret_token)
+        except User_Auth.DoesNotExist:
+            raise exceptions.AuthenticationFailed('Unauthorized')
+
+        return (ua, None)

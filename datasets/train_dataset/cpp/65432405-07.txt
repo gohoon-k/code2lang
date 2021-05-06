@@ -1,0 +1,13 @@
+#ifndef MyTemplate_h
+#define MyTemplate_h 1
+
+template <class T>
+class MyTemplate
+{
+public:
+  MyTemplate(const T& rt);
+  void dump();
+  T t;
+};
+
+#endif

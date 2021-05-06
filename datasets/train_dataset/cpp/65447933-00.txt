@@ -1,0 +1,23 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<int> v1{1,2,3};
+int n = v1.size();
+int sum = 4;
+
+int subset(vector<int> cur, int i);
+
+int main() {
+    vector <int> v;
+    cout<<subset(v,0);
+    return 0;
+}
+
+int subset(vector<int> cur, int i = 0){
+    
+    if(i == n && accumulate(cur.begin(), cur.end(), 0) == sum)
+        return 1;
+    else if(i == n && accumulate(cur.begin(), cur.end(), 0) != sum)
+        return 0; 
+    return (subset(cur, i+1) + subset(cur.push_back(v1[i]), i+1));      
+}

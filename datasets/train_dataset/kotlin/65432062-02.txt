@@ -1,0 +1,58 @@
+class SearchActivity : AppCompatActivity() {
+
+    private lateinit var toolbar: Toolbar
+    lateinit var adapter: ArrayAdapter<*>
+    private lateinit var listView: ListView
+    private lateinit var emptyView: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+
+        Log.d("TAG", "OnCreate  Starts 101 MYDEBUG")
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.search_main)
+        title = "KotlinApp"
+
+        toolbar = findViewById(R.id.toolbar)
+        listView = findViewById(R.id.listView)
+        emptyView = findViewById(R.id.emptyView)
+        adapter = ArrayAdapter<Any?>(this, android.R.layout.simple_list_item_1,
+            resources.getStringArray(R.array.vegetables))
+
+        listView.adapter = adapter
+
+        listView.onItemClickListener = OnItemClickListener { adapterView, _, i, _ ->
+            Toast.makeText(this@SearchActivity, adapterView.getItemAtPosition(i).toString(),
+                Toast.LENGTH_SHORT).show()
+        }
+
+        Log.d("TAG", "OnCreate 111 Ends MYDEBUG")
+
+        listView.emptyView = emptyView
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
+        menuInflater.inflate(R.menu.menu, menu)
+        val search = menu.findItem(R.id.appSearchBar)
+
+        Log.d("TAG", "onCreateOptionsMenu - 301 - Gets here MYDEBUG")
+        val searchView = search.actionView as SearchView   /* Crashes here */
+        Log.d("TAG", "onCreateOptionsMenu - 302 - Doesn't get here MYDEBUG")
+
+        searchView.queryHint = "Search"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return true
+            }
+        })
+
+        return super.onCreateOptionsMenu(menu)
+    }
+}

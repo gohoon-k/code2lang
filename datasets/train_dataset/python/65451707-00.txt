@@ -1,0 +1,77 @@
+import sys, os
+import numpy as np
+import matplotlib.pyplot as plt 
+
+# Build a C++ Script that accepts a str,
+# converts it to a float, and prints 
+# the result of the operation
+def build():
+    script = """
+#include<iostream>
+
+int main(int argc, char *argv[]){
+
+  float f = std::stof(argv[1]);
+  int i = *(short *)&f;
+
+
+  std::cout << f << " " << i <<std::endl;
+
+  return 0;
+
+}
+    """
+    with open('script.cpp', 'w') as f:
+        f.write(script)
+
+    return 1
+
+# Loads the results from the C++ script
+def load_results():
+    x,y = [],[]
+    with open('results-ctest.txt', 'r') as f:
+        result = f.readlines()
+    for _ in result:
+        local = _.split(' ')
+        x.append(float(local[0]))
+        y.append(int(local[1][:-2]))
+
+    return x,y
+
+# Plots the results from the C++ script
+def show_results(x,y):
+    # Define a figure
+    f,ax = plt.subplots()
+
+    # Plot results
+    ax.scatter(x,y)
+
+    # Format the axis according to the shown figure
+    ax.set_xticks(np.linspace(min(x), max(x), 20))
+    ax.set_yticks(np.linspace(min(y), max(y), 20))
+    plt.show()
+
+if __name__=='__main__':
+
+    # build the C++ script
+    build()
+
+    # Compile the C++ script
+    # and clean the previous results
+    # by removing "results-ctest.txt"
+    os.system(f'g++ script.cpp')
+    os.system('rm results-ctest.txt')
+
+    # Generate 500 floats between -1.000.000 and 1.000.000
+    # and pass them to the C++ script
+    numbers=np.linspace(-1e6, 1e6, 500)
+    for number in numbers:
+        os.system(f'./a.out {number}>> results-ctest.txt')
+
+    # Open the results of the C++ script and 
+    # split the input from the output
+    x,y = load_results()
+
+    # Produce the figure and open
+    # a window for it
+    show_results(x,y)

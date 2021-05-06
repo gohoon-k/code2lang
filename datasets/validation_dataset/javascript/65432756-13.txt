@@ -1,0 +1,8 @@
+function getStuffAsync(param) {
+    return new Promise(function(resolve, reject) {
+        getStuff(param, function(err, data) {
+            if (err !== null) reject(err);
+            else resolve(data);
+        });
+    });
+}

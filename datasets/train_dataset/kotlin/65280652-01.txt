@@ -1,0 +1,9 @@
+@TypeConverter
+fun listFromString(s: String): List<String> {
+    return s.substring(1, s.length - 1).replace(" ", "").split(",")
+}
+
+@TypeConverter
+fun listToString(list: List<String>): String {
+    return list.toTypedArray().contentToString()
+}

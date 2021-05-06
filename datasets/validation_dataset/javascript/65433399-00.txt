@@ -1,0 +1,27 @@
+const useAuth = () => {
+  const [auth, setAuth] = useState({
+    isAuthenticated: false,
+    accountType: 'anonymous',
+    userId: '',
+    email: ''
+  });
+
+  const signIn = () => {
+    // Do something...
+
+    setAuth({
+      isAuthenticated: true,
+      accountType: 'email',
+      userId: 'abc123',
+      email: 'foo@bar.com'
+    });
+  }
+
+
+  return {
+    signIn,
+    auth
+  };
+};
+
+export default useAuth;

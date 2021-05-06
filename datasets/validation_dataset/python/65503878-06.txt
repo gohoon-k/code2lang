@@ -1,0 +1,9 @@
+index = [[25, 0], [25, 1], [25, 0], [25, 4], [25, 1], [25, 4], [56, 2], [56, 3]]
+
+lst = []
+
+for i in range(len(index)):
+    if index[i] not in lst:
+        lst += [index[i]]
+
+print(lst)

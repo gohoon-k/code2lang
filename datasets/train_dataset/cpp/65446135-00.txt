@@ -1,0 +1,25 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+double Fact(int x) {
+    double sum = 1;
+    for (int i = 1; i <= x; i++) {
+        sum *= i;
+    }
+    return sum;
+}
+
+void paths(int x,int y){
+    cout << "There are " << Fact(x + y) / Fact(x) * Fact(y) << " different paths.";
+}
+
+int main() {
+    cout << "Please enter coordiantes(x,y) to know different paths: ";
+    int x, y;
+    cin >> x >> y;
+    paths(x, y);
+
+    system("pause>0");
+}

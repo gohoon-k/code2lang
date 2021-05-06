@@ -1,0 +1,7 @@
+var check = document.querySelector('.hamburger > .checkButton');
+var menu = document.querySelector('.navItems');
+
+check.addEventListener('click', function(e) {
+  e.preventDefault();
+  menu.classList.toggle('show');
+});

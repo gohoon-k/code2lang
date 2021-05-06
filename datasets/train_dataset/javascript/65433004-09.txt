@@ -1,0 +1,10 @@
+// module1.js
+
+var x = 0
+export function f() {}
+
+//module2.js
+
+import f from 'module1.js'
+
+console.log(x) // throws ReferenceError

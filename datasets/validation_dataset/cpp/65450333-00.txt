@@ -1,0 +1,38 @@
+#include <functional>
+
+struct Param {
+    float progress;
+    uint16_t index;
+};
+
+typedef void(*CallbackFunction)(const Param& param);
+
+class LibClass {
+public:
+    LibClass(){}
+    void start(CallbackFunction callback){}
+};
+
+class MyClass {
+public:
+    //LibClass libClass;
+
+    static void my_function() { // <-- how do i do this without static
+        LibClass libClass; // <-- this should be a non-static class variable
+    
+        libClass.start(my_callback); // <-- how to write this line then
+    
+    }
+
+    static void my_callback(const Param& param) { // <-- how do i do this without static
+    
+    }
+};
+
+int main (int argc, const char * argv[]) {
+
+    MyClass myClass;
+    myClass.my_function();
+
+   return 0;
+}

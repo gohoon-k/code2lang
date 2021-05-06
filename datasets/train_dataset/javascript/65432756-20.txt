@@ -1,0 +1,29 @@
+function getName () {
+
+    return new Promise(function (fulfilled, rejected) {
+
+        var name = "John Doe";
+
+        // wait 3000 milliseconds before calling fulfilled() method
+        setTimeout ( 
+            function() {
+                fulfilled( name )
+            }, 
+            3000
+        )
+
+    })
+
+}
+
+
+async function foo () {
+
+    var name = await getName(); // awaits for a fulfilled result!
+
+    console.log(name); // the console writes "John Doe" after 3000 milliseconds
+
+}
+
+
+foo() // calling the foo() method to run the code

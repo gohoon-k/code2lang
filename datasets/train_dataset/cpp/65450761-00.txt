@@ -1,0 +1,18 @@
+struct S
+{
+    int a, b;
+};
+
+bool cmp(const S& lhs, const S& rhs)
+{
+    return lhs.a < rhs.a;
+}
+
+int main()
+{
+    std::vector<S> seq1 = {{1, 2}, {1, 3}};
+    std::vector<S> seq2 = seq1;
+    std::sort(seq1.begin(), seq1.end(), cmp);
+    std::sort(seq2.begin(), seq2.end(), cmp);
+    std::cout << (seq1.back().b == seq2.back().b) << '\n';
+}

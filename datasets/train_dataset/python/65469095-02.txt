@@ -1,0 +1,4 @@
+for i in range(size1):
+    ele = map(int, input().strip().split())
+    for num in ele:
+        main.add(num)

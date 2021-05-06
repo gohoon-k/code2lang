@@ -1,0 +1,11 @@
+last_exception, counter = None, 0
+while True:
+   try:
+      # some error here
+      raise ValueError
+   except Exception as e:
+      if type(e) is not last_exception:
+         last_exception, counter = type(e), 0
+      counter += 1
+      if counter == 3:
+         break

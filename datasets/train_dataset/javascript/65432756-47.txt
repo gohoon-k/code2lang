@@ -1,0 +1,28 @@
+var P = function() {
+  var self = this;
+  var method = arguments[0];
+  var params = Array.prototype.slice.call(arguments, 1);
+  return new Promise((resolve, reject) => {
+    if (method && typeof(method) == 'function') {
+      params.push(function(err, state) {
+        if (!err) return resolve(state)
+        else return reject(err);
+      });
+      method.apply(self, params);
+    } else return reject(new Error('not a function'));
+  });
+}
+var callback = function(par, callback) {
+  var rnd = Math.floor(Math.random() * 2) + 1;
+  return rnd > 1 ? callback(null, par) : callback(new Error("trap"));
+}
+
+callback("callback", (err, state) => err ? console.error(err) : console.log(state))
+callback("callback", (err, state) => err ? console.error(err) : console.log(state))
+callback("callback", (err, state) => err ? console.error(err) : console.log(state))
+callback("callback", (err, state) => err ? console.error(err) : console.log(state))
+
+P(callback, "promise").then(v => console.log(v)).catch(e => console.error(e))
+P(callback, "promise").then(v => console.log(v)).catch(e => console.error(e))
+P(callback, "promise").then(v => console.log(v)).catch(e => console.error(e))
+P(callback, "promise").then(v => console.log(v)).catch(e => console.error(e))

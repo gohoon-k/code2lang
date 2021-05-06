@@ -1,0 +1,162 @@
+import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import com.xxx.xxx.data.client.RetroCall
+import com.xxx.xxx.data.response.UserResponse
+import com.xxx.xxx.data.service.ApiService
+import com.xxx.xxx.ui.activities.BaseActivity
+import com.xxx.xxx.ui.activities.LoginActivity
+import com.xxx.xxx.ui.activities.SettingsActivity
+import retrofit2.Call
+import retrofit2.Response
+
+
+class PrefClass(context: Context) : BaseActivity() {
+
+    private val ID = "id"
+    private val TOKEN = "token"
+
+    private val sharedPrefToken: SharedPreferences = context.getSharedPreferences(
+        TOKEN,
+        Context.MODE_PRIVATE
+    )
+
+    private val sharedPrefId: SharedPreferences = context.getSharedPreferences(
+        ID,
+        Context.MODE_PRIVATE
+    )
+
+    fun setId(id: String?) {
+        val editor: SharedPreferences.Editor = sharedPrefId.edit()
+        editor.putString("id", id)
+        editor.apply()
+    }
+
+    fun getId(): String {
+        return sharedPrefId.getString("id", "").toString()
+    }
+
+    fun getToken(): String {
+        return sharedPrefToken.getString("token", "").toString()
+    }
+
+    fun setToken(token: String?) {
+        val editor: SharedPreferences.Editor = sharedPrefToken.edit()
+        editor.putString("token", token)
+        editor.apply()
+    }
+
+    fun setEmail(email: String?) {
+        val editor: SharedPreferences.Editor = sharedPrefToken.edit()
+        editor.putString("id", email)
+        editor.apply()
+    }
+
+    fun getEmail(): String {
+        return sharedPrefToken.getString("id", "").toString()
+    }
+
+    fun setPassword(password: String?) {
+        val editor: SharedPreferences.Editor = sharedPrefToken.edit()
+        editor.putString("password", password)
+        editor.apply()
+    }
+
+    fun getPassword(): String {
+        return sharedPrefToken.getString("password", "").toString()
+    }
+
+    fun setName(name: String?) {
+        val editor: SharedPreferences.Editor = sharedPrefToken.edit()
+        editor.putString("name", name)
+        editor.apply()
+    }
+
+    fun getName(): String {
+        return sharedPrefToken.getString("name", "").toString()
+    }
+
+
+    fun getUserDetails(activity: Activity) {
+
+//        val request = UserResponse()
+//        request.xcnId = prefClass.getId()
+//        request.token = prefClass.getToken()
+//        Log.d("TOKEN2", request.token!!)
+//        Log.d("ID2",request.xcnId!!)
+
+        // Log in using Retro
+        val retro = RetroCall().getRetroClientInstance().create(ApiService::class.java)
+        retro.getUserInformation().enqueue(object : retrofit2.Callback<UserResponse> {
+
+            override fun onResponse(
+                call: Call<UserResponse>,
+                response: Response<UserResponse>
+            ) {
+
+
+                if (!response.isSuccessful) {
+
+                    Log.e(LoginActivity.TAG, "onResponse: fail " + response.code())
+                    return
+                }
+
+                Log.e(LoginActivity.TAG, "onResponse: success " + response.code() + " " + response)
+
+                if (response.body() != null) {
+                    val login = response.body()
+                    var content = ""
+                    if (response.body()!!.getError() == "false") {
+
+
+
+//                        prefClass.setToken(login!!.getToken())
+//                        prefClass.setId(login.getId())
+
+                        // Redirect to the Main Screen after profile completion.
+//                        startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+//                        finish()
+
+                    } else {
+                        content += login!!.getError_Msg()
+                        showErrorSnackBar(login.getError_Msg().toString(), true)
+                    }
+                    when
+                            (activity) {
+                        is LoginActivity -> {
+                            // Call a function of base activity for transferring the result to it.
+                            activity.userLoggedInSuccess()
+                        }
+                        is SettingsActivity -> {
+                            activity.userDetailsSuccess()
+                        }
+                    }
+                    Log.e(LoginActivity.TAG, "onResponse: login res: $content")
+
+                } else {
+                    // Hide the progress dialog if there is any error. And print the error in log.
+                    when (activity) {
+                        is LoginActivity -> {
+                            activity.hideProgressDialog()
+                        }
+                        is SettingsActivity -> {
+                            activity.hideProgressDialog()
+                        }
+                    }
+                    Log.e(
+                        activity.javaClass.simpleName,
+                        "Error while getting user details."
+                    )
+                }
+
+            }
+
+            override fun onFailure(call: Call<UserResponse>, task: Throwable) {
+                Log.e("Error", task.toString())
+            }
+        })
+    }
+
+}
+

@@ -1,0 +1,8 @@
+public static String getValueFromClipboard() {
+      Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard(); // {1}
+    try {
+      return (String) c.getData(DataFlavor.stringFlavor);
+    } catch (Exception e){
+      throw new RuntimeException("An error was occurs while clipboard parsing. " + e.getMessage());
+    }
+}

@@ -1,0 +1,29 @@
+function promisify(functionToExec) {
+  return function() {
+    var array = Object.values(arguments);
+    return new Promise((resolve, reject) => {
+      array.push(resolve)
+      try {
+         functionToExec.apply(null, array);
+      } catch (error) {
+         reject(error)
+      }
+    })
+  }
+}
+
+// USE SCENARIO
+
+function apiFunction (path, callback) { // Not a promise
+  // Logic
+}
+
+var promisedFunction = promisify(apiFunction);
+
+promisedFunction('path').then(()=>{
+  // Receive the result here (callback)
+})
+
+// Or use it with await like this
+let result = await promisedFunction('path');
+

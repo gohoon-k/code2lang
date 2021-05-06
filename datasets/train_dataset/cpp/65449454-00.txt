@@ -1,0 +1,13 @@
+class A 
+{
+private:
+  int a;
+  int b;
+public:
+  const int& get(int i) 
+  {
+    if (i == 1) return a;
+    else if (i == 2) return b;
+    // else... what to do here? I get a warning if I don't put anything.
+  }
+};

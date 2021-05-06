@@ -1,0 +1,9 @@
+def solve(a,b):
+    box = []
+    for i in a:
+        for j in b:
+            if i != j and i not in box:
+                box.append(i)
+    return ''.join(box)
+
+print(solve("abce","abcd"))

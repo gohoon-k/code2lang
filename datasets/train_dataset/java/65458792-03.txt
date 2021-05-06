@@ -1,0 +1,26 @@
+class SportWatch {
+    // ...Other variables
+    private int heartRate;
+    private boolean displayHeartRate;
+
+    // ...Constructors and other methods
+
+    public void changeDisplay() {
+        displayHeartRate = true;
+    }
+
+    public void resetDisplay() {
+        displayHeartRate = false;
+    }
+
+    public String toString() {
+        String returnValue = "Time: " + hr + ":" + min + ":" + sec;
+
+        // If displayHeartRate is true append the caption and value of heartRate;
+        if (displayHeartRate) {
+            returnValue += System.lineSeparator() + "Heart rate: " + heartRate;
+        }
+
+        return returnValue;
+    }
+}

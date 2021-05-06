@@ -1,0 +1,8 @@
+class BindingList(val bindingList: ActivityProductListBinding) : RecyclerView.ViewHolder(bindingList.root)
+
+    private fun onCreateBindingList(parent: ViewGroup, viewType: Int.Companion): BindingList {
+        val inflater1 = LayoutInflater.from(parent.context)
+        val bindinglist = ActivityProductListBinding.inflate(inflater1, parent, true)
+        return BindingList(bindinglist)
+
+    }

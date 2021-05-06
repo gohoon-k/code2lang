@@ -1,0 +1,93 @@
+package huffman;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class huffman {
+
+public static Map<Character, Integer> frequency = new HashMap<Character, Integer>();
+public static PriorityQueue<node> nodesPQ = new PriorityQueue<node>();
+
+public static void main(String[] args) {
+    
+    /* get input */
+    Scanner scanner = new Scanner(System.in);
+    String input = scanner.nextLine();
+    frequency = inputFrequency(frequency,input);
+    System.out.println(frequency);
+    scanner.close();
+    nodesPQ = createNodes(nodesPQ, frequency);
+    node a = nodesPQ.poll();
+    node b = nodesPQ.poll();
+    node OGroot = new node(a,b,a.getFrequency() + b.getFrequency(),null);
+    node finalRoot = createBranch(nodesPQ,OGroot);
+    finalRoot.inorderPrint();
+}
+
+
+/* counts occurrences of letters in output returns Map<Char, # of occurrences> */
+public static Map<Character,Integer> inputFrequency(Map<Character,Integer> map,String input){
+    /* split input into char Array */
+    char[] charsArray = input.toCharArray();
+    
+    /* fill hashmap ['Char', # of occurrences] */
+    for(char i : charsArray) {
+        int count = 0;                                                          
+        for(char j : charsArray){
+            if(i == j) {
+             count++;            
+            }
+            map.put(i,count);                   
+        }
+    }
+    return map;
+}
+
+
+/* take Map of <Character, # of occurrences> and create nodes inside PQ*/
+public static PriorityQueue<node> createNodes(PriorityQueue<node> nodePQ,Map<Character,Integer> map){
+            
+        nodePQ = new PriorityQueue<>();  
+        // create nodes inside PQ
+        for (Map.Entry<Character,Integer> i : frequency.entrySet())  {
+            Character character = i.getKey();
+            Integer occurrences = i.getValue();
+            node n = new node(null,null,occurrences,character);
+            
+                nodePQ.add(n);
+            }        
+      
+        return nodePQ;
+        } 
+
+
+ 
+
+
+
+public static node createBranch(PriorityQueue<node> nodePQ, node root){
+    node newRoot = null;
+    for(node i : nodePQ) {
+        node nextFrequent = nodePQ.poll();
+        root = huffmanHelper(nodesPQ,root,nextFrequent);
+
+    }
+        return newRoot;
+        
+}
+    
+
+
+
+
+
+public static node huffmanHelper(PriorityQueue<node> nodePQ, node root, node nextFrequent){
+    node newRoot = new node(nextFrequent,root,root.getFrequency() + nextFrequent.getFrequency(),null);
+    
+    //get next letter and frequency 
+    return newRoot; 
+        }   
+}

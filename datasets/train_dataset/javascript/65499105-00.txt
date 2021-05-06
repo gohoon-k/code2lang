@@ -1,0 +1,15 @@
+function EventMailing() {
+  var email = document.querySelector("#newsletter-popup fieldset #email").value;
+  if (email == undefined) {
+    email = "";
+    if (email == undefined || email == "") return;
+  }
+  var rgxHome = new RegExp(".*?://(.*)someurl.com($|/|/?(.*))$");
+  if (rgxHome.test(location.href)) {
+    SendEmail(email);
+    document.querySelector("#newsletter-popup fieldset #email").value = "";
+    setTimeout(function () {
+      $("#newsletter-popup").css("display", "none");
+    }, 2000);
+
+}

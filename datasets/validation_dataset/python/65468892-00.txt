@@ -1,0 +1,13 @@
+    def _create_data_clusters(self):
+        self._clusters = [torch.zeros((self._cluster_size, self._data_dim)) for _ in range(self._n_clusters)]
+        centers_radius = self._centers_radius
+        for i, c in enumerate(self._clusters):
+            r, x, y = 3.0, centers_radius * np.cos(i * np.pi * 2 / self._n_clusters), centers_radius * np.sin(
+                i * np.pi * 2 / self._n_clusters)
+            cluster_length = 1.1
+            cluster_start = i * 2 * np.pi / self._n_clusters
+            cluster_end = cluster_length * (i + 1) * 2 * np.pi / self._n_clusters
+            cluster_inds = torch.linspace(start=cluster_start, end=cluster_end, steps=self._cluster_size,
+                                          dtype=torch.float)
+            c[:, 0] = r * torch.sin(cluster_inds) + y
+            c[:, 1] = r * torch.cos(cluster_inds) + x

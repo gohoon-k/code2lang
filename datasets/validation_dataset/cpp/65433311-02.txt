@@ -1,0 +1,38 @@
+#include <cmath>
+#include <iostream>
+#include <limits>
+
+bool verify(float e) {
+    return ((1.0f + e) > 1.0f);
+}
+
+int main() {
+    std::cout.precision(std::numeric_limits<float>::digits);
+    std::cout << std::boolalpha << std::fixed;
+
+    float epsilon = std::numeric_limits<float>::epsilon();
+
+    float last = epsilon;
+    while (true) {
+        last = std::nextafter(last, -std::numeric_limits<float>::infinity());
+        if ((1.0f + last) > 1.0f) {
+            epsilon = last;
+        } else {
+            break;
+        }
+    }
+
+    // Does not satisfy condition
+    std::cout << "last: " << verify(last) << " " << last << std::endl;
+    // Satisfy condition
+    std::cout << "epsilon: " << verify(epsilon) << " " << epsilon << std::endl;
+
+    float half_epsilon = std::numeric_limits<float>::epsilon() / 2.0f;
+    float actual_epsilon = std::nextafter(half_epsilon, std::numeric_limits<float>::infinity());
+    // Same as 'last' at this point
+    std::cout << "half_epsilon: " << verify(half_epsilon) << " " << half_epsilon << std::endl;
+    // Same as 'epsilon' at this point
+    std::cout << "actual_epsilon: " << verify(actual_epsilon) << " " << actual_epsilon << std::endl;
+
+    return 0;
+}

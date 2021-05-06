@@ -1,0 +1,12 @@
+const
+    swap = (array, i, delta) => {
+        while (i < array.length) {
+            [array[i], array[i + 1]] = [array[i + 1], array[i]];
+            i += delta;
+        }
+        return array;
+    }
+    array = ['a', 'c', 'b', 'd', 'f', 'e', 'g', 'i', 'h'];
+
+console.log(...array);
+console.log(...swap(array, 1, 3));

@@ -1,0 +1,16 @@
+def se_conc(response):
+    cnt = 0
+    list = []
+
+    def key_func(k):
+         return k['Code']
+   INFO = sorted(resp, key=y_func)
+   for k, v in groupby(INFO, y_func):
+            print("codes:", k)
+            print("v:", v)
+            list.append(k)
+            print("listcode", list)
+
+            for key in list:
+                if resp['NR'] == "0":
+                    print("NR is 0:", k)

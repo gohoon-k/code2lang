@@ -1,0 +1,19 @@
+fun update(type: Update) {
+    fun List<UserList>.filter(listType: ListType): UserList? = this.firstOrNull { userList -> userList.listType == listType }
+
+    val userList = if (model.list.isEmpty()) null else type.list.filter(getTabSelectedListType())
+    val listToShow = userList?.toShoppingWrapper(model.cart)?.also {
+        adapterShopping.update(it, type.updateCurrentList)
+    }
+    if (!listToShow.isNullOrEmpty()) {
+        with(binding) {
+          recyclerView.visible()
+          emptyLayoutMyProducts.emptyView.gone()
+          emptyLayoutFavorites.emptyView.gone()
+          emptyLayoutLists.emptyView.gone()
+        }
+    } else when (binding.tabLayout.getTabAt(binding.tabLayout.selectedTabPosition)?.tag) {
+        PRODUCTS -> showMyProductsEmptyLayout()
+        FAVORITES -> showFavoritesEmptyLayout()
+    }
+}

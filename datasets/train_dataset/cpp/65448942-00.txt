@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+template<class... Ts>
+class FunctionSequence :Ts...
+{
+    using Ts::operator()...;
+};
+template <class...Ts> FunctionSequence(Ts...) -> FunctionSequence<Ts...>; // (1)
+
+int main(){
+
+    //note: these lambda functions are bug ridden. Its just for simplicity here.
+    //For correct version, see the one on coliru, read on.
+    auto trimLeft = [](std::string& str) -> std::string& { str.erase(0, str.find_first_not_of(' ')); return str; };
+    auto trimRight = [](std::string& str) -> std::string& { str.erase(str.find_last_not_of(' ')+1); return str; };
+    auto capitalize = [](std::string& str) -> std::string& { for(auto& x : str) x = std::toupper(x); return str; };
+
+    auto trimAndCapitalize = FunctionSequence{trimLeft, trimRight, capitalize};
+    std::string str = " what a Hullabaloo     ";
+
+    std::cout << "Before TrimAndCapitalize: str = \"" << str << "\"\n";
+    trimAndCapitalize(str);
+    std::cout << "After TrimAndCapitalize:  str = \"" << str << "\"\n";
+
+    return 0;
+}

@@ -1,0 +1,17 @@
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="scripts/fma_t5.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div id="wrapper">
+    <div class="square" id="squareOne"></div>
+    <div class="square" id="squareTwo"></div>
+  </div>
+</body>

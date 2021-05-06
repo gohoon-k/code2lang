@@ -1,0 +1,23 @@
+class Adapter(private val m: Music):RecyclerView.Adapter<MyViewHolder>() {
+
+override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+   val layoutInflater = LayoutInflater.from(parent.context)
+    val row = layoutInflater.inflate(R.layout.item, parent, false)
+    return MyViewHolder(row)
+
+}
+
+override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
+    val data = m.music[position]
+    val artistTextView= holder.itemView.findViewById<TextView>(R.id.artist)
+        artistTextView.isSelected = true
+        holder.itemView.findViewById<TextView>(R.id.song_title).text = data.song
+        artistTextView.text = data.artists
+
+    holder.data = data
+}
+
+override fun getItemCount(): Int {
+    return m.music.count()
+}

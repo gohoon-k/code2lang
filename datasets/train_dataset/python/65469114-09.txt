@@ -1,0 +1,19 @@
+import json
+
+with open('input.json') as f:
+    data = json.load(f)
+
+def strkeys(data):
+    if isinstance(data,dict):
+        for k,v in data.items():
+            for item in strkeys(v):
+                yield f'{k}__{item}' if item else k
+    elif isinstance(data,list):
+        for i,v in enumerate(data):
+            for item in strkeys(v):
+                yield f'{i}__{item}' if item else str(i)
+    else:
+        yield None # termination condition, not a list or dict
+
+for s in strkeys(data):
+    print(s)

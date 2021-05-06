@@ -1,0 +1,21 @@
+async function getLocDetails(location) {
+  const google = window.google
+  const service = new google.maps.places.PlacesService(mapRef.current)
+  let processedOutput;
+
+  var request = {
+    placeId: location.place_id
+  }
+
+  function callback(place, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      // console.log(place)
+      processedOutput = 'something you want this to be';
+    }
+  }
+
+  await service.getDetails(request, callback);
+  return processedOutput;
+}
+
+getLocDetails(someLocation).then(output => { console.log(output); });

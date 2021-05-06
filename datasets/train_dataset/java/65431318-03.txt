@@ -1,0 +1,34 @@
+public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
+
+  List<Vehicle> findByTypeAndMakeAndModelAndYear(String type, String make, String model,
+      Integer year);
+
+  List<Vehicle> findByMakeAndModelAndYear(String make, String model, Integer year);
+
+  List<Vehicle> findByTypeAndModelAndYear(String type, String model, Integer year);
+
+  List<Vehicle> findByTypeAndMakeAndYear(String type, String make, Integer year);
+
+  List<Vehicle> findByModelAndYear(String model, Integer year);
+
+  List<Vehicle> findByMakeAndYear(String make, Integer year);
+
+  List<Vehicle> findByTypeAndYear(String type, Integer year);
+
+  List<Vehicle> findByTypeAndMakeAndModel(String type, String make, String model);
+
+  List<Vehicle> findByMakeAndModel(String make, String model);
+
+  List<Vehicle> findByTypeAndModel(String type, String model);
+
+  List<Vehicle> findByTypeAndMake(String type, String make);
+
+  List<Vehicle> findByType(String type);
+
+  List<Vehicle> findByMake(String make);
+
+  List<Vehicle> findByModel(String model);
+
+  List<Vehicle> findByYear(Integer year);
+
+}

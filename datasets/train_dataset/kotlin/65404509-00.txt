@@ -1,0 +1,13 @@
+fun listenForPackets(): Flow<DatagramPacket> {
+    return flow {
+        multicastSocket.use {
+            val incomingBuffer = ByteArray(MULTICAST_DATAGRAM_SIZE)
+            while (true) {
+                val incomingPacket = DatagramPacket(incomingBuffer, incomingBuffer.size)
+                it.receive(incomingPacket)
+                emit(incomingPacket)
+                incomingPacket.length = incomingBuffer.size
+            }
+        }
+    }
+}

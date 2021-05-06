@@ -1,0 +1,12 @@
+@Override
+@RequiresApi(api = Build.VERSION_CODES.O)
+public boolean onTouch(View v, MotionEvent event) {
+    Button b13 = (Button) findViewById(R.id.button16);
+    Rect outRect = new Rect(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());
+    if(v.getId() == R.id.button16 && (event.getAction() == MotionEvent.ACTION_DOWN || outRect.contains((int)event.getX(), (int)event.getY())){
+                    VibrationEffect vib1 = VibrationEffect.createOneShot(200, 100);
+                    vibrator.vibrate(vib1);
+                    return true;
+                }
+    return true;
+}

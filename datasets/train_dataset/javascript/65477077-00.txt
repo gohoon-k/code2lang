@@ -1,0 +1,21 @@
+var inset = "";
+var input1 = document.getElementById('input1').value = 0;
+var input2 = document.getElementById('input2').value = 0;
+var input3 = document.getElementById('input3').value = 0;
+var input4 = document.getElementById('input4').value = 0;
+var color = document.getElementById('color').value = 0;
+
+function clicked() {
+    inset = "inset";
+}
+reset();
+function reset() {
+    input1 = document.getElementById('input1').value;
+    input2 = document.getElementById('input2').value;
+    input3 = document.getElementById('input3').value;
+    input4 = document.getElementById('input4').value;
+    color = document.getElementById('color').value;
+
+    document.getElementById('div').style.boxShadow = inset + " " + input1 + "px" + " " + input2 + "px" + " " + input3 + "px" + " " + input4 + "px" + " " + color;
+    document.getElementById('span').innerHTML = "box-shadow" + '"' + inset + " " + input1 + "px" + " " + input2 + "px" + " " + input3 + "px" + " " + input4 + "px" + " " + color + '"';
+}

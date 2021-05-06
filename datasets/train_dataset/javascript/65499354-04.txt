@@ -1,0 +1,45 @@
+function getCopyInDominoesLikeOrder(list) {
+  // in order to not directly mutate the input value.
+  list = Array.from(list);
+
+  // get the array where its last item does not match
+  // any other array's first item, which makes it the
+  // last array of the return value.
+  let itemListIndex = list.findIndex(aList =>
+    list.every(bList => aList[aList.length - 1] !== bList[0])
+  );
+  let itemList = list.splice(itemListIndex, 1)[0];
+
+  const result = [itemList]; // return value.
+  let firstItem = itemList[0];
+
+  // mutate/reduce the input value's copy while looking
+  // for the array where its last item matches the first
+  // item of the previously found/extracted (linked) array.
+  while (list.length !== 0) {
+
+    itemListIndex = list.findIndex(aList =>
+      aList[aList.length - 1] === firstItem 
+    );
+    itemList = list.splice(itemListIndex, 1)[0]; // mutate/reduce.
+    result.unshift(itemList); // aggregate return value.
+
+    firstItem = itemList[0];
+  }
+  return result;
+}
+
+const arr = [
+  ['butter', 'jelly'],
+  ['bananas', 'apples'],
+  ['peanuts', 'butter'],
+  ['jelly', 'bananas'],
+];
+console.log(
+  'original :: arr :',
+  arr
+);
+console.log(
+  'sorted :: getCopyInDominoesLikeOrder(arr) :',
+  getCopyInDominoesLikeOrder(arr)
+);

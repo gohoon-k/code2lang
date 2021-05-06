@@ -1,0 +1,115 @@
+def shop(shopLvl, playerGp, playerInventory):
+print("What would you like to buy?\n")
+if shopLvl == 1:
+    shopWeapon = "1. Longsword"
+    weaponCost = 20
+    shopArmor = "2. Leather Armor"
+    armorCost = 30
+    shopPotion = "3. Potion"
+    potionCost = 5
+    shopElixer =  "4. Elixer"
+    elixerCost = 5
+if shopLvl == 2:
+    shopWeapon = "1. Greatsword"
+    weaponCost = 30
+    shopArmor = "2. Chainmail Armor"
+    armorCost = 45
+    shopPotion = "3. Potion"
+    potionCost = 5
+    shopElixer =  "4. Elixer"
+    elixerCost = 5
+if shopLvl == 3:
+    shopWeapon = "1. Crested Blade"
+    weaponCost = 45
+    shopArmor = "2. Plate Armor"
+    armorCost = 60
+    shopPotion = "3. Super Potion"
+    potionCost = 10
+    shopElixer =  "4. Super Elixer"
+    elixerCost = 10
+if shopLvl == 4:
+    shopWeapon = "1. Diamond Sword"
+    weaponCost = 75
+    shopArmor = "2. Diamond Armor"
+    armorCost = 125
+    shopPotion = "3. Super Potion"
+    potionCost = 10
+    shopElixer =  "4. Super Elixer"
+    elixerCost = 10
+if shopLvl == 5:
+    shopWeapon = "1. Enchanted Sword"
+    weaponCost = 150
+    shopArmor = "2. Angelic Armor"
+    armorCost = 225
+    shopPotion = "3. Mega Potion"
+    potionCost = 20
+    shopElixer =  "4. Mega Elixer"
+    elixerCost = 20
+
+shopItems = {
+    shopWeapon : weaponCost,
+    shopArmor : armorCost,
+    shopPotion : potionCost,
+    shopElixer : elixerCost
+}
+    
+print(shopItems,"\nYour gp:", playerGp)
+shopChoice = input("1/2/3/4")
+
+if shopChoice == '1':
+    if weaponCost < playerGp:
+        print("You bought a", shopWeapon, "for", weaponCost, "gp!\n")
+        time.sleep(0.8)
+        playerGp = playerGp - weaponCost
+        print("You now have", playerGp, "gp left\n")
+        time.sleep(0.8)
+        playerWeapon = shopWeapon
+        
+    elif weaponCost > playerGp:
+        print("Not enough gold\n")
+    else:  print("Error\n")
+if shopChoice == '2':
+    if armorCost < playerGp:
+        print("You bought a", shopArmor, "for", armorCost, "gp!\n")
+        time.sleep(0.8)
+        playerGp = playerGp - armorCost
+        print("You now have", playerGp, "gp left\n")
+        time.sleep(0.8)
+        playerArmor = shopArmor
+    elif armorCost > playerGp:
+        print("Not enough gold\n")
+    else: print('Error\n')
+    
+if shopChoice == '3' :
+    if potionCost < playerGp:
+        print("You bought a", shopPotion, "for", potionCost, "gp!\n")
+        time.sleep(0.8)
+        playerGp = playerGp - potionCost
+        print("You now have", playerGp, "gp left\n")
+        time.sleep(0.8)
+        if shopPotion == "3. Potion":
+            playerInventory["1.Potion"] = playerInventory["1.Potion"] + 1
+        if shopPotion == "3. Super Potion":
+            playerInventory["3.Super Potion"] = playerInventory["3.Super potion"] + 1
+        if shopPotion == "3. Mega Potion":
+            playerInventory["3.Mega Potion"] = playerInventory["3.Mega Potion"] + 1
+    elif potionCost < playerGp:
+        print("Not enough gold\n")
+    else: print("Error\n")
+if shopChoice == '4' :
+    if elixerCost < playerGp:
+        print("You bought a", shopElixer, "for", elixerCost, "gp!\n")
+        time.sleep(0.8)
+        playerGp = playerGp - elixerCost
+        print("You now have", playerGp, "gp left\n")
+        time.sleep(0.8)
+        if shopElixer == "4. Elixer":
+            playerInventory["2.Elixer"] = playerInventory["2.Elixer"] + 1
+        if shopElixer == "3. Super Elixer":
+            playerInventory["4.Super Elixer"] = playerInventory["4.Super Elixer"] + 1
+        if shopElixer == "3. Mega Elixer":
+            playerInventory["6.Mega Elixer"] = playerInventory["6.Mega Elixer"] + 1
+    elif elixerCost < playerGp:
+        print("Not enough gold!\n")
+    else : print("Error\n")
+else: print("Error\n")

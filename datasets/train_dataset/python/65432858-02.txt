@@ -1,0 +1,59 @@
+Python:
+
+from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.properties import ObjectProperty
+from kivy.uix.label import Label
+from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.popup import Popup
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
+
+class MainWindow(Screen):
+    pass
+
+class SecondWindow(Screen):
+    pass
+
+class WindowManager(ScreenManager):
+    pass
+
+kv = Builder.load_file("simplemultiscreen.kv")
+        
+class MyMainApp(App):
+    def build(self):
+        return kv
+         
+if __name__ == '__main__':
+    MyMainApp().run()
+
+
+Kivy:
+
+WindowManager:    
+    MainWindow:
+    SecondWindow:
+       
+<MainWindow>:
+    name: "main"
+        
+    Button:
+        text: "Go Second"
+        size_hint: 0.1, 0.1
+        pos_hint: {"x":0.9, "y":0.9}        
+        on_release: 
+            app.root.current = "second"
+            root.manager.transition.direction = "left"
+                        
+<SecondWindow>:
+    name: "second"
+            
+    Button:
+        text: "Go Main"
+        size_hint: 0.1, 0.1
+        pos_hint: {"x":0.0, "y":0.9}  
+        on_release: 
+            app.root.current = "main"
+            root.manager.transition.direction = "right"

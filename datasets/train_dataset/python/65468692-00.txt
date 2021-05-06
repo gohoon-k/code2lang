@@ -1,0 +1,6 @@
+list = []
+n = int(input("How many word : "))
+
+for i in range(0,n):
+    word = str(input()) 
+    list.append(word)

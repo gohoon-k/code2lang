@@ -1,0 +1,17 @@
+#include <filesystem>
+#include <iostream>
+#include <string>
+
+using namespace std;
+namespace fs = std::filesystem;
+
+int main(){
+
+  cout<<"Directory: ";
+  std::string target = "";
+  cin>>target;
+ 
+  //while (){  //directory not empty
+      //Do some stuff
+  }
+}

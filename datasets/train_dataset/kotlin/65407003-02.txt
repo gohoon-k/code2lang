@@ -1,0 +1,32 @@
+    data class Collection<T> constructor(
+    var models: List<T>,
+    var cursor: String?
+) : Parcelable {
+
+    constructor(parcel: Parcel) : this(
+        mutableListOf<T>().also { list: List<T> ->
+            parcel.readList(list, Collection<T>::models.javaClass.classLoader)
+        },
+        parcel.readString())
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeList(models)
+        parcel.writeString(cursor)
+    }
+
+    override fun describeContents(): Int = 0
+
+    companion object {
+
+        @JvmField
+        val CREATOR = object : Parcelable.Creator<Collection<Parcelable>> {
+            override fun createFromParcel(source: Parcel): Collection<Parcelable> {
+                return Collection(source)
+            }
+
+            override fun newArray(size: Int): Array<Collection<Parcelable>?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
+}

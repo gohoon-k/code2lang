@@ -1,0 +1,16 @@
+<head>
+<!-- ... -->
+<link rel="preload" as="script" href="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+<link rel="preload" as="script" href="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+<link rel="preload" as="script" href="//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js">
+</head>
+<body>
+<!-- ... -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>if (!/*loaded condition*/) document.write(/*fallback*/);</script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>if (!/*loaded condition*/) document.write(/*fallback*/);</script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>if (!/*loaded condition*/) document.write(/*fallback*/);</script>
+</body>
+</html>

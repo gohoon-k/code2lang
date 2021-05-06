@@ -1,0 +1,26 @@
+finalButton.setOnClickListener {
+   val intent = Intent(this,MainActivity2::class.java)
+
+
+
+
+     Log.d("SS","this function creates a drawable")
+     //testing this screenshot function , code below creates a bitmap
+    fun takeDrawableOfView(view: View, height: Int, width: Int): Bitmap {
+        val myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        return myBitmap
+    }
+
+     //here we activate function
+    val finalImage = takeDrawableOfView(findViewById<ConstraintLayout>(R.id.myConstraintView) , 1920 ,880)
+     Log.d("SS","here we activated our function on the view")
+     intent.putExtra("finalImage",finalImage)
+
+Log.d("SS","put our new bitmap in intent extras")
+
+
+
+
+
+     //take us to next page
+   startActivity(intent)

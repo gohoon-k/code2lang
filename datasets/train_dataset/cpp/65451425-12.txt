@@ -1,0 +1,12 @@
+class A {
+ public:
+  A(); // only declaration in the .h unless only a short initialization list is used.
+
+  inline int GetA() const {
+    return a_;
+  }
+
+  void DoSomethingCoplex(); // only declaration
+  private:
+   int a_;
+ };

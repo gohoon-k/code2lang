@@ -1,0 +1,41 @@
+@ExperimentalCoroutinesApi
+@RunWith(MockitoJUnitRunner::class)
+class RepositoryTest {
+
+    // Class under test
+    private lateinit var repository: Repository
+
+    // Executes each task synchronously using Architecture Components.
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
+    // Set the main coroutines dispatcher for unit testing.
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
+    @Mock
+    private lateinit var retrofitService: ApiService
+
+    @Before
+    fun createRepository() {
+        MockitoAnnotations.initMocks(this)
+        repository = Repository.getInstance(retrofitService)
+    }
+
+    @Test
+    fun test() = runBlocking {
+
+        // GIVEN
+        Mockito.`when`(retrofitService.getProducts()).thenReturn(fakeProductsResponse)
+
+        // WHEN
+        val productResponse: ProductsResponse = repository.getProducts()
+
+        println("HERE = ${retrofitService.getProducts()}")
+
+        // THEN
+        println("HERE: $productResponse")
+        MatcherAssert.assertThat(productResponse, `is`(fakeProductsResponse))
+    }
+}

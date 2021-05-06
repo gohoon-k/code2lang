@@ -1,0 +1,10 @@
+from collections import defaultdict
+
+d = defaultdict(int)
+n = int(input("How many word : "))
+
+for i in range(0,n):
+    word = str(input()) 
+    d[word] += 1
+
+lst = [k for k in d if d[k] == 1]

@@ -1,0 +1,65 @@
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.tasks.Task
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ListResult
+import com.google.firebase.storage.StorageReference
+import com.soa.spirry.R
+import kotlinx.android.synthetic.main.fragment_home.*
+
+
+class HomeFragment : Fragment() {
+
+
+
+private lateinit var homeViewModel: HomeViewModel
+
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    val storage = FirebaseStorage.getInstance()
+    val storageRef = storage.reference.child("images")
+    val imageList: ArrayList<Item> = ArrayList()
+    progressBar.visibility = View.VISIBLE
+
+    val listAllTask: Task<ListResult> = storageRef.listAll()
+    listAllTask.addOnCompleteListener { result ->
+        val items: List<StorageReference> = result.result!!.items
+        //add cycle for add image url to list
+        items.forEachIndexed { index, item ->
+            item.downloadUrl.addOnSuccessListener {
+                Log.d("item", "$it")
+                imageList.add(Item(it.toString()))
+            }.addOnCompleteListener {
+                recyclerView.adapter = activity?.let { it1 -> ImageAdapter(imageList, it1) }
+                recyclerView.layoutManager = LinearLayoutManager(getActivity())
+                progressBar.visibility = View.GONE
+            }
+        }
+    }
+}
+
+override fun onCreateView(
+
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?,
+): View? {
+
+    homeViewModel =
+        ViewModelProvider(this).get(HomeViewModel::class.java)
+    val root = inflater.inflate(R.layout.fragment_home, container, false)
+    val textView: TextView = root.findViewById(R.id.text_home)
+    homeViewModel.text.observe(viewLifecycleOwner, Observer {
+        textView.text = it
+    })
+    return root
+}

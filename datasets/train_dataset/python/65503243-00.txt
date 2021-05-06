@@ -1,0 +1,23 @@
+flag = 1
+        previousMessage = "abc"    
+        def x():
+             do_something
+             currentMessage = m #got a string from code
+             if(currentMessage==previousMessage):  
+         #shows error in flag and previousMessgae
+         #says create parameter of previousMessage and flag
+                    flag=0
+                    return
+             else:
+               do_something
+               previousNews=currentNews
+               flag=1
+               return    
+        def call():
+           while True:
+             if(flag==1)
+                x()
+                time.sleep(60)
+              elsif(flag==0)
+                time.sleep(60)  **strong text**
+        call()

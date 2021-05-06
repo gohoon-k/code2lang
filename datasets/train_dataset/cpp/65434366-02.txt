@@ -1,0 +1,9 @@
+void del(){//Deletion from beginning
+    if(START==NULL) 
+        cout<<endl<<"There is nothing to delete!!"<<endl;
+    else{
+        node *temp=START;
+        START=START->link;
+        delete temp;
+    }
+}

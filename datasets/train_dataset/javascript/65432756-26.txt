@@ -1,0 +1,7 @@
+function promiseDOMready() {
+    return new Promise(function(resolve) {
+        if (document.readyState === "complete") return resolve();
+        document.addEventListener("DOMContentLoaded", resolve);
+    });
+}
+promiseDOMready().then(initOnLoad);

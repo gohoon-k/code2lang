@@ -1,0 +1,7 @@
+document.querySelector('select').addEventListener('change', selectChanged);
+
+function selectChanged(evt) {
+  var divShow = evt.target.nextElementSibling;
+  
+  divShow.style.display = evt.target.value;
+}

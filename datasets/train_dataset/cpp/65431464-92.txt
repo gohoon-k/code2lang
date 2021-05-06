@@ -1,0 +1,13 @@
+// file1.cpp
+const int test = 5;    // in C++ same as "static const int test = 5"
+int test2 = 5;
+
+// file2.cpp
+extern const int test;
+extern int test2;
+
+void foo()
+{
+ int x = test;   // linker error in C++ , no error in C
+ int y = test2;  // no problem
+}

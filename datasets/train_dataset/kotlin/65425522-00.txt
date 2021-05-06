@@ -1,0 +1,13 @@
+ private fun updateTimerMetadata() {
+    thread {
+        Thread.sleep(1000)
+        if (mp?.isPlaying == true) {
+            mediaSession.setMetadata(
+                MediaMetadataCompat.Builder()
+                    .putLong("timerUpdate", mp?.currentPosition!!.toLong())
+                    .build()
+            )
+            updateTimerMetadata()
+        }
+    }
+}

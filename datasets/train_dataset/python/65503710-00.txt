@@ -1,0 +1,37 @@
+class ContextManagedUserLib:
+    '''
+    Base class embedding pythons context manager classes into robot framework listener library.
+    '''
+
+    def __init__(self, context_manager: ContextManager) -> None:
+        self._context_manager = context_manager
+
+    def start_suite(data, result):
+        '''
+        Robot Library Listener interface v3.
+        '''
+        assert self._context_manager
+        self._context_manager.__enter__()
+
+    def end_suite(data, result):
+        '''
+        Robot Library Listener interface v3.
+        '''
+        self._context_manager.__exit__()
+
+
+@library(scope='Test Suite', doc_format='reST')
+class MyResourceLib(ContextManagedUserLib):
+    '''
+    User Test Library making use of context manager: `MyDBContextManger`
+    '''
+    ROBOT_LISTENER_API_VERSION = 3
+
+    class __init__(self, db_resource: Optional[MyDBContextManger] = None):
+        self.ROBOT_LIBRARY_LISTENER = self
+        if not db_resource:
+            self.db_resource = MyDBContextManger()
+        else:
+            self.db_resource = db_resource
+
+        super.__init__(db_resource)

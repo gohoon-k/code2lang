@@ -1,0 +1,49 @@
+class ExploreFragment : DaggerFragment() {
+
+    private var _binding: FragmentExploreBinding? = null
+    private val binding get() = _binding!!
+
+    @Inject
+    lateinit var viewModelProviderFactory: ViewModelProviderFactoryImpl
+    private lateinit var exploreViewModel: ExploreViewModel
+
+    
+    lateinit var commentsAdapter: LiveCommentAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initLists()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+       
+        exploreViewModel =
+            ViewModelProvider(this, viewModelProviderFactory)[ExploreViewModel::class.java]
+
+        observeComments()
+        commentsViewModel.getPromoComments(promoId)
+        }
+    }
+
+    private fun initLists() {
+    
+        commentsAdapter = LiveCommentAdapter()
+        binding.rvComments.adapter = commentsAdapter
+        binding.rvSearchResults.adapter = searchResultAdapter
+    }
+   
+
+    private fun observeComments() {
+        exploreViewModel.commentsLiveData.observe(viewLifecycleOwner) { comments ->
+            commentsAdapter.submitData(viewLifecycleOwner.lifecycle, comments)
+        }
+    }
+
+   
+ 
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

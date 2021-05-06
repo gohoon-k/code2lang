@@ -1,0 +1,60 @@
+#include <Windows.h>
+#include <atlpath.h>
+#include <list>
+#include <iostream>
+#include <fstream>
+
+#ifdef _UNICODE
+#define cout wcout
+#endif
+
+void FindFiles(
+    const CString& strRootPath,
+    const CString& strExt,
+    std::list<CString>& listFiles,
+    bool bRecursive = true)
+{
+    CString strFileToFind = strRootPath;
+    ATLPath::Append(CStrBuf(strFileToFind, MAX_PATH), _T("*.*"));
+
+    WIN32_FIND_DATA findData = { 0 };
+    HANDLE hFileFind = ::FindFirstFile(strFileToFind, &findData);
+    if (INVALID_HANDLE_VALUE != hFileFind)
+    {
+        do
+        {
+            CString strFileName = findData.cFileName;
+            if ((strFileName == _T(".")) || (strFileName == _T("..")))
+                continue;
+
+            CString strFilePath = strRootPath;
+            ATLPath::Append(CStrBuf(strFilePath, MAX_PATH), strFileName);
+            if (bRecursive && (ATLPath::IsDirectory(strFilePath)))
+            {
+                FindFiles(strFilePath, strExt, listFiles);
+            }
+            else
+            {
+                CString strFoundExt = ATLPath::FindExtension(strFilePath);
+                if (!strExt.CompareNoCase(strFoundExt))
+                    listFiles.push_back(strFilePath);
+            }
+
+        } while (::FindNextFile(hFileFind, &findData));
+
+        ::FindClose(hFileFind);
+    }
+}
+
+int main()
+{
+    std::ofstream file;
+    file.open("test.txt", std::ios::out | std::ios::app | std::ios::binary);
+
+    std::list<CString> listFiles;
+    FindFiles(_T("D:\\"), _T(".txt"), listFiles);
+    for (const auto& strFile : listFiles)
+        file << (LPCTSTR)strFile.GetString() << std::endl;
+    return 0;
+}
+

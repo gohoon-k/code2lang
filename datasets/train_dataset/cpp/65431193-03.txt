@@ -1,0 +1,2 @@
+template <>
+int compare(char const* x, char const& *);

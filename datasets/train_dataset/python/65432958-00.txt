@@ -1,0 +1,15 @@
+message = await guild.owner.send(embed=embed)
+
+await message.add_reaction('✔')
+await message.add_reaction('❌')
+
+def check(reaction, user):
+    print(f"reacted")
+    return guild.owner == message.author and str(reaction.emoji) in ["✔", "❌"] and isinstance(message.channel, discord.DMChannel)
+
+reaction, user = await bot.wait_for('reaction_add', timeout=1000.0, check=check)
+
+if reaction.emoji == "✔":
+    print("tick")
+elif reaction.emoji == "❌":
+    print("cross")

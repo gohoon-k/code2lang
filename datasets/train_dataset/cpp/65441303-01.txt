@@ -1,0 +1,34 @@
+#include "Database.h"
+
+using namespace std; 
+
+Database::Database(){ 
+}
+
+void Datbase::AddCustomer(){
+cout<< "It works"<<endl //it's an example 
+}
+
+void Datbase:: searchname(){
+}
+
+void Datbase:: searchmail(){
+}
+
+void Datbase:: searchcell(){
+}
+
+void Datbase:: quit(){
+}
+
+void Datbase:: displayall(){
+}
+
+void Datbase:: search(){
+}
+
+void Datbase:: deleteFile(){
+}
+
+void Datbase:: editFile(){
+}

@@ -1,0 +1,17 @@
+db.collection("books").where("ItemType", "==", "Book").where("Program", "==", "AR")
+.get()
+.then(querySnapshot=>{
+        querySnapshot.forEach(doc=>{
+            let data = doc.data();
+            let row  = `<tr>
+                            <td>${data.Title}</td>
+                            <td>${data.Author}</td>
+                            <td>${data.Points}</td>
+                      </tr>`;
+            let table = document.getElementById('myTable')
+            table.innerHTML += row
+        })
+    })
+    .catch(err=>{
+        console.log(`Error: ${err}`)
+    });

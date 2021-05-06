@@ -1,0 +1,7 @@
+@KafkaListener("transformer-group")
+class EventsConsumerImpl(private val xlsTransformer: XlsTransformer,
+                         private val filesClient: FilesClient,
+                         private val workspacesClient: WorkspacesClient) : EventsConsumer {
+    ...
+    }
+

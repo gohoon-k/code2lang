@@ -1,0 +1,52 @@
+
+NR_not_zero = 0
+NE_not_zero = 0
+
+if resposne['Code'] == "4_RESOURCE" and resposne['NR'] == '0':
+    if resposne['NR'] == '0':
+        NR_not_zero = NR_not_zero + int(resposne["Cnt"])
+elif resposne['Code'] == "10_humans" and resposne['NR'] == '0':
+    NE_not_zero = NE_not_zero + int(resposne["Cnt"])
+
+print('NR = ',NR_not_zero)
+print('NE = ',NE_not_zero)
+print('___________________')
+
+resposne = {"NR": "0","Code": "10_humans","Cnt": "12"}
+
+if resposne['Code'] == "4_RESOURCE" and resposne['NR'] == '0':
+    if resposne['NR'] == '0':
+        NR_not_zero = NR_not_zero + int(resposne["Cnt"])
+elif resposne['Code'] == "10_humans" and resposne['NR'] == '0':
+    NE_not_zero = NE_not_zero + int(resposne["Cnt"])
+
+print('NR = ',NR_not_zero)
+print('NE = ',NE_not_zero)
+print('___________________')
+
+
+resposne = {"NR": "0","Code": "4_RESOURCE","Cnt": "15"}
+
+if resposne['Code'] == "4_RESOURCE" and resposne['NR'] == '0':
+    if resposne['NR'] == '0':
+        NR_not_zero = NR_not_zero + int(resposne["Cnt"])
+elif resposne['Code'] == "10_humans" and resposne['NR'] == '0':
+    NE_not_zero = NE_not_zero + int(resposne["Cnt"])
+
+print('NR = ',NR_not_zero)
+print('NE = ',NE_not_zero)
+print('___________________') 
+
+resposne = {"NR": "0","Code": "10_humans","Cnt": "20"}
+
+if resposne['Code'] == "4_RESOURCE" and resposne['NR'] == '0':
+    if resposne['NR'] == '0':
+        NR_not_zero = NR_not_zero + int(resposne["Cnt"])
+elif resposne['Code'] == "10_humans" and resposne['NR'] == '0':
+    NE_not_zero = NE_not_zero + int(resposne["Cnt"])
+
+print('NR = ',NR_not_zero)
+print('NE = ',NE_not_zero)
+print('___________________') 
+
+

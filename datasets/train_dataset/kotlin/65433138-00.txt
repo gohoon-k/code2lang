@@ -1,0 +1,16 @@
+import io.socket.emitter.Emitter
+import io.socket.engineio.client.Socket
+
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    //...
+    val mSocket =  Socket("http://192.168.1.15:3000")
+    mSocket.on(Socket.EVENT_ERROR, { print("error")})
+    mSocket.on(Socket.EVENT_OPEN, Emitter.Listener() {
+        mSocket.emit("mayaCommand", "cmds.polyCube()");
+        mSocket.close()
+        print("ok")
+     )}
+    mSocket.open()
+    
+    

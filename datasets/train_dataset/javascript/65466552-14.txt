@@ -1,0 +1,15 @@
+function checkPassword() {
+    return $.ajax({
+        url: '/password',
+        data: {
+            username: $('#username').val(),
+            password: $('#password').val()
+        },
+        type: 'POST',
+        dataType: 'json'
+    });
+}
+
+if (checkPassword()) {
+    // Tell the user they're logged in
+}

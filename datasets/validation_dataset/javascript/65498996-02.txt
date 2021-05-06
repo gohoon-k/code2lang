@@ -1,0 +1,14 @@
+const elm = document.getElementById("herotrainers");
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+async function trainerChanger() {
+  for (let i = 2; i <= 5; i++) {
+    await delay(3000);
+    elm.className = 'trainer0' + i;
+  }
+  await delay(3000);
+  elm.className = 'trainer01';
+  trainerChanger();
+}
+
+trainerChanger();

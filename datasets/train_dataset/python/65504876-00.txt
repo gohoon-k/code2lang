@@ -1,0 +1,38 @@
+def get_postgres_data_df(self, table_name):
+    global read_conn
+    result_df = pd.DataFrame()
+    if self.debug:
+        print('Inside PostgreSQLOperations Class get_postgres_data_df method')
+
+    connection_string = 'postgresql://' + \
+                        self.user + ':' + \
+                        self.password + '@' + \
+                        self.host + ':' + \
+                        self.port + '/' + \
+                        self.database
+    try:
+        if self.debug:
+            print('Trying to read from table {0}'.format(table_name))
+        engine = sqlalchemy.create_engine(connection_string)
+
+        read_conn = engine.connect()
+        print('Connected to database @ ' + self.database)
+
+        if self.debug:
+            print(engine.table_names())
+
+    except Exception as e:
+        print('Failed to establish the connection', e)
+        read_conn.close()
+    query = ('SELECT * FROM ' + table_name)
+
+    try:
+        result_df = pd.read_sql(sql=query, con=read_conn)
+        if self.debug:
+            print('Read success for table # ', table_name)
+            print(result_df)
+        read_conn.close()
+    except Exception as e:
+        print('Read failed # ', e)
+        read_conn.close()
+    return result_df

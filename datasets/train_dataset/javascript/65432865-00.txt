@@ -1,0 +1,15 @@
+function isIOS() {
+  var pl=navigator.platform.toString().toLowerCase();
+  if (pl.includes("IPad") || pl.includes("IPhone") || pl.includes("IPod")){
+    return true;
+  } else {
+    return navigator.maxTouchPoints &&
+      navigator.maxTouchPoints > 2 &&
+      /MacIntel/.test(navigator.platform);
+  }
+}
+
+function isIpadOS() {
+  return navigator.maxTouchPoints &&
+    navigator.maxTouchPoints > 2 &&
+    /MacIntel/.test(navigator.platform);

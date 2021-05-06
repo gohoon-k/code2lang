@@ -1,0 +1,123 @@
+import android.app.Activity
+import android.content.Context
+import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.EditText
+import android.widget.ListView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+
+class MainActivity : AppCompatActivity() {
+    lateinit var textView2: TextView
+    lateinit var listView: ListView
+
+    //var adapter: MyAdapter? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        title = "KotlinApp"
+        listView = findViewById(R.id.listView)
+        textView2 = findViewById(R.id.textView2)
+
+
+
+        listView.adapter=CustomAdapter(DataClass(),this)
+
+
+
+        var textView2: TextView
+        textView2 = findViewById(R.id.textView2)
+        var editText : EditText
+
+
+        listView.setOnItemClickListener({ parent, view, position, id -> hideKeyboard(this) })
+
+
+
+
+
+
+    }
+
+
+
+    fun hideKeyboard(context: Context) {
+        try {
+            val inputManager: InputMethodManager =
+                context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val view = (context as Activity).currentFocus
+            if (view != null) {
+                inputManager.hideSoftInputFromWindow(
+                    view.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+
+
+    fun Update()
+    {
+    }
+
+
+    fun fonction ()
+    {
+        var textView2: TextView
+
+    }
+
+
+    fun fonction2 ()
+    {
+        var textView2: TextView
+       // textView2 = findViewById(R.id.textView)
+        //textView2.text="?????"
+    }
+
+    private fun generateData(): List<String> {
+        val data: MutableList<String> = ArrayList()
+        for (i in 0..99) {
+            data.add(i.toString() + "th Element")
+        }
+        return data
+    }
+}
+
+class DataClass(){
+    var list1: MutableList<String> = generateData2() as MutableList<String>
+    var list2: MutableList<String> = generateData3() as MutableList<String>
+    var list3: MutableList<String> = generateData4() as MutableList<String>
+
+    private fun generateData2(): List<String> {
+        val data: MutableList<String> = mutableListOf()
+        for (i in 0..99) {
+            data.add(i.toString())
+        }
+        return data
+    }
+
+    private fun generateData3(): List<String> {
+        val data: MutableList<String> =mutableListOf()
+        for (i in 0..99) {
+            data.add("")
+        }
+        return data
+    }
+
+    private fun generateData4(): List<String> {
+        val data: MutableList<String> = mutableListOf()
+        for (i in 0..99) {
+            data.add("")
+        }
+
+        return data
+    }
+
+}

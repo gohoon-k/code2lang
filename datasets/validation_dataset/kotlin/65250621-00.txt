@@ -1,0 +1,21 @@
+fun main() {
+    GLFW.glfwInit()
+
+    val window = GLFW.glfwCreateWindow(1920, 1080, "window", 0, 0)
+
+    GLFW.glfwMakeContextCurrent(window)
+
+    GLFW.glfwSwapInterval(1)
+
+    GL.createCapabilities()
+
+    while(!GLFW.glfwWindowShouldClose(window)) {
+        GL46C.glClear(GL46C.GL_COLOR_BUFFER_BIT)
+
+        GLFW.glfwPollEvents()
+
+        GLFW.glfwSwapBuffers(window)
+    }
+
+    GLFW.glfwTerminate()
+}

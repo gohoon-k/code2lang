@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+       svg {
+        font-family: arial
+      }
+      .tick line {
+        stroke: white;
+        stroke-opacity: 0.7;
+        shape-rendering: crispEdges;
+      }
+    </style>
+  </head>
+
+  <body>
+    <svg></svg>
+    <script>
+      let data = [],
+        tests = ['PRETEST', 'TRENING1', 'TRENING2', 'TRENING3', 'POSTTEST'],
+        courses = ['COURSE 1', 'COURSE 2', 'COURSE 3', 'STRAIGHT-GLIDING'];
+
+      tests.forEach((i) => {
+        courses.forEach((j) => {
+          d3.range(5).map((k) => {
+            data.push({
+              test: i,
+              course: j,
+              run: k,
+              ratio: -1 + Math.random() * 5,
+            });
+          });
+        });
+      });
+
+      const width = 1100;
+      const height = 350;
+
+      const margin = {
+        top: 20,
+        right: 10,
+        bottom: 20,
+        left: 30,
+      };
+
+      // place wrapper g with margins
+      const svg = d3
+        .select('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+      // calculate the outer scale band for each line graph
+      const outerXScale = d3
+        .scaleBand()
+        .domain(tests)
+        .range([0, width - margin.left - margin.right]);
+
+      // inner dimensions of chart based on bandwidth of outer scale
+      const innerWidth = outerXScale.bandwidth() - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+
+      // g for each inner chart
+      const testG = svg
+        .selectAll('.outer')
+        .data(d3.group(data, (d) => d.test))
+        .enter()
+        .append('g')
+        .attr('class', 'outer')
+        .attr('transform', function (d, i) {
+          return 'translate(' + outerXScale(d[0]) + ',' + 0 + ')';
+        });
+
+      // some styling
+      testG
+        .append('rect')
+        .attr('width', innerWidth)
+        .attr('height', innerHeight)
+        .attr('fill', '#f2f2f2');
+
+      testG
+        .append('rect')
+        .attr('width', innerWidth)
+        .attr('height', 17)
+        .attr('transform', 'translate(' + 0 + ',' + -17 + ')')
+        .attr('fill', '#e6e6e6');
+
+      // header
+      testG
+        .append('text')
+        .text(function (d) {
+          return d[0];
+        })
+        .attr('text-anchor', 'middle')
+        .attr('transform', 'translate(' + innerWidth / 2 + ',' + -2 + ')');
+
+      // inner scales
+      const innerXScale = d3
+        .scaleLinear()
+        .domain(d3.extent(data, (d) => d.run))
+        .range([0, innerWidth]);
+
+      const innerYScale = d3
+        .scaleLinear()
+        .domain(d3.extent(data, (d) => d.ratio))
+        .range([innerHeight, 0]);
+
+      testG
+        .append('g')
+        .call(d3.axisBottom(innerXScale).tickSize(-innerHeight))
+        .attr('transform', `translate(0,${innerHeight})`);
+
+      testG.append('g').call(d3.axisLeft(innerYScale).tickSize(-innerWidth));
+
+      testG
+        .selectAll('.line')
+        .data(function (d) {
+          return d3.group(d[1], (d) => d.course);
+        })
+        .enter()
+        .append('path')
+        .attr('d', function (d) {
+          return d3
+            .line()
+            .x((d) => innerXScale(d.run))
+            .y((d) => innerYScale(d.ratio))(d[1]);
+        })
+        .attr('fill', 'none')
+        .attr('stroke', function (d, i) {
+          return d3.schemeCategory10[i];
+        })
+        .attr('stroke-width', 1);
+    </script>
+  </body>
+</html>

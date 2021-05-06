@@ -1,0 +1,69 @@
+#include<stdio.h>
+#include<conio.h>
+#include<math.h>
+int A(float z)
+{
+       int q;
+       if(z>=0)
+       {
+           q=1;
+       }
+       else
+       {
+           q=0;
+       }
+       return q;
+}
+void main (void) 
+{
+      int a[1][2]=(0,0);
+      int b[1][2]=(0,1);
+      int c[1][2]=(1,0);
+      int d[1][2]=(1,1);
+      int y1,y2,y3,y4,e1=0,e2=0,e3=0,e4=0;
+      float c=1;
+      float bias=0.2;
+      float n=0.1;
+      float w[2][1]=(0,0);
+      float dw[2][1]=(0,0);
+
+   do
+    {
+
+      y1=A((a[0][0]*w[0][0])+((a[0][1]*w[1][0])-bias));
+      y2=A((b[0][0]*w[0][0])+((b[0][1]*w[1][0])-bias));
+      y3=A((c[0][0]*w[0][0])+((c[0][1]*w[1][0])-bias));
+      y4=A((d[0][0]*w[0][0])+((d[0][1]*w[1][0])-bias));
+
+
+     printf("\t %d \t AND \t %d \t = %d \n",a[0][0],a[0][1],y1 );
+     printf("\t %d \t AND \t %d \t = %d \n",b[0][0],b[0][1],y2 );
+     printf("\t %d \t AND \t %d \t = %d \n",c[0][0],c[0][1],y3 );
+     printf("\t %d \t AND \t %d \t = %d \n",d[0][0],d[0][1],y4 );
+
+   e1=0-y1;
+   e2=0-y2;
+   e3=0-y3;
+   e4=0-y4;
+
+   c=(pow(e1,2)  +pow(e2,2)  +pow(e3.2)  +pow(e4,2))/4;
+    printf("error1 = %d, error2 + %d, error3= %d, error4= %d  \n the cost function is %2.2f 
+           \n",e1,e2,e3,e4,c);
+
+     printf("========ITERATION========== \n");
+
+     dw[0][0]=e4*n;
+     dw[1][0]=e4*n;
+
+     w[0][0]=w[0][0]+dw[0][0];
+     w[1][0]=w[1][0]+dw[1][0];
+
+     printf("\t change in weight is [%f \t %f] \n \n \n ",dw[0][0],dw[1][0]);
+     printf("\t new weight is [%f \t %f] \n \n \n ",w[0][0],w[1][0]);
+
+    system("pause");
+    printf("\n \n \n");
+  } 
+  while(t!=0);
+  printf("==============ITERATION COMPLETED============");
+}

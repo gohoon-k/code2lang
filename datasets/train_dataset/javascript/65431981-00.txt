@@ -1,0 +1,70 @@
+var cars = {
+  0: {
+    make: ["Mazda"],
+    type: ["6 Saloon"],
+    colour: ["Red"],
+    topspeed: ["131mph"],
+    oto60: ["10.0s"],
+    price: ["&#163;18,282"],
+    condition: ["Good"],
+    year: ["2018"]
+  },
+  1: {
+    make: ["Ford"],
+    type: ["Mondeo Sedan"],
+    colour: ["Beige"],
+    topspeed: ["116mph"],
+    oto60: ["11.0s"],
+    price: ["&#163;22,900"],
+    condition: ["Clean"],
+    year: ["2016"]
+  },
+  2: {
+    make: ["Kia"],
+    type: ["Rio"],
+    colour: ["White"],
+    topspeed: ["106mph"],
+    oto60: ["12.6s"],
+    price: ["&#163;3,900"],
+    condition: ["Average"],
+    year: ["2004"]
+  },
+  3: {
+    make: ["Audi"],
+    type: ["A4"],
+    colour: ["Black"],
+    topspeed: ["149mph"],
+    oto60: ["7.6s"],
+    price: ["&#163;15,300"],
+    condition: ["Excellent"],
+    year: ["2015"]
+  },
+  4: {
+    make: ["Mercedes Benz"],
+    type: ["C Class"],
+    colour: ["Red"],
+    topspeed: ["148mph"],
+    oto60: ["6.7s"],
+    price: ["&#163;15,462"],
+    condition: ["Good"],
+    year: ["2016"]
+  },
+  5: {
+    make: ["BMW"],
+    type: ["1 Series"],
+    colour: ["Grey"],
+    topspeed: ["124mph"],
+    oto60: ["10.3s"],
+    price: ["&#163;12,293"],
+    condition: ["Clean"],
+    year: ["2015"]
+  }
+
+};
+
+
+var i;
+for (i = 0; i < cars.length; i++) {
+
+  document.getElementById("demo").innerHTML = cars[i]["type"];
+}

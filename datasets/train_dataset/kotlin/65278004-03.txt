@@ -1,0 +1,21 @@
+package com.example.rxjava
+
+import com.google.gson.annotations.SerializedName
+
+data class DataListModel(
+    val items: ArrayList<UserItemsList>? = null
+)
+
+data class UserItemsList(
+    @SerializedName("userId")
+    val userId: String? = null,
+
+    @SerializedName("id")
+    val id: Int = 0,
+
+    @SerializedName("title")
+    val title: String? = null,
+
+    @SerializedName("body")
+    val body: String? = null
+)

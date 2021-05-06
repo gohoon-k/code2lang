@@ -1,0 +1,29 @@
+class CocktailListViewModel : ViewModel() {
+    private val _cocktails = MutableLiveData<CocktailsList>()
+    val cocktails: LiveData<CocktailsList>
+        get() = _cocktails
+
+    private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    init {
+        getCocktails()
+    }
+
+    private fun getCocktails() {
+        coroutineScope.launch {
+            val getCocktailsDeferred = CocktailsApi.RETROFIT_SERVICE.getCocktailsAsync()
+            try {
+                val result = getCocktailsDeferred.await()
+                _cocktails.value = result
+            } catch (e: Exception) {
+                Log.d("error", "error")
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
+    }
+}

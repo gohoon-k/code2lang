@@ -1,0 +1,35 @@
+    val url ="https://api.openweathermap.org/data/2.5/find?q=Ankara&appid=7ac4858bc53d5c6623bb4edd84b4b850&lang=tr&units=metric"
+    val havadurumuObjeRequest= JsonObjectRequest(Request.Method.GET,url,null,object :Response.Listener<JSONObject>{
+        override fun onResponse(response: JSONObject?) {
+
+
+            var main = response?.getJSONObject("main")
+            var sicaklik =main?.getInt("temp")
+
+            tvSicaklik.text=sicaklik.toString()
+            var sehiradi=response?.getString("name")
+            tvSehir.text=sehiradi
+            var weather=response?.getJSONArray("weather")
+            var aciklama=weather?.getJSONObject(0)?.getString("description")
+            tvAciklama.text=aciklama
+
+            var icon=weather?.getJSONObject(0)?.getString("icon")
+            var resimDosyaadi=resources.getIdentifier("icon_"+icon?.sonKarakterisil(),"drawable",packageName)
+            imgHavaDurumu.setImageResource(resimDosyaadi)
+
+
+
+
+
+        }
+
+
+    },object :Response.ErrorListener{
+        override fun onErrorResponse(error: VolleyError?) {
+
+
+        }
+
+    })
+    MySingleton.getInstance(this)?.addToRequestQueue(havadurumuObjeRequest)
+}

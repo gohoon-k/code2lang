@@ -1,0 +1,47 @@
+        items3=pronumber.text.toString() // Edittext
+        items4=proprice.text.toString()// Edittext
+
+
+        pronumber.addTextChangedListener ( object:TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val first = pronumber.text.toString()
+                val second = proprice.text.toString()
+                totalprice.text =  if (first.isBlank() || second.isBlank()){
+                    "Toplam Tutar : 0 TL"
+                } else {
+                    "Toplam Tutar : ${first.toInt().times(second.toInt())} TL"
+                }
+
+            }
+
+
+        } )
+
+        proprice.addTextChangedListener ( object:TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                totalprice.text =  if (first.isBlank() || second.isBlank()){
+                    "Toplam Tutar : 0 TL"
+                } else {
+                    "Toplam Tutar : ${first.toInt().times(second.toInt())} TL"
+                }
+            }
+
+
+        } )
+
+
+        items5=totalprice.text.toString()

@@ -1,0 +1,26 @@
+Name = 'global data';
+document.Name = 'current document data';
+(function(window,document){
+var Name = 'local data';
+var myObj = {
+    Name: 'object data',
+    f: function(){
+        alert(this.Name);
+    }
+};
+
+myObj.newFun = function(){
+    alert(this.Name);
+}
+
+function testFun(){
+    alert("Window Scope : " + window.Name + 
+          "\nLocal Scope : " + Name + 
+          "\nObject Scope : " + this.Name + 
+          "\nCurrent document Scope : " + document.Name
+         );
+}
+
+
+testFun.call(myObj);
+})(window,document);

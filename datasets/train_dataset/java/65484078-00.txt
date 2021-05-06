@@ -1,0 +1,10 @@
+Scanner input = new Scanner(System.in);    //Cmd1
+int i1,i2;                                 //Cmd2
+i1 = input.nextInt();                      //Cmd3
+System.out.println("value of i1 is "+ i1); //Cmd4
+i2 = input.nextInt();                      //Cmd5
+System.out.println("value of i2 is "+ i2); //Cmd6
+String s1;                                 //Cmd7
+input.nextLine();                          //Cmd8
+s1 = input.nextLine();                     //Cmd9
+System.out.println("value of s1 is "+ s1); //Cmd10

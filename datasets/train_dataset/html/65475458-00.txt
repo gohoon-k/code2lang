@@ -1,0 +1,27 @@
+<body>
+    <header>
+        <p class="logo">גכשד יחכי</p>  
+        <nav>
+            <ul class="nav_links">
+                <li><a href="#">אודות</a></li>
+                <li><a href="#">שירותים</a></li>
+                <li><a href="#">פרוייקטים</a></li>
+            </ul>
+        </nav>
+        <a class="cta" href="https://support.microsoft.com/he-il/contactus/"><button>צור קשר</button></a>
+    </header>
+    <div class="intro"></div>
+    <main>
+        <h1 class="main-text">פסיכולוגית<br /> חינוכית</h1>
+        <p class="secendery-text">חשדג גשחכי היא פסיכולוגית חינוכית<br /> העוסקת במקצוע זה למעלה מ20 שנה <br /></p>
+        <img src="images/psychology1.png" alt="" class="side-image" />
+    </main>
+    <div class="card">
+        <img src="images/img_avatar.png" alt="Avatar" >
+        <div class="container">
+            <h4><b>b</b></h4>
+            <p> </p>
+        </div>
+    </div>
+</body>
+</html>     

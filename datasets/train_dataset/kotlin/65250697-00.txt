@@ -1,0 +1,24 @@
+abstract class Obj() {
+    abstract fun checkIssues() : List<String>
+
+    fun runRules(rules: List<Rule<Obj>>): List<String> {
+        return rules.mapNotNull {
+            it.check(this)
+        }
+    }
+}
+
+class Field(): Obj(){
+    companion object {
+        val rules = listOf(MissingResetRule())
+    }
+    override fun checkIssues(): List<String> = runRules(rules)
+}
+
+class MissingResetRule : Rule<Field>() {
+    override fun check(obj: Field): String? = ""
+}
+
+abstract class Rule<T: Obj> {
+    abstract fun check(obj: T): String?
+}

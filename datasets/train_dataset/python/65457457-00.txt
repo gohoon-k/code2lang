@@ -1,0 +1,27 @@
+from django.shortcuts import render
+from .models import *
+from django.views.generic.detail import DetailView
+from django.views.generic import ListView
+   def index(request):
+    return render(request,'newspaperapp/index.html')
+  class nowlist(ListView):
+         model = newsmodel_1
+         template_name = 'newspaperapp/index.html'
+  class newslist(DetailView):
+        model = newsmodel_1
+        template_name = 'newspaperapp/home.html'
+        context_object_name = 'newspaperapp'
+  # search by giving date in index and search date
+ class SearchView(ListView):
+      model = newsmodel_1
+      template_name = 'newspaperapp/search.html'
+     context_object_name = 'all_search_results'
+  def get_queryset(self):
+         result = super(SearchView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+             postresult = newsmodel_1.objects.filter(date_published__contains=query)
+             result = postresult
+        else:
+            result = None
+        return result

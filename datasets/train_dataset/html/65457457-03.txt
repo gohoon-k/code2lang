@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+   <meta charset="utf-8">
+ <title></title>
+ </head>
+ <body>
+ <!-- this page has search option and different categories of news -->
+ <!-- to create search option we write views code and continue -->
+ <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'newspaperapp:search' %}">
+ <input class="form-control mr-sm-2" type="date" placeholder="Search" aria-label="Search" 
+  name="search">
+ <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+ </form>
+
+{%for newspaperapp in object_list %}
+<li><a href="{%url 'newspaperapp:home' newspaperapp.pk %}">{{newspaperapp.title}}</a>
+ {{newspaperapp.date_published}}
+ {%endfor%}
+</ul>
+
+</body>
+</html>

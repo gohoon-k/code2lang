@@ -1,0 +1,12 @@
+data class Test(
+        // Compiles normally
+        @Required(scope = Abc.X)
+        val text: String
+) {
+
+    // Compilation error
+    @Required(scope = Abc.X)
+    fun x() {
+
+    }
+}

@@ -1,0 +1,21 @@
+suspend fun callForwardAPI(context: Context,sms: SmsData) {
+        val databaseHandler: DatabaseHandler = DatabaseHandler(context)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://backend.mydomain.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(SMSService::class.java)
+
+        val api = GlobalScope.async {
+            val response = retrofit.postForwardSMS(
+                sms.sender,
+                sms.message
+            ).awaitResponse()
+
+            if (response.isSuccessful) {
+               println("DONE SUCCESS ${sms.message}")
+            }
+        }
+        api.await()
+    }

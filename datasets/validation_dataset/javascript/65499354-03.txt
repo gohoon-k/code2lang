@@ -1,0 +1,19 @@
+const arr = [
+  ['butter', 'jelly'],
+  ['bananas', 'apples'],
+  ['peanuts', 'butter'],
+  ['jelly', 'bananas']
+];
+const lookupFirst = {},
+  lookupSecond = {};
+for (let i = 0; i < arr.length; i++) {
+  lookupFirst[arr[i][0]] = i;
+  lookupSecond[arr[i][1]] = i;
+}
+const next = arr.map(x => lookupFirst[x[1]]);
+let curr = arr.findIndex(x => !lookupSecond[x[0]]);
+const res = [];
+do {
+  res.push(arr[curr]);
+} while ((curr = next[curr]) !== undefined);
+console.log(JSON.stringify(res));

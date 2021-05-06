@@ -1,0 +1,63 @@
+const logError = require('./log-error')
+const logger = require('./logger/winston')
+const Helpers = {
+    exchange1: {
+        tradeOut: require('./exchange1/trade-out'),
+        retry: require('./exchange1/retry')
+    },
+    exchange2: {
+        tradeOut: require('./exchange2/trade-out'),
+        retry: require('./exchange2/retry'),
+    },
+    exchange3: {
+        tradeOut: require('./exchange3/trade-out'),
+        retry: require('./exchange3/retry')
+    }
+}
+
+let resolutionAttempts = 0
+
+module.exports = async function(bet, runner) {
+    try {
+        const _promise = new Promise((resolve, reject) => {
+            async function rectify() {
+                try {
+                    const [lowEx, upEx] = [runner.exchange.toLowerCase(), runner.exchange.toUpperCase()]
+
+                    resolutionAttempts++
+
+                    const isAttemptTradeOut = resolutionAttempts % 2 === 0
+                    const _attempt = isAttemptTradeOut ? 'TRADE OUT' : 'RETRY'
+                    const _lossMsg = `${(resolutionLossAllowed * 100).toFixed(2)}% LOSS ALLOWED`
+
+                    logger.info(`[ATTEMPTING ${_attempt} FOR ${upEx} WITH ${_lossMsg} (Process: ${process.pid})]`)
+ 
+                    const runners = {
+                        matched: { ... },
+                        unmatched: { ... }
+                    }
+                    const result = isAttemptTradeOut
+                        ? await Helpers[lowEx].tradeOut(bet, runners)
+                        : await Helpers[lowEx].retry(bet, runners)
+
+                    if (result) {
+                        return resolve(result)
+                    }
+                    setTimeout(rectify, 10000)
+                } catch(err) {
+                    logError(err, __filename)
+
+                    return reject(err)
+                }
+            }
+            rectify()
+        })
+        const _res = await _promise
+
+        return _res
+    } catch(err) {
+        logError(err, __filename)
+
+        throw err
+    }
+})

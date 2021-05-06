@@ -1,0 +1,11 @@
+    i = 0;
+    while (i < 25) {
+        data_len = recvfrom(raw_socket, rcvbuf, sizeof(rcvbuf), 0, (SOCKADDR*)&sender_addr, &sender_addr_size);
+
+        std::cout << "Iteration: " << (i);
+        printf("\nReceived packet from %s:%d\n", inet_ntoa(sender_addr.sin_addr), ntohs(sender_addr.sin_port));
+        printf("Length of bytes received: %d\n", data_len);
+        printf("Data: %s\n", rcvbuf);
+        std::cout << "\n\n";
+        i = i + 1;
+    }  

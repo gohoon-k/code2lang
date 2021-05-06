@@ -1,0 +1,20 @@
+class Repository private constructor(
+  private val retrofitService: ApiService,
+  private val dispatcher: CoroutineDispatcher) {
+
+    companion object {
+       
+        fun getInstance(retrofitService: ApiService,
+                        dispatcher: CoroutineDispatcher = Dispatchers.IO): Repository {
+            // ommit code for simplicity
+
+            instance = Repository(retrofitService, dispatcher)
+            // ...
+            }
+        }
+    }
+
+    suspend fun getProducts(): ProductsResponse = withContext(dispatcher) {
+        retrofitService.getProducts()
+    }
+}

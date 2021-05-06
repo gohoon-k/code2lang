@@ -1,0 +1,9 @@
+function divisionAPI (number, divider, successCallback, errorCallback) {
+
+    if (divider == 0) {
+        return errorCallback( new Error("Division by zero") )
+    }
+
+    successCallback( number / divider )
+
+}

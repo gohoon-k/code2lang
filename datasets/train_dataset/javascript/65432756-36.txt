@@ -1,0 +1,8 @@
+let readdir = require('fs').readdir;
+let promisify = require('./promisify');
+let readdirP = promisify(readdir);
+
+async function myAsyncFn(path) {
+    let entries = await readdirP(path);
+    return entries;
+}

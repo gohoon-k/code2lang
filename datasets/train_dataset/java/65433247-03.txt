@@ -1,0 +1,8 @@
+@Override
+public Set<K> keysAsSet() {
+    HashSet<K> hashSet = new HashSet<>();
+    for (Entry<K, V> entry: entries) {
+        hashSet.add(entry.getKey());
+    }
+    return hashSet;
+}

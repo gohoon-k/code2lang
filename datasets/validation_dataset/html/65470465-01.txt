@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/register.css" />
+    <script src="../js/connection.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        <a class="active" href="../Subpages/account.html">Log in</a>
+        <a href="https://exampletonyhuang.azurewebsites.net/">Home</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+        <a href="../Subpages/shoppingcart.html">Shopping Cart</a>
+        <a href="../Subpages/billinginfo.html">Billing info</a>
+    </div>
+    <div class="register-box">
+
+        <br /><br /><center><h1><b>Register Account</b></h1></center>
+
+        <form class="userinput-box">
+            <center>
+                <h3>Email: <input type="text" name="email" id="email" required></h3>
+                <br /><h3>Username: <input type="text" name="username" id="username" required></h3>
+                <br /><h3>Password: <input type="password" name="password" id="password" required></h3>
+            </center>
+        </form>
+
+        <center>
+            <input type="submit" class="button" onclick="queryDatabase()"><br />
+
+        </center>
+    </div>
+</body>      
+</html>

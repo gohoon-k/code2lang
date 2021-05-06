@@ -1,0 +1,28 @@
+const canvas = document.querySelector(".canvas");
+
+var imageObj = new Image();
+
+const ctx = canvas.getContext("2d");
+
+const images = [
+    '/Users/Charlie 1/Desktop/Coding/Webpage Projects/TestWithCards/PNG/2C.png',
+    '/Users/Charlie 1/Desktop/Coding/Webpage Projects/TestWithCards/PNG/3C.png',
+    '/Users/Charlie 1/Desktop/Coding/Webpage Projects/TestWithCards/PNG/4C.png',
+    '/Users/Charlie 1/Desktop/Coding/Webpage Projects/TestWithCards/PNG/5C.png',
+    '/Users/Charlie 1/Desktop/Coding/Webpage Projects/TestWithCards/PNG/6C.png',
+    '/Users/Charlie 1/Desktop/Coding/Webpage Projects/TestWithCards/PNG/7C.png'
+];
+
+window.onload = function() {
+
+    console.log('test1');
+    imageObj.width = 100;
+    imageObj.height = 200;
+    imageObj.src = images[4]; // EX. Only images[1] will load because I have it loaded in the html
+
+    console.log(imageObj);
+
+    ctx.drawImage(imageObj, 50, 50);
+
+    console.log('test2');
+}

@@ -1,0 +1,135 @@
+public class ProductsListAdapter extends RecyclerView.Adapter<ProductsListAdapter.ViewHolder> {
+
+    private static final String TAG = ProductsListAdapter.class.getSimpleName();
+    private Context mContext;
+    private Realm myRealm;
+    private List<Product> productsData;
+    private RealmResults<Product> products;
+    private LayoutInflater layoutInflater;
+    private ImageView prod_img;
+    private TextView prod_name, prod_quantity, prod_unitPrice, prod_totalPrice, prod_barcode,prod_desc
+            ,barcode_title,unit_price_title,total_price_title,Quantity_title;
+    int positionO;
+    MySharedPreferences mySharedPreferences;
+    String mName,mPrice,mQuantity,mBarcode,mTotal,mDes;
+    String status;
+
+    public ProductsListAdapter(Context context, Realm realm, RealmResults<Product> products,int positionO,String status) {
+
+        Log.d("orders_data", "order in main: productAdapter init"+ realm+" :: "+products.size()+" :: " +
+                +positionO+ " :: "+status+" :: end");
+
+        this.mContext = context;
+        this.myRealm = realm;
+        myRealm = Realm.getDefaultInstance();
+        this.products = products;
+        this.positionO = positionO;
+        this.status = status;
+        this.layoutInflater = LayoutInflater.from(context);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private CardView cardView;
+
+        public ViewHolder(CardView v) {
+            super(v);
+            cardView = v;
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return products.size();
+    }
+
+    @Override
+    public ProductsListAdapter.ViewHolder onCreateViewHolder(
+            ViewGroup parent, int viewType) {
+        Log.d("orders_data", "order in main: productAdapter onCreateViewHolder");
+        CardView cv = (CardView) LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.product_item, parent, false);
+        return new ViewHolder(cv);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
+        mySharedPreferences = MySharedPreferences.getInstance(mContext);
+        mySharedPreferences.getLanguageKey();
+
+        Log.d("orders_data", "order in main: productAdapter");
+
+        CardView cardView = holder.cardView;
+
+        barcode_title = cardView.findViewById(R.id.barcode_title);
+        unit_price_title = cardView.findViewById(R.id.unit_price_title);
+        total_price_title = cardView.findViewById(R.id.total_price_title);
+        Quantity_title = cardView.findViewById(R.id.Quantity_title);
+
+        prod_img = cardView.findViewById(R.id.product_img);
+        prod_name = cardView.findViewById(R.id.product_name);
+        prod_quantity = cardView.findViewById(R.id.Quantity_value);
+        prod_unitPrice = cardView.findViewById(R.id.price_unit_value);
+        prod_totalPrice = cardView.findViewById(R.id.total_price_value);
+        prod_barcode = cardView.findViewById(R.id.barcode);
+        prod_desc = cardView.findViewById(R.id.product_description);
+
+        prod_name.setTypeface(HelperMethods.changeFont(mContext));
+        prod_quantity.setTypeface(HelperMethods.changeFont(mContext));
+        prod_unitPrice.setTypeface(HelperMethods.changeFont(mContext));
+        prod_totalPrice.setTypeface(HelperMethods.changeFont(mContext));
+        prod_barcode.setTypeface(HelperMethods.changeFont(mContext));
+        prod_desc.setTypeface(HelperMethods.changeFont(mContext));
+
+        barcode_title.setTypeface(HelperMethods.changeFont(mContext));
+        unit_price_title.setTypeface(HelperMethods.changeFont(mContext));
+        total_price_title.setTypeface(HelperMethods.changeFont(mContext));
+        Quantity_title.setTypeface(HelperMethods.changeFont(mContext));
+
+
+        Product product = products.get(position);
+
+        mName = product.getName();
+        mQuantity = product.getNeededQuantity();
+        mPrice = product.getOldUnitPrice();
+        mTotal = product.getTotalPrice();
+        mBarcode = product.getBarCode();
+        mDes = product.getDescription();
+
+
+        prod_name.setText(mName);
+        prod_quantity.setText(mQuantity);
+        prod_unitPrice.setText(mPrice);
+        prod_totalPrice.setText(mTotal);
+        if (product.getBarCode()!=null && !product.getBarCode().isEmpty()){
+            prod_barcode.setText(mBarcode);
+        }else{
+            prod_barcode.setText("0000000000000");
+        }
+
+        prod_desc.setText(mDes);
+        prod_desc.setTextColor(Color.rgb(225,112,77));
+
+        GlideApp.with(mContext)
+                .load(product.getImage())
+                .into(prod_img);
+
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext,ProductDetailsActivity.class);
+                intent.putExtra("positionO", positionO);
+                intent.putExtra("positionP", position);
+                intent.putExtra("status", status);
+                mContext.startActivity(intent);
+
+
+
+            }
+        });
+
+    }
+
+
+}

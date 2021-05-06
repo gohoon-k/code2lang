@@ -1,0 +1,93 @@
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+
+int main()
+{
+    //...
+    Display* display = XOpenDisplay(NULL);
+    int screen = XDefaultScreen(display);
+    Window rootWindow = XRootWindow(display, screen);
+    Atom selection = XInternAtom(display, "CLIPBOARD", false);
+    Atom image = XInternAtom(display, "image/png", false);
+    Atom targets = XInternAtom(display, "TARGETS", false);
+    Window newOwnerWindow = XCreateSimpleWindow(display, rootWindow,
+            -10, -10, 1, 1, 0, 0, 0);
+    XSetSelectionOwner(display, selection, newOwnerWindow, CurrentTime);
+    XEvent event;
+    while (true)
+    {
+        XNextEvent(display, &event);
+        if (event.type == SelectionRequest)
+        {
+            Atom targetRequsted = event.xselectionrequest.target;
+            std::cout << "Requested target: \"" <<
+                XGetAtomName(display, targetRequsted) << "\"" << '\n';
+            if (targetRequsted == targets)
+            {
+                XChangeProperty(display,
+                        event.xselectionrequest.requestor,
+                        event.xselectionrequest.property,
+                        XA_ATOM,
+                        32,
+                        PropModeReplace,
+                        reinterpret_cast<unsigned char*>(&image),
+                        sizeof(image));
+                XEvent selectionRespond;
+                selectionRespond.type = SelectionNotify;
+                selectionRespond.xselection.requestor =
+                    event.xselectionrequest.requestor;
+                selectionRespond.xselection.property =
+                    event.xselectionrequest.property;
+                selectionRespond.xselection.display =
+                    event.xselectionrequest.display;
+                selectionRespond.xselection.selection =
+                    event.xselectionrequest.selection;
+                selectionRespond.xselection.target =
+                    event.xselectionrequest.target;
+                selectionRespond.xselection.time =
+                    event.xselectionrequest.time;
+                XSendEvent(display, event.xselectionrequest.requestor, true,
+                        NoEventMask, &selectionRespond);
+            }
+            else if (targetRequsted == image)
+            {
+                // clipboardContent is a const std::string variable storing a
+                // png image
+                XChangeProperty(display,
+                        event.xselectionrequest.requestor,
+                        event.xselectionrequest.property,
+                        image,
+                        8,
+                        PropModeReplace,
+                        reinterpret_cast<const unsigned char*>(&clipboardContent[0]),
+                        clipboardContent.size());
+                XEvent selectionRespond;
+                selectionRespond.type = SelectionNotify;
+                selectionRespond.xselection.requestor =
+                    event.xselectionrequest.requestor;
+                selectionRespond.xselection.property =
+                    event.xselectionrequest.property;
+                selectionRespond.xselection.display =
+                    event.xselectionrequest.display;
+                selectionRespond.xselection.selection =
+                    event.xselectionrequest.selection;
+                selectionRespond.xselection.target =
+                    event.xselectionrequest.target;
+                selectionRespond.xselection.time =
+                    event.xselectionrequest.time;
+                XSendEvent(display, event.xselectionrequest.requestor, true,
+                        NoEventMask, &selectionRespond);
+                break;
+            }
+            else
+            {
+                //...
+            }
+        }
+    }
+    //...
+    return 0;
+}

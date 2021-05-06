@@ -1,0 +1,84 @@
+#include "co_MediaSink.h"
+#include <stdio.h>
+#include "co_SinkWriter.h"
+
+co_MediaSink::co_MediaSink()
+{
+}
+
+co_MediaSink::~co_MediaSink()
+{
+}
+
+HRESULT co_MediaSink::QueryInterface(REFIID riid, void ** ppvObject)
+{
+    printf("HERE");
+    *ppvObject = new co_SinkWriter();
+    return S_OK;
+}
+
+ULONG co_MediaSink::AddRef(void)
+{
+    printf("HERE");
+    return 1;
+}
+
+ULONG co_MediaSink::Release(void)
+{
+    printf("HERE");
+    return 1;
+}
+
+HRESULT co_MediaSink::GetCharacteristics(DWORD * pdwCharacteristics)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::AddStreamSink(DWORD dwStreamSinkIdentifier, IMFMediaType * pMediaType, IMFStreamSink ** ppStreamSink)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::RemoveStreamSink(DWORD dwStreamSinkIdentifier)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::GetStreamSinkCount(DWORD * pcStreamSinkCount)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::GetStreamSinkByIndex(DWORD dwIndex, IMFStreamSink ** ppStreamSink)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::GetStreamSinkById(DWORD dwStreamSinkIdentifier, IMFStreamSink ** ppStreamSink)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::SetPresentationClock(IMFPresentationClock * pPresentationClock)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::GetPresentationClock(IMFPresentationClock ** ppPresentationClock)
+{
+    printf("HERE");
+    return S_OK;
+}
+
+HRESULT co_MediaSink::Shutdown(void)
+{
+    printf("HERE");
+    return S_OK;
+}

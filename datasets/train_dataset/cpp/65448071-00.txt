@@ -1,0 +1,17 @@
+#include <iostream>
+
+for (unsigned int j = 2; j <= (number / 2); j++) {
+    std::cout << number << "%" << j;
+    if (number % j != 0) {
+        std::cout << "\tI\n" << std::endl;
+        continue;
+    }
+    else {
+        std::cout << "\tX\n" << std::endl;
+        break;
+    }
+    if (j > 2) {
+        j++;
+    }
+}
+

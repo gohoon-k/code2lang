@@ -1,0 +1,60 @@
+function extractCoefs(str) {
+    str = str.split("=")[0].trim().toLowerCase().replace(" ","");
+
+    let res = str.split("").reduce(function(res, item){
+        
+        // If it's a number
+        if(!isNaN(item)) {
+            res.current += item;
+            return res;
+        }
+        // If it's a dot or comma, add a dot
+        if([".",","].includes(item)) {
+            res.current += ".";
+            return res;
+        }
+        // If it's a power sign, add it
+        if("^" === item) {
+            res.current += "^";
+            return res;
+        }
+        // if it's a letter, add it
+        if(item.match(/[a-z]/)) {
+            res.current += item;
+            return res; 
+        }
+
+        // if it's a + or - sign, push current to coefs and reset it
+        if(["+","-"].includes(item)) {
+            if(res.current.length > 0) {
+                res.coefs.push(res.current);
+                res.current = "";
+            }
+            res.current += item;
+            return res;
+        }
+
+        // Everything else is unhandled and you need to implement it
+        // For example, brackets won't get processed
+        return res;
+
+    }, { coefs: [], current: ""});
+
+    if(res.current.length > 0) {
+        res.coefs.push(res.current);
+    }
+
+    // Split everything by letter or the ^ sign
+    // if there is only the sign left, add 1 at the end
+    return res.coefs.map(function(item){
+        let num = item.split(/[a-z^]/)[0];
+        if(num.match(/[0-9]/)) {
+            return +num;
+        }
+        return +(num+"1");
+    }).flat();
+}
+
+
+console.log(extractCoefs("-x^3-2.34x^2+ x-2 = 0"));
+// outputs: [ -1, -2.34, 1, -2 ]

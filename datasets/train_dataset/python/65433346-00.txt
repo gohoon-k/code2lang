@@ -1,0 +1,16 @@
+import csv
+import itertools
+
+tsvfile = open('in.txt')
+tsvreader = csv.reader(tsvfile, delimiter=" ")
+line = tsvreader.__next__()
+
+for i in itertools.product('ACTG', repeat = 18):
+    oneKmer = ''.join(i)
+    print(' '.join(['x',oneKmer]))
+    while oneKmer != line[0]:
+        print(' '.join(['y',line[0],line[1]]))
+        line = tsvreader.__next__()
+        print(' '.join(['z',line[0],line[1]]))
+
+close(tsvfile)

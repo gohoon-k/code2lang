@@ -1,0 +1,38 @@
+public class SpecializedTime {
+
+    private Duration timeSince0000;
+    
+    private SpecializedTime(Duration timeSince0000) {
+        this.timeSince0000 = timeSince0000;
+    }
+
+    static SpecializedTime parse(String text, DateTimeFormatter formatter) {
+        ParsePosition position = new ParsePosition(0);
+        TemporalAccessor parsed = formatter.parseUnresolved(text, position);
+        if (position.getErrorIndex() != -1) {
+            throw new DateTimeParseException("Parse error", text, position.getErrorIndex());
+        }
+        if (position.getIndex() != text.length()) {
+            throw new DateTimeParseException("Unparsed text", text, position.getIndex());
+        }
+        if (! parsed.isSupported(ChronoField.HOUR_OF_DAY)) {
+            throw new DateTimeParseException("Cannot resolve", text, 0);
+        }
+        
+        Duration time = Duration.ofHours(parsed.getLong(ChronoField.HOUR_OF_DAY));
+        if (parsed.isSupported(ChronoField.MINUTE_OF_HOUR)) {
+            int minuteOfHour = parsed.get(ChronoField.MINUTE_OF_HOUR);
+            // Should validate, 0..59
+            time = time.plusMinutes(minuteOfHour);
+        }
+        // Same for seconds and nanoseconds
+        
+        return new SpecializedTime(time);
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("%02d:%02d", timeSince0000.toHours(), timeSince0000.toMinutesPart());
+    }
+
+}

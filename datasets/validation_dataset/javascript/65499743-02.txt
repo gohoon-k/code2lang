@@ -1,0 +1,23 @@
+    const Todo = function() {
+        let list = [];
+        let items = {};
+        return {
+            create: function(task) { 
+                let id = Date.now();
+                items[id] = { id, task };
+                list.push(id);
+                return id;
+            },
+            read: function(id) {
+                return items[id];
+            },
+            readAll: function() {
+                return list.map(id => items[id]);
+            },
+            delete: function(id) {
+                list = list.filter(itemId => itemId !== id);
+                delete items[id];
+                return true;
+            }
+        }
+    }

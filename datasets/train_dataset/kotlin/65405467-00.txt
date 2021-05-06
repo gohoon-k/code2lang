@@ -1,0 +1,63 @@
+package com.backal.bingolooooooooooooto
+
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log.d
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+
+class AddFavourActivity: AppCompatActivity() {
+    public var clicked = 0;
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.add_favour)
+
+        val alt1: View = findViewById(R.id.alt1)
+        val alt2: View = findViewById(R.id.alt2)
+        val alt3: View = findViewById(R.id.alt3)
+        val alt4: View = findViewById(R.id.alt4)
+        val alt5: View = findViewById(R.id.alt5)
+        val alt6: View = findViewById(R.id.alt6)
+        val alt7: View = findViewById(R.id.alt7)
+
+        alt1.setOnClickListener {
+            var clicked = 50
+            startActivity(Intent(this, EnterPasswordActivity::class.java))
+        }
+
+        alt2.setOnClickListener {
+            var clicked = 80
+            d("Alexander", "Clicked is: $clicked")
+            startActivity(Intent(this, EnterPasswordActivity::class.java))
+        }
+
+        alt3.setOnClickListener {
+            startActivity(Intent(this, EnterPasswordActivity::class.java))
+            clicked = 100
+        }
+
+        alt4.setOnClickListener {
+            startActivity(Intent(this, EnterPasswordActivity::class.java))
+            clicked = 300
+        }
+
+        alt5.setOnClickListener {
+            startActivity(Intent(this, EnterPasswordActivity::class.java))
+            clicked = 500
+        }
+
+        alt6.setOnClickListener {
+            startActivity(Intent(this, EnterPasswordActivity::class.java))
+            clicked = 100
+        }
+
+        alt7.setOnClickListener {
+            startActivity(Intent(this, EnterPasswordActivity::class.java))
+            clicked = 1000
+        }
+
+    }
+
+
+}

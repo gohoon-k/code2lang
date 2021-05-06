@@ -1,0 +1,73 @@
+public class MainActivity extends AppCompatActivity 
+{
+    public String roomText = "";
+    public SpannableStringBuilder chatText = new SpannableStringBuilder();
+    
+    public void conectar(String nombre, String ip, int puerto) {
+        final String param1 = nombre;
+        final String param2 = ip;
+        final int param3 = puerto;
+        TabLayout.Tab tab = tabLayout.getTabAt(1);
+        tab.select();
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Looper.prepare();
+                    
+                    try{
+                        //Code...
+                        InetSocketAddress addr = new InetSocketAddress(InetAddress.getByName(param2), param3);
+                        try {
+                            socket = SocketChannel.open();
+                            socket.socket().connect(addr, 1000);
+                            roomText = param1;
+                            saveColoredText(getString(R.string.conectando), Color.BLUE);
+                            try {
+                                s.room.setText(param1);
+                                appendColoredText(s.chat,getString(R.string.conectando), Color.BLUE);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            
+                            //Code
+                        }
+                        catch(SocketTimeoutException ex)
+                        {
+
+                        }
+                    }
+                    catch(Exception e){
+                        StringWriter sw = new StringWriter();
+                        e.printStackTrace(new PrintWriter(sw));
+                        String stacktrace = sw.toString();
+                        // create an email intent to send to yourself
+                        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+                        emailIntent.setType("plain/text");
+                        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "lets.think.android@gmail.com" });
+                        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "App Error Report");
+                        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, stacktrace);
+                        // start the email activity - note you need to start it with a chooser
+                        startActivity(Intent.createChooser(emailIntent, "Send error report..."));
+                    }
+                }
+            });
+
+    }
+    
+    public static void appendColoredText(TextView tv, String text, int color) {
+        int start = tv.getText().length();
+        tv.append(text);
+        int end = tv.getText().length();
+
+        Spannable spannableText = (Spannable) tv.getText();
+        spannableText.setSpan(new ForegroundColorSpan(color), start, end, 0);
+    }
+    
+    public void saveColoredText(String text, int color){
+        SpannableString colorSpannable= new SpannableString(text);
+        colorSpannable.setSpan(new ForegroundColorSpan(color), 0, text.length(), 0);
+        chatText.append(colorSpannable);
+    }
+
+}

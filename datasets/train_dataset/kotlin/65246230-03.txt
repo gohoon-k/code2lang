@@ -1,0 +1,34 @@
+val rs: RenderScript = RenderScript.create(this)
+val script = ScriptC_singlesource(rs)
+val rounds = 10
+val matrixSizes = arrayOf(100, 300, 1000)
+for(s in matrixSizes) {
+    var m1: Matrix
+    var m2: Matrix
+    val recordRs = DoubleArray(rounds)
+    val recordKotlin = DoubleArray(rounds)
+    Log.d("Performance", "======== $s by $s matrix add ($rounds times) ========")
+    for(i in 0 until rounds) {
+        m1 = Matrix(FloatArray(s*s) {Random.nextFloat()*2-1}, s)
+        m2 = Matrix(FloatArray(s*s) {Random.nextFloat()*2-1}, s)
+        var elapsed = measureNanoTime {
+            m1.add(rs, script, m2)
+        }
+        recordRs[i] = elapsed*1e-9
+
+        m1 = Matrix(FloatArray(s*s) {Random.nextFloat()*2-1}, s)
+        m2 = Matrix(FloatArray(s*s) {Random.nextFloat()*2-1}, s)
+        elapsed = measureNanoTime {
+            m1.slowAdd(m2)
+        }
+        recordKotlin[i] = elapsed*1e-9
+    }
+    Log.d("Performance", "Average time RS: ${recordRs.average()}")
+    Log.d("Performance", "Average time Kotlin: ${recordKotlin.average()}")
+    Log.d("Performance","First run RS: ${recordRs[0]}")
+    Log.d("Performance","First run Kotlin: ${recordKotlin[0]}")
+    Log.d("Performance", "Best time RS: ${recordRs.minOrNull() ?: -1.0}")
+    Log.d("Performance", "Best time Kotlin: ${recordKotlin.minOrNull() ?: -1.0}")
+    Log.d("Performance", "Worst time RS: ${recordRs.maxOrNull() ?: -1.0}")
+    Log.d("Performance", "Worst time Kotlin: ${recordKotlin.maxOrNull() ?: -1.0}")
+}

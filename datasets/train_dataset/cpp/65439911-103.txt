@@ -1,0 +1,6 @@
+#include "foo.h"
+#include <iostream>
+
+inline /* <- wrong! */ void foo::bar() const {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+}

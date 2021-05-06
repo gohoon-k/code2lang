@@ -1,0 +1,74 @@
+import java.util.*;
+import java.sql.*;
+import java.math.*;
+import java.io.*;
+import org.slf4j.Logger;
+import javax.xml.soap.*;
+import org.slf4j.LoggerFactory;
+import javax.xml.parsers.*;
+import org.w3c.dom.*;
+import org.xml.sax.*;
+import javax.annotation.PostConstruct;
+
+import java.io.File;
+import java.io.IOException;    
+import org.apache.pulsar.client.api.MessageId;
+import org.apache.pulsar.client.api.Producer;
+import org.apache.pulsar.client.api.PulsarClient;
+import org.apache.pulsar.client.api.PulsarClientException;
+import org.apache.pulsar.client.api.CompressionType;
+import org.apache.pulsar.client.api.Schema;
+import org.apache.pulsar.client.api.Message;
+import org.apache.pulsar.client.api.MessageBuilder;
+import org.apache.pulsar.common.api.Commands;
+//import org.apache.pulsar.client.api.PulsarClientException.UnsupportedAuthenticationException;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.lang.*;
+
+public class PulsarProducerService {
+    static Logger log = LoggerFactory.getLogger(VmbProducerService.class.getName());
+    private String SERVICE_URL="pulsar+ssl://test_access.com:7892/";
+    private String TOPIC_NAME="persistent://test_topic_pulsar";
+    
+    public String callPulsarWebService(org.json.JSONObject jsonObject) throws PulsarClientException{
+        String  response=null;
+        // Create a Pulsar client instance. A single instance can be shared across many
+        // producers and consumer within the same application
+        log.info("Message to send :" + jsonObject);
+        try {
+    
+            String updatedContent = jsonObject.toString();
+            Map authParams = new HashMap<>();
+            authParams.put("tlsCertFile", new File("test.cert.pem").getAbsolutePath());
+            authParams.put("tlsKeyFile", new File("test.key-pk8.pem").getAbsolutePath());
+            //PulsarClient client = PulsarClient.create(pulsarBrokerRootUrl);
+             
+            PulsarClient client = PulsarClient.builder().serviceUrl(SERVICE_URL)
+                                  .tlsTrustCertsFilePath(new File("cacert.pem").getAbsolutePath())
+                                  .authentication("org.apache.pulsar.client.impl.auth.AuthenticationTls", authParams)
+                                  .enableTls(true).allowTlsInsecureConnection(false).build();
+    
+            log.info("pulsar client instance created for producer service{}" + client.toString());
+    
+            Producer<String> producer = client.newProducer(Schema.STRING).topic(TOPIC_NAME).create();
+    
+            log.info("=======>pulsar producer configuration done{}", producer.toString());
+
+            log.info("########:Created producer for the topic {}", TOPIC_NAME);
+    
+            MessageId msgId = producer.send(updatedContent);
+            producer.close();
+            response = "Topic posted to message bus with MessageID as=======> : " + msgId;
+            log.info(response);
+            return response;
+
+           } catch (Exception e) {
+               log.info(" Error occurred while sending Json Request to Server! Make sure you have the correct endpoint URL!" + e.getMessage());
+                return e.getMessage();
+           } 
+        
+        
+    }
+}

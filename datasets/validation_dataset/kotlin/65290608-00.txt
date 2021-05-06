@@ -1,0 +1,25 @@
+class HttpClient(private val ctx: Context) {
+private var queue: RequestQueue = Volley.newRequestQueue(this.ctx)
+private lateinit var gpsModel: GpsModel
+companion object {
+    const val BASE_URL: String = "https://uawk2yh00j.execute-api.eu-central-1.amazonaws.com/"
+}
+
+fun getGpsData() : GpsModel
+{
+    this.queue.add(
+            StringRequest(
+                    Request.Method.GET, BASE_URL + "production",
+                    {
+                        Log.d("GET_ALL_DATA", it.toString())
+                        Log.d("GET_ALL_DATA", GpsModel.fromJson(it.toString())?.body?.size.toString())
+                        this.gpsModel = GpsModel.fromJson(it.toString())!!
+                        Log.d("GET_ALL_DATA", this.gpsModel.toString())
+                    },
+                    {
+                        Log.d("GET_ALL_DATA", "Coś poszło nie tak")
+                    }
+            )
+    )
+    return this.gpsModel
+}

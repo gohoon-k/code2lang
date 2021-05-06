@@ -1,0 +1,16 @@
+#pragma once
+
+#include <iostream>
+
+#include "rectStructs.h"
+
+using namespace std;
+
+class rectangle
+{
+public:
+    rectangle(int length, int width);
+    unsigned long int get_area();
+private:
+    rectangle_t _rectangle;
+};

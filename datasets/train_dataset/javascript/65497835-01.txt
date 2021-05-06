@@ -1,0 +1,18 @@
+function lottoGame(max_numbers) {
+  let lottoArray = [];
+  let numbers = [];
+  let max_num = 6;
+  for (var i = 1; i <= max_num; i++) {
+    numbers.push(i);
+  }
+  nums = [];
+  for (let x = 1; x <= max_numbers; x++) {
+    rand = Math.floor(Math.random() * numbers.length);
+    num = numbers[rand];
+    nums.push(num);
+    numbers.splice(rand, 1);
+  }
+
+  document.querySelector('.loti').innerHTML = nums.join(",")
+}
+lottoGame(5)

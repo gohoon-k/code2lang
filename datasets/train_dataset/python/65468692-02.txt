@@ -1,0 +1,6 @@
+from collections import Counter
+
+l = ['California', 'Orange','New York', 'Orange']
+
+[k for k, v in Counter(l).items() if v == 1]
+# ['California', 'New York']

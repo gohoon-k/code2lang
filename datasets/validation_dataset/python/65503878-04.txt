@@ -1,0 +1,1 @@
+index = list(map(list, (set(tuple(a) for a in index))))

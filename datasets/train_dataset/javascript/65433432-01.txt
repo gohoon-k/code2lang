@@ -1,0 +1,9 @@
+ async function onFormSubmit(ev) {ev.preventDefault();
+ const EL_form = ev.currentTarget;
+                return (await fetch(EL_form.action)).json();
+                    }
+                                  
+ const ELS_form = document.getElementByID('element');
+ ELS_form.forEach((el) => el.addEventListener("submit", (ev) => {
+ onFormSubmit(ev).then(res => console.log(res));
+                    })); 

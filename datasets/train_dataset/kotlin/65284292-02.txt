@@ -1,0 +1,26 @@
+lateinit var failedListSize: Int
+lateinit var serviceCallResponseCount: Int
+
+fun forwardFailedSMS(context: Context) {
+            var failed = getFailedSms(context)
+            failedListSize = failed.size
+            serviceCallResponseCount = 0
+
+            failed.forEachIndexed { index, f ->    
+                println("NOW ${index}")
+                callForwardAPI(context, f)
+            }
+
+            
+        }
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        // I assume that you are using viewmodel and fragment. If you use another pattern, you can change onViewCreate to another lifecycle function.
+        viewModel.myLiveData.observe(viewLifeCycleOwner, Observer{
+                println("NOW ${index} observed response")
+                serviceCallResponseCount++
+                if (serviceCallResponseCount == failedListSize){
+                    refreshSmsList(context!!)
+                }
+
+        }
+}

@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+int A[100] = {0};
+
+int fact(int n) {
+    A[0] == 1;
+    for (int i = 1; i <= n; i++) {
+        A[i] = i * A[i - 1];
+    }
+    return A[n];
+}
+
+int main() {
+    int T;
+    cin >> T;
+    while (T > 0) {
+        int n;
+        cin >> n;
+        fact(n);
+        cout << fact(n) << endl;
+        T--;
+    }
+}

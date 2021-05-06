@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Card Test</title>
+</head>
+
+<body>
+    <canvas class="canvas" height="700" width="700" style="background-color: #3e3e3e"></canvas>
+
+</body>
+
+<img width="100" height="200" src="/Users/Charlie 1/Desktop/Coding/Webpage Projects/TestWithCards/PNG/3C.png">
+
+
+
+<script type="text/javascript" src="draw.js"></script>
+
+</html>

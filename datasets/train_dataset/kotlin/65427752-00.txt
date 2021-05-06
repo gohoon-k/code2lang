@@ -1,0 +1,10 @@
+private lateinit var sessionKey: ByteArray
+
+private fun genSessionKey() {
+    val r = SecureRandom()
+    sessionKey = ByteArray(16)
+    r.nextBytes(sessionKey)
+    println("sessionkey size in genSessionKey() : ${sessionKey.size}")
+    val sessionkeyInString = sessionKey.toString(Charsets.UTF_8)
+    println("sessionkey size in genSessionKey() after conversion : ${sessionkeyInString.toByteArray(Charsets.UTF_8).size}")
+}

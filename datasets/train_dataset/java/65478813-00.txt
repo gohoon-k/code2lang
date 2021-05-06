@@ -1,0 +1,3 @@
+public static void add(var num){//-here is var but I get an error
+           //do something
+        }

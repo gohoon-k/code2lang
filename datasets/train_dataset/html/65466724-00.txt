@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>If-Else</title>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <p v-if="rainy">The weather is rainy</p>
+            <p v-else>The weather is sunny</p> 
+        </div>
+    </body>
+    <script type="text/javascript">
+    new vue({
+        el: '#app',
+        data: {
+            rainy: false
+        }
+    });
+    </script>
+</html>

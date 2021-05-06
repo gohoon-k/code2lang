@@ -1,0 +1,2 @@
+for (auto v : std::views::transform(v0, v1, std::plus{})) // no, unfortunately    
+  std::cout << v << " ";

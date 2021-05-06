@@ -1,0 +1,25 @@
+struct X
+{
+   virtual void foo();
+};
+struct Y : X
+{
+   void foo() {}
+};
+struct A
+{
+   virtual ~A() = 0;
+};
+struct B: A
+{
+   virtual ~B(){}
+};
+extern int x;
+void foo();
+int main()
+{
+   x = 0;
+   foo();
+   Y y;
+   B b;
+}

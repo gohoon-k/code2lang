@@ -1,0 +1,15 @@
+Polynomial createPoly()
+{
+    Polynomial poly;
+    std::cout << "Enter polynomial degree: ";
+    std::cin >> poly.n;
+
+    poly.a = new double[poly.n];
+    for (int i = 0; i < poly.n; i++)
+    {
+        std::cout << "The polynomial coeff x ^ " << i <<" = " << std::endl;
+        std::cin >> poly.a[i];
+    }
+
+    return poly;
+}

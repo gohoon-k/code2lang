@@ -1,0 +1,6 @@
+int main(int argc, const char* const argv[])
+{
+    std::cout<<"log from main()"<<std::endl;
+    ...
+    return 0;
+}

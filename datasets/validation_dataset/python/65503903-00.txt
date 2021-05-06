@@ -1,0 +1,15 @@
+    def post(self, request):
+    try:
+        company_id = request.data.get('company_id')
+        execute_function.get_connection_by_company(company_id)
+        # filename = request.data.get('ip_file_name')
+        s3 = boto3.client('s3', aws_access_key_id=settings.S3_BUCKET_BUCKET_AccessKeyId,
+                          aws_secret_access_key=settings.S3_BUCKET_BUCKET_SecretAccessKey)
+        s3.delete_object(Bucket=settings.S3_BUCKET_BUCKET_NAME, Key='https://examplebucket123.s3.ap-south-1.amazonaws.com/regionfolder/031619-QA.jpg')
+
+    except Exception as err:
+        http_err = traceback.format_exc()
+        print(http_err)
+        return HttpResponse(http_err, status=500)
+    finally:
+        execute_function().close_db_connection()

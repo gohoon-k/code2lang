@@ -1,0 +1,86 @@
+#define _CRT_SECURE_NO_DEPRECATE // For using fopen and strtok https://stackoverflow.com/questions/42412372/error-c4996-visual-studio-why-do-i-get-an-error-when-i-use-fopen-in-c
+
+#include "rectanglesSet.h"
+
+void rectangleSet::readRectsFromCSV(rectangle** rectangles, string path_sourceCSV)
+{
+    unsigned short int _linesCount = 0;
+
+    //Parsing lt. https://stackoverflow.com/questions/56783258/parse-csv-into-dynamically-allocated-array-of-structures-ansi-89
+
+    char c;
+
+    FILE* fp;
+    fp = fopen(path_sourceCSV.c_str(), "r");             /* Open the saleslines file */
+
+    if (fp == NULL) {                              /* Crash if file not found */
+        printf("Error - file not found\n");
+    }
+
+    c = getc(fp);
+    while (c != EOF) {
+        if (c == '\n') {
+            _linesCount++;
+        }
+        c = getc(fp);
+    }
+    fclose(fp);
+
+    cout << "Number of lines: " << _linesCount << endl;   //Debug
+
+    *rectangles = (rectangle*)malloc((_linesCount + 1) * sizeof(rectangle));
+
+    int _length;
+    int _width;
+
+    /* allocation of the buffer for every line in the File */
+    char buf[1024];
+    string tmp;
+
+    if ((fp = fopen(path_sourceCSV.c_str(), "r")) == NULL)
+    {
+        printf("File could not be opened.\n");
+    }
+    int line = 0;
+    while (fgets(buf, 1024, fp) != NULL)
+    {
+        if ((strlen(buf) > 0) && (buf[strlen(buf) - 1] == '\n'))
+            buf[strlen(buf) - 1] = '\0';
+
+        if (line > 0) // First line is header
+        {
+            tmp = strtok(buf, ",");
+            _length = atoi(tmp.c_str());
+
+            tmp = strtok(NULL, ",");
+            _width = atoi(tmp.c_str());
+
+            rectangles[line - 1] = new rectangle(_length, _width);
+
+            //Debug
+            cout << rectangles[line - 1]->get_area() << endl;
+        }
+
+        line++;
+    }
+    fclose(fp);
+
+    //_rectCount = line - 1;
+
+    cout << "Successfully parsed: " << path_sourceCSV << endl;
+}
+
+rectangleSet::rectangleSet(string path_sourceCSV)
+{
+    readRectsFromCSV(&_rectangles, path_sourceCSV);
+}
+
+rectangle rectangleSet::_getRect(rectangle** rectangles, unsigned int rectIndex)
+{
+    return *rectangles[rectIndex];
+}
+
+rectangle rectangleSet::getRect(unsigned int rectIndex)
+{
+    return _getRect(&_rectangles, rectIndex);
+}

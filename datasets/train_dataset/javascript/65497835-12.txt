@@ -1,0 +1,28 @@
+var deck;
+var hand;
+
+newGame();
+
+document.querySelector('button').addEventListener('click', drawCard);
+document.querySelector('button:last-of-type').addEventListener('click', newGame);
+
+function drawCard() {
+  if (deck.length <= 0) return;
+  
+  // Same again, taking from 'deck', adding to 'hand'
+  hand.push(deck.splice(Math.floor(Math.random() * deck.length), 1));
+  
+  var listHand = document.querySelector('#hand');
+  listHand.innerHTML = '';
+  hand.forEach(i => {listHand.innerHTML += `<li>${i}</li>`}); // Add a <li> for each element in 'hand'
+}
+
+function newGame() {
+  // Yes, '_deck' can be generated easier, however this is just for demonstration purposes
+  var _deck = ['1. Magnificent Text', '2. Beautiful Text', '3. Gorgeous Text', '4. Extraordinary Text', '5. Charming Text', '6. Stunning Text', '7. Graceful Text', '8. Exquisite Text', '9. Bewitching Text', '10. Aesthetic Text', '11. Decorative Text', '12. Sightly Text', '13. Unlucky Text', '14. Pulchritudinous Text', '15. Elegant Text', '16. Appealing Text', '17. Lovely Text', '18. Dazzling Text', '19. Captivating Text', '20. Marvelous Text', '21. Admirable Text', '22. Mesmerizing Text', '23. (Repetitive) Charming Text', '24. Adorable Text', '25. Alluring Text'];
+  
+  hand = [];
+  deck = _deck.slice(); // Copy '_deck'
+  
+  document.querySelector('#hand').innerHTML = '';
+}

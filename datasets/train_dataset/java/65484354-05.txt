@@ -1,0 +1,18 @@
+public interface CustomerService {
+
+public Customer save(CustomerDto customerDto);
+
+public void update(CustomerDto customerDto);
+
+public void delete();
+
+public void convertToDto(Customer customer, CustomerDto customerDto);
+
+public void convertToEntity(Customer customer, CustomerDto customerDto);
+
+public List<CustomerDto> customerList();
+
+ 
+public ResponseEntity<CustomerDto> findByUserName(String nickName) throws ResourceNotFoundException;
+
+}

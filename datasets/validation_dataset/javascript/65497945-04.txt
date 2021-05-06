@@ -1,0 +1,6 @@
+document.querySelector('button').addEventListener('click', log); // Case 1
+document.querySelector('button:nth-child(2)').onclick = log; // Case 2
+
+function log() {
+  console.log((this === globalThis ? "'this' is 'globalThis'" : this));
+}

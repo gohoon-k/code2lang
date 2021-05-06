@@ -1,0 +1,18 @@
+#pragma once
+
+#include "rectangles.h"
+
+#include <iostream>
+#include <fstream>
+
+class rectangleSet
+{
+public:
+    rectangleSet(string path_sourceCSV);
+    rectangle getRect(unsigned int RectIndex);
+private:
+    void readRectsFromCSV(rectangle** rectangles, string path_sourceCSV);
+    rectangle* _rectangles;
+    unsigned int _rectCount;
+    rectangle _getRect(rectangle** rectangles, unsigned int RectIndex);
+};

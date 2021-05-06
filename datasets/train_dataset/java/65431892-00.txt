@@ -1,0 +1,51 @@
+public class SerialTest implements SerialPortEventListener {
+
+private static final int TIME_OUT = 2000;
+private static final int DATA_RATE = 115200;
+private final String PORT_NAME;
+
+private SerialPort serialPort;
+private BufferedReader input;
+
+public SerialTest(String portName) {
+    this.PORT_NAME = portName;
+}
+
+public void initialize() throws Exception {
+
+    CommPortIdentifier portId = CommPortIdentifier.getPortIdentifier(PORT_NAME);
+
+    if (portId.isCurrentlyOwned()) {
+        System.out.println("Error: Port is currently in use");
+    } else {
+            CommPort commPort = portId.open(this.getClass().getName(), TIME_OUT);
+
+            serialPort = (SerialPort) commPort;
+            serialPort.setSerialPortParams(DATA_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+                    SerialPort.PARITY_NONE);
+
+            input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
+
+            serialPort.addEventListener(this);
+            serialPort.notifyOnDataAvailable(true);
+    }
+}
+
+public synchronized void close() {
+    if (serialPort != null) {
+        serialPort.removeEventListener();
+        serialPort.close();
+    }
+}
+
+public synchronized void serialEvent(SerialPortEvent oEvent) {
+    if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+        try {
+            input.ready();
+            String myID = input.readLine();
+            System.out.println(myID);
+        } catch (Exception e) {
+            System.err.println(e.toString());
+        }
+    }
+}

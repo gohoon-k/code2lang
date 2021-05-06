@@ -1,0 +1,23 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.util.Collections;
+
+
+public static void main(String[] args)
+{
+
+    JFrame frame = new JFrame();
+    frame.setSize(350, 300);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setTitle("My Empty Window");
+    frame.setVisible(true);
+
+    DrawingPanel panel = new DrawingPanel();
+    
+    frame.add(panel);
+    frame.setVisible(true);
+}

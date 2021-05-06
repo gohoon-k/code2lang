@@ -1,0 +1,7 @@
+let AllComments=[];
+app.post('/comment', (req, res) => {
+    const com = req.body;
+    console.log(com);
+    AllComments.push(com);
+    res.status(201);
+});

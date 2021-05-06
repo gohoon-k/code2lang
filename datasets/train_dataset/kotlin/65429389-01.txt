@@ -1,0 +1,50 @@
+private var adapter: CarAdapter? = null
+private val carList = ArrayList<Car>()
+private var recyclerView: RecyclerView? = null
+
+
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+
+
+    carList.add(Car())
+
+    recyclerView = findViewById<View>(R.id.recylerView) as RecyclerView
+
+    adapter = CarAdapter(this, this.carList!!)
+    val layoutManager = LinearLayoutManager(applicationContext)
+
+    recyclerView!!.layoutManager = layoutManager
+    recyclerView!!.itemAnimator = DefaultItemAnimator()
+
+    // Add a neat dividing line between items in the list
+    recyclerView!!.addItemDecoration(
+        DividerItemDecoration(this,
+            LinearLayoutManager.VERTICAL)
+    )
+
+    // set the adapter
+    recyclerView!!.adapter = adapter
+}
+
+override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    return when (item.itemId){
+        R.id.OptionItemSelected -> {
+
+            val intent = Intent(this, NewCarPage::class.java)
+
+            startActivity(intent)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
+}
+
+fun createNewCar(c: Car){
+
+    //println(c)
+    //adapter!!.notifyDataSetChanged()
+}

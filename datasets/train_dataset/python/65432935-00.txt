@@ -1,0 +1,18 @@
+from datetime import datetime
+
+
+with open("bot uptime.txt", "w") as f:
+    f.writelines(datetime.now().time().strftime('%H:%M:%S')) # on startup of bot write the time in a file
+
+timenow = datetime.now().time().strftime('%H:%M:%S') # finds time now
+
+
+file = open("bot uptime.txt")
+startuptime = file.readline() # reads the startup time
+print(startuptime)
+
+s1 = startuptime
+s2 = timenow
+FMT = '%H:%M:%S'
+tdelta = datetime.strptime(s2, FMT) - datetime.strptime(s1, FMT) # calculates the difference between the two times
+print(tdelta)

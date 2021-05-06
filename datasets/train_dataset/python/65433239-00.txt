@@ -1,0 +1,17 @@
+final = pd.DataFrame()
+
+### for each row 
+for i in range(len(df_sample)):
+
+    ### select the corresponding vector to compare with 
+    v =  df_sample[df_sample.index.isin([i])]["use_vector"].values
+    ### compare all cases agains the selected vector
+    df_sample.apply(lambda x:  cosine_similarity_numba(x.use_vector,v[0])  ,axis=1)
+
+    ### kept the cases with a similarity over a given th, in this case 0.6
+    temp = df_sample[df_sample.apply(lambda x:  cosine_similarity_numba(x.use_vector,v[0])  ,axis=1) > 0.6]  
+    ###  filter out the base case 
+    temp = temp[~temp.index.isin([i])]
+    temp["original_question"] = copy.copy(df_sample[df_sample.index.isin([i])]["questions"].values[0])
+    ### append the result     
+    final = pd.concat([final,temp])

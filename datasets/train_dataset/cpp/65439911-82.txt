@@ -1,0 +1,4 @@
+template <typename T>
+class Foo {
+    friend std::ostream& operator<< (std::ostream& os, const Foo<T>& a);
+};

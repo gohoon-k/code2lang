@@ -1,0 +1,4 @@
+for (auto v: envisioned::transform([](auto a, auto b){ return a + b; }, v0, v1) {
+    std::cout << v << ' ';
+}
+std::cout << '\n';

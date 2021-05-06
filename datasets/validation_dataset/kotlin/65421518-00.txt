@@ -1,0 +1,6 @@
+open class BaseRequest {
+    val params = mutableMapOf<String, String>()
+    fun getParams(): List<String> {
+        return params.values.toList()
+    }
+}

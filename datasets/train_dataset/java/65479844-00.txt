@@ -1,0 +1,3 @@
+String message ="Ã¶Ã¶Ã¶Ã¶Ã¶";
+String encodedMsg = new String(message.getBytes("ISO-8859-1"), "UTF-8");
+System.out.println(encodedMsg);

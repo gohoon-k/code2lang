@@ -1,0 +1,9 @@
+function btnEditor() { 
+
+var but = document.getElementById('wrapper')
+var color = document.getElementById('colorChoice').value
+console.log(color)
+
+but.innerHTML = '<button id=\"colorSelect\" onclick=\"btnEditor(\'ECEditor\', \'[color=' + color + ']\',\'[/color]\');">Select</button>'
+   
+}

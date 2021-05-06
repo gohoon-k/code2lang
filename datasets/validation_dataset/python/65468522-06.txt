@@ -1,0 +1,18 @@
+mixed_array = ["345", "sadas", "324a", "14", "john"]
+only_integers= [] 
+
+# A method to check if an object is integer
+def is_int(s):
+    try: 
+        int(s)
+    except ValueError:
+        return False
+    else:
+        return True
+
+# Add integer objects from mixed_array to only_integers like:
+only_integers = [i for i in mixed_array if is_int(i)]
+
+# OR like:
+
+only_integers = list(filter(is_int, mixed_array ))

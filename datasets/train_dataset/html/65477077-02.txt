@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shadow</title>
+    <link rel="stylesheet" href="shadow.css">
+</head>
+<body>
+    <div id="div"></div>
+    <p></p>
+    <input id="input1" type="range" onmousemove="reset()">
+    <p></p>
+    <input id="input2" type="range" onmousemove="reset()">
+    <p></p>
+    <input id="input3" type="range" onmousemove="reset()">
+    <p></p>
+    <input id="input4" type="range" onmousemove="reset()">
+    <p></p>
+    <input type="color" id="color" onmousemove="reset()"/>
+    <p></p>
+    <button id="inset" onclick="clicked()">inset</button>
+    <p></p>
+    <span id="span"></span>
+
+    <script src="shadow.js"></script>
+</body>
+</html>

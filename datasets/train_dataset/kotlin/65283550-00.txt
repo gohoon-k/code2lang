@@ -1,0 +1,63 @@
+  fun downloadFile(
+    mimeType: String = "",
+    url: String,
+    destination: String,
+    title: String,
+    fileName: String,
+    isVideoType: Boolean = false
+): Long {
+    try {
+        val destFolderFile = File(destination)
+        if (!destFolderFile.exists()) {
+            destFolderFile.mkdirs()
+        }
+
+        val uriDownload = Uri.parse(url.replace(" ".toRegex(), SPACING_ENCODE))
+        val request = DownloadManager.Request(uriDownload).apply {
+            setTitle(title)
+            setDescription(generalMessageMediator.getStartMessageDownloadFile(fileName))
+            setDestinationInExternalPublicDir(destination, fileName)
+            allowScanningByMediaScanner()
+            setVisibleInDownloadsUi(true)
+            setAllowedOverRoaming(false)
+            setAllowedOverMetered(true)
+            setAllowedNetworkTypes(
+                DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE
+            )
+            if (mimeType.isNotEmpty()) {
+                setMimeType(mimeType)
+            }
+
+            if (isVideoType) {
+                setVisibleInDownloadsUi(false)
+            } else {
+                setNotificationVisibility(
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                )
+            }
+        }
+        return downloadManager.enqueue(request)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        context.showToast(generalMessageMediator.getErrorMessageDownloadFile(fileName))
+    }
+    return -1L
+}
+
+ // call downloadFile function
+ missionDtoList.forEachIndexed { index, missionDto ->
+        val title = missionDto.title.ifEmpty {
+            getString(R.string.learning_title_finalsummary_template, index.inc())
+        }
+        val fileUrl = missionDto.fullPath
+        val extension = fileUrl.substring(fileUrl.lastIndexOf(EXTENSION_DEVIDER))
+        val fileName = title.plus(extension)
+        val destination = "/${Constant.FOLDERS.FOLDER_NAME}/${PRODUCT_NAME}/$packageName"
+        fileDownloadUtil.downloadFile(
+            mimeType = MIME_TYPE,
+            url = missionDto.fullPath,
+            destination = Environment.DIRECTORY_DOWNLOADS,
+            title = fileName,
+            fileName = "$destination/$fileName"
+        )
+    }

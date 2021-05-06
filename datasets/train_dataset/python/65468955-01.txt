@@ -1,0 +1,16 @@
+for div in item_dvs:
+    #Do Something
+
+    try:   
+        is_cust = div.find_element_by_css_selector('._1C1Fl._23qjy')
+        print("found")
+    except NoSuchElementException:
+        continue
+
+    driver.execute_script("arguments[0].scrollIntoView();", is_cust)
+    add = div.find_element_by_css_selector('._1RPOp')
+    driver.execute_script("arguments[0].click();", add)
+    time.sleep(1)
+    # Not sure why for this one you had driver instead of div. Suspect div should be 
+    add_ons = div.find_element_by_class_name('_26cJ9').text
+    div.find_element_by_css_selector('#modal-placeholder > div:nth-child(3) >   div > div._1Kr-y._3EeZR > div > div._1EZLh > div > button').click()

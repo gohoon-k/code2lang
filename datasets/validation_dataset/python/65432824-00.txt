@@ -1,0 +1,10 @@
+class A:
+    def __init__(self, n):
+        self.n = n
+    
+    def methodA(self):
+        print("methodA")
+
+    def methodB(self):
+        methodA()
+        print("methodB")

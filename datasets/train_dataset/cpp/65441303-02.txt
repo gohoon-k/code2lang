@@ -1,0 +1,21 @@
+#ifndef DATABASE_H_INCLUDED
+#define DATABASE_H_INCLUDED
+
+#endif // DATABASE_H_INCLUDED
+
+ class Database 
+  {
+
+ public: 
+
+    Database();
+    void AddCustomer(); 
+    void searchname(); 
+    void searchemail(); 
+    void searchcell(); 
+    void quit(); 
+    void displayall(); 
+    void search(); 
+    void deleteFile(); 
+    void editFile(); 
+ };

@@ -1,0 +1,26 @@
+ val jsonObject = JSONObject(response)
+
+                        if (!jsonObject.getBoolean("error")) {
+                            //getting data array from json response object
+                            val dataObject = jsonObject.getJSONObject("data")
+                            Log.i("MessageFragment", "[][] data array " + dataObject)
+                            val array = dataObject.getJSONArray("NzbyxhmodN")
+
+                            var i = 0
+                            while (i < array.length()) {
+                                //getting wallet object from json array
+                                val message = array.getJSONObject(i)
+
+                                //adding the wallet to wallet list
+                                messageList!!.add(Message(
+                                        message.getInt("id"),
+                                        message.getInt("sender_id"),
+                                        message.getInt("receiver_id"),
+                                        message.getString("subject"),
+                                        message.getString("message"),
+                                        message.getString("message_id"),
+                                        message.getString("timestamp"),
+                                        message.getBoolean("isRead")
+                                ))
+                                i++
+                            }

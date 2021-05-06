@@ -1,0 +1,15 @@
+class Ant:
+    def __init__(self, file_name):
+        ...
+
+    def __str__(self):
+        return ''
+
+    def start(self, row, column):
+        ...
+
+    def do(self, instructions):
+        ...
+
+    def find(self):
+        return set()

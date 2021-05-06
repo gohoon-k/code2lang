@@ -1,0 +1,26 @@
+class LoginActivity : AppCompatActivity() {
+
+......
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_login)
+
+    val jumpToConnection = intent.getBooleanExtra("CONNECTION",false)
+    initNavigationConfiguration(jumpToConnection)
+}
+
+private fun initNavigationConfiguration(jumpToConnection: Boolean){
+    val fragment : Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_login_container)
+
+    if(fragment != null){
+        val navHostFragment = fragment as NavHostFragment
+        val graphInflater = fragment.navController.navInflater
+        val navGraph = graphInflater.inflate(R.navigation.nav_graph_login)
+        val navController = navHostFragment.navController
+        val destination = if (jumpToConnection) R.id.connectFragment else R.id.loginFragment
+        navGraph.startDestination = destination
+        navController.graph = navGraph
+    }
+}
+}

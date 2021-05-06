@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+
+class Student{
+    public:
+        static int uniqueID;
+        std::string name;
+        int grade;
+        int studId;
+        // Produces the uniqueID
+        int nextUniqueID() { uniqueID++; return uniqueID; }
+        Student(std::string x, int y){
+            name = x;
+            grade = y;
+            studId = nextUniqueID(); // Gets a new ID for each created student
+        }
+};
+int Student::uniqueID = 0;
+
+void CreateStudent(std::string name = "", int grade = 0){
+
+     // I bypass the interactive feature for the example
+     if (name.length() == 0) {
+        std::cout << "Please enter the students name.\n";
+        std::cin >> name;
+     }
+     if (!grade) {
+        std::cout << "Please enter the students grade number.\n";
+        std::cin >> grade;
+     }
+    Student studObj(name, grade);
+    std::cout << studObj.name << " from grade " << studObj.grade << " with ID# "<< studObj.uniqueID <<" has been created!\n";
+ }
+
+int main() {
+    CreateStudent("Alex", 14);  //=> "Alex from grade 14 with ID# 1";
+    CreateStudent("Sarah", 16); //=> "Sarah from grade 16 with ID# 2";
+    return 0;
+}

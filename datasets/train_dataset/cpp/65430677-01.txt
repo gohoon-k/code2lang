@@ -1,0 +1,25 @@
+#include <iostream>
+
+template<typename T>
+auto operation(T t1, T t2) {
+    return t1 * t2;
+}
+
+// Explicit (full) specialization of operation<int>, with
+// the "T = int" type being inferred from the parameters
+template<>
+auto operation(int t1, int t2) {
+    return t1 + t2;
+}
+
+int main() {
+    int a = 5;
+    int b = 6;
+    float c = 7;
+    float d = 8;
+
+    std::cout << operation(a, b) << "\n"; // Prints "11"
+    std::cout << operation(c, d) << "\n"; // Prints "56"
+
+    return 0;
+}

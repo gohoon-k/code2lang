@@ -1,0 +1,15 @@
+void printBuffer(BYTE* buffer, int length)
+{
+    for (int i = 0; i < length; i++)
+    {
+        printf("%02X ", buffer[i]);
+    }
+
+    cout << endl;
+}
+
+int WSAAPI __WSASend(SOCKET s, LPWSABUF lpBuffers, DWORD dwBufferCount, LPDWORD lpNumberOfBytesSent, DWORD dwFlags, LPWSAOVERLAPPED lpOverlapped, LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine)
+{
+    printBuffer((BYTE*)lpBuffers->buf, lpBuffers->len);
+    return _WSASend(s, lpBuffers, dwBufferCount, lpNumberOfBytesSent, dwFlags, lpOverlapped, lpCompletionRoutine);
+}

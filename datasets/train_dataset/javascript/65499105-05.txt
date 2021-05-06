@@ -1,0 +1,18 @@
+// Insted of setting up specific event handlers,
+// you can leverage event delegation and let the
+// event bubble up to some ancestor element where
+// it is handled. Here, we're setting up a click
+// handler on the document.
+document.addEventListener("click", EventMailing);
+
+function EventMailing(event) {
+  // All event handlers are automatically passed
+  // a reference to the event object that triggered
+  // them. You can inspect the .target of the event
+  // which references the actual object that triggered
+  // the event
+  if(event.target.nodeName === "BUTTON"){
+    var email = event.target.previousElementSibling;
+    console.log(email.value);
+  } 
+}

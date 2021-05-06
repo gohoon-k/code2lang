@@ -1,0 +1,5 @@
+inline fun <T : ViewBinding> ViewGroup.viewBinding(crossinline bindingInflater: (LayoutInflater, ViewGroup, Boolean) -> T, attachToParent: Boolean = true) =
+        bindingInflater.invoke(LayoutInflater.from(this.context), this, attachToParent)
+
+val binding = viewBinding(ComponentButtonBinding::inflate)
+val binding = viewBinding(ComponentButtonBinding::inflate, false)

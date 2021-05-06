@@ -1,0 +1,20 @@
+def bestsum(s, numbers, memo=None):
+    if memo is None:
+        memo = {}
+    if s == 0:
+        return []
+    elif s < 0:
+        return False
+    else:
+        if s not in memo:
+            shortest_combination = False
+            for number in numbers:
+                remainder = s - number
+                combination = bestsum(remainder, numbers, memo)
+                if combination != False:
+                    combination = combination.copy()
+                    combination.append(number)
+                    if shortest_combination == False or len(combination) < len(shortest_combination):
+                        shortest_combination = combination
+            memo[s] = shortest_combination
+        return memo[s]

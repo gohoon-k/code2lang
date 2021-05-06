@@ -1,0 +1,24 @@
+game_list = []
+
+i = 1
+
+for game in games_detailed:
+    if int(games_detailed[i-1]['home']) == 0:
+        temp_dict = {}
+        temp_dict['gameId'] = games_detailed[i-1]['gameId']
+        temp_dict['away_team'] = games_detailed[i-1]['teamName']
+        temp_dict['away_points'] = games_detailed[i-1]['points']
+        game_list.append(temp_dict)    
+    elif int(games_detailed[i-1]['home']) == 1:
+        temp_dict = {}
+        temp_dict['home_team'] = games_detailed[i-1]['teamName']
+        temp_dict['home_points'] = games_detailed[i-1]['points']
+        temp_dict['spread'] = games_detailed[i-1]['plusMinus']
+        temp_dict['home_win'] = games_detailed[i-1]['homeWin']
+        temp_dict['home_loss'] = games_detailed[i-1]['homeLoss']
+        if i == 1:
+            count = i-1
+        else:
+            count = int(i/2)
+        game_list[count].update(temp_dict)
+    i += 1

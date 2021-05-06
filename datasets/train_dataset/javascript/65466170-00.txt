@@ -1,0 +1,103 @@
+/* arry that holds tasks */
+let tasks = [];
+
+/* create a todo object */
+const addTask = (text) => {
+    const todoTask = {
+        text,
+        checked: false,
+        id: Date.now(),
+    }
+    tasks.push(todoTask);
+    renderTodo(todoTask);
+};
+ 
+const formT = document.querySelector(`[data-new-todo-form]`)
+const inputT = document.querySelector(`[data-new-todo-input]`)
+const todoList = document.getElementById('todo-list');
+
+formT.addEventListener('submit', e => {
+    e.preventDefault()
+    
+    let text = inputT.value.trim();
+    if(text !== '') {
+       addTask(text);
+       inputT.value = '';
+       inputT.focus();
+
+    } 
+ 
+})
+
+const renderTodo = (todoTask)=> {
+
+    localStorage.setItem('tasksRef', JSON.stringify(tasks));
+
+
+    const item = document.querySelector(`[data-key='${todoTask.id}']`);
+
+    if (todoTask.deleted) {
+        // remove the item from the DOM
+        item.remove();
+        return
+      }
+
+    const isChecked = todoTask.checked ? 'done': '';
+
+    const node = document.createElement('li')
+    node.setAttribute('class', `todo-item ${isChecked}`);
+    node.setAttribute('data-key', todoTask.id);
+    node.innerHTML = `
+    
+    <input class="js-tick save-cb-state" id="${todoTask.id}" type="checkbox"/>
+    <span>${todoTask.text}</span>
+    <img class="delete" width="15px" height='15px' src="/images/icon-cross.svg" alt="cross">`
+    ;
+    todoList.append(node);
+
+    if (item) {
+        node.replaceWith(item)
+    } else {
+        todoList.append(node)
+    }
+}
+
+todoList.addEventListener('click', e => {
+    if (e.target.classList.contains('js-tick')) {
+        const itemKey = e.target.parentElement.dataset.key;
+        toggleDone(itemKey);
+    }
+
+    if (e.target.classList.contains('delete')) {
+        const itemKey = e.target.parentElement.dataset.key;
+        deleteTodo(itemKey);
+      }
+    
+});
+
+const toggleDone = (key) => {
+    
+    const index = tasks.findIndex(task=> task.id === Number(key));
+
+    tasks[index].checked = !tasks[index].checked;
+    renderTodo(tasks[index]);
+}
+const deleteTodo = (key) => {
+    const index = tasks.findIndex(item => item.id === Number(key));
+
+    const todoTask = {
+        deleted: true,
+        ...tasks[index]
+      };
+      tasks = tasks.filter(item => item.id !== Number(key));
+  renderTodo(todoTask);
+}
+document.addEventListener('DOMContentLoaded', () => {
+    const ref = localStorage.getItem('tasksRef');
+    if (ref) {
+      tasks = JSON.parse(ref);
+      tasks.forEach(task => {
+        renderTodo(task);
+      });
+    }
+  });

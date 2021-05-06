@@ -1,0 +1,7 @@
+private fun encryptFile(file: File) {
+   val originalData = file.readBytes()
+   val encryptData = encrypt(originalData)
+   encryptData?.run {
+       file.writeBytes(this)
+   }
+}

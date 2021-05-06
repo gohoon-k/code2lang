@@ -1,0 +1,33 @@
+...
+private val _networkState  = MutableLiveData<NetworkState>()
+val networkState: LiveData<NetworkState>
+    get() = _networkState
+...
+private val _provinceDetailsResponse = MutableLiveData<Province>()
+val provinceDetailsResponse: LiveData<Province>
+    get() = _provinceDetailsResponse
+...
+fun fetchProvinceDetails() {
+
+    _networkState.postValue(NetworkState.LOADING)
+    try {
+        compositeDisposable.add(
+            apiService.getProvinceDetails()
+                 .subscribeOn(Schedulers.io())
+                 .subscribe({
+                         _provinceDetailsResponse.postValue(it)
+                         _networkState.postValue(NetworkState.LOADED)
+                      },
+                      {
+                         _networkState.postValue(NetworkState.ERROR)
+                         Log.e("DataSource", it.message!!)
+                      }
+                  )
+            )
+
+        }
+
+    catch (e: Exception){
+        Log.e("DataSource", e.message!!)
+    }
+}

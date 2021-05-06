@@ -1,0 +1,25 @@
+  <body class="text-center">
+     <div class="bg-login">
+        <div class="container">
+           <nav class="navbar navbar-dark sticky-top h-100">
+              <ul class="nav navbar-nav ml-auto nav-fill">
+                 <li class="navbar-item">
+                    <a class="navbar-brand" href="#" id="navlink">
+                    <span data-feather="globe"></span>
+                    EN-US
+                    </a>
+                 </li>
+                 <li class="navbar-item">
+                    <a class="navbar-brand" href="#">
+                    <span data-feather="globe"></span>
+                    en-uk
+                    </a>
+                 </li>
+              </ul>
+           </nav>
+        </div>
+     </div>
+     <script type="text/javascript">
+        feather.replace()
+     </script>
+  </body>

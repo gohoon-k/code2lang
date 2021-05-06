@@ -1,0 +1,22 @@
+def get_accuracy_parameters(json_distances_path, threshold):
+with open(json_distances_path, 'r') as f:
+    distances = json.load(f)
+match_list = distances['matches']
+not_match_list = distances['not_matches']
+TP, FP, TN, FN = 0,0,0,0
+for distance_val in match_list:
+    if distance_val <= threshold:
+        TP += 1
+    else:
+        FN += 1
+for distance_val in not_match_list:
+    if distance_val <= threshold:
+        FP += 1
+    else:
+        TN += 1
+TPR = TP/(TP + FN)
+FPR = FP/(FP + TN)
+Acc = (TP + TN)/(TP + FN + FP + TN)
+FAR = FPR # false acceptance rate
+FRR = FN/(TP + FN) # false rejection rate
+return TPR, FPR, Acc, FAR, FRR

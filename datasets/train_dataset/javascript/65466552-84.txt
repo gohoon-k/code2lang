@@ -1,0 +1,7 @@
+function foo(){
+ setTimeout( ()=>{
+   return 'wohoo';
+  }, 1000 )
+}
+
+let bar = foo() // bar is undefined here

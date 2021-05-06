@@ -1,0 +1,20 @@
+from collections import defaultdict
+
+#Name mappings
+away_keys = list(zip(['gameId','away_team','away_points'], #New key names
+                     ['gameId','teamName','points']))       #Old key names
+
+home_keys = list(zip(['gameId','home_team','home_points','spread','home_win'],
+                     ['gameId','teamName','points','plusMinus','homeWin']))
+
+
+games = defaultdict(dict)
+for g in games_detailed:
+    if g['home']=='0':
+        d = {i:g[j] for i,j in away_keys}
+    else:
+        d = {i:g[j] for i,j in home_keys}
+    games[d['gameId']].update(d)
+
+game_results = list(games.values())
+game_results

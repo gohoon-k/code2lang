@@ -1,0 +1,8 @@
+public class Main {
+    public static void main(String... args) {
+        System.out.println(Character.isWhitespace('\n'));
+        System.out.println("\n\n\n\n\n".split("\\p{javaWhitespace}+").length);
+        System.out.println("10\n".split("\\p{javaWhitespace}+").length);
+        System.out.println("hello\n".split("\\p{javaWhitespace}+").length);
+    }
+}

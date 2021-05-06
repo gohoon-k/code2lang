@@ -1,0 +1,26 @@
+#include <iostream>
+#include <regex>
+using namespace std;
+
+int main()
+{
+ 
+
+    //string to be searched
+    string mystr = "<H><J><T>"; 
+   
+    // regex expression for pattern to be searched 
+    regex regexp("<([^]]+)>"); 
+   
+    // flag type for determining the matching behavior (in this case on string objects)
+     smatch m; 
+   
+    // regex_search that searches pattern regexp in the string mystr  
+    regex_search(mystr, m, regexp); 
+  
+    cout<<"String that matches the pattern:"<<endl;
+    for (auto x : m) 
+        cout << x << " "; 
+    return 0; 
+
+}

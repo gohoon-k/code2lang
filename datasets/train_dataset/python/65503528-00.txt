@@ -1,0 +1,33 @@
+import cv2, os 
+import numpy as np
+dir_images = "LBPdata/"
+imgs = os.listdir(dir_images)
+
+
+def getLBPimage(gray_image):
+    gray_image = image
+    imgLBP = np.zeros_like(gray_image)
+    neighboor = 2 #3
+    for ih in range(0,image.shape[0] - neighboor):
+        for iw in range(0,image.shape[1] - neighboor):
+            img          = gray_image[ih:ih+neighboor,iw:iw+neighboor]
+            center       = img[1,1]
+            img01        = (img >= center)*1.0
+            img01_vector = img01.T.flatten()
+            img01_vector = np.delete(img01_vector,3) #4
+            where_img01_vector = np.where(img01_vector)[0]
+            if len(where_img01_vector) >= 1:
+                num = np.sum(2**where_img01_vector)
+            else:
+                num = 0
+            imgLBP[ih+1,iw+1] = num
+    return(imgLBP)
+
+
+imgs = os.listdir(dir_images)
+for imgnm in imgs:
+    image = plt.imread(os.path.join(dir_images,imgnm))
+
+    imgLBP    = getLBPimage(image)
+    plt.imshow(imgLBP, cmap ="gray") 
+    plt.show()  

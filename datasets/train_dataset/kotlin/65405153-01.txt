@@ -1,0 +1,38 @@
+ private val task: Runnable = object : Runnable {
+        @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        override fun run() {
+            handler.postDelayed(this, 150)
+            if (!scale!!.bleIsEnabled()) {
+                return
+            }
+            scale!!.Scan(true)
+            if (scale!!.getState() === 0) {
+                txtScale.text = "Idle"
+            } else if (scale!!.getState() !== 0) {
+                txtScale.text = "Busy"
+            }
+            scale!!.updatelist()
+            if (scale!!.getDevicelist()!!.isEmpty() !== true) {
+                listData.clear()
+                for (i in 0 until scale!!.getDevicelist()!!.size) {
+                    val map: MutableMap<String, String?> = HashMap()
+                    map["devicename"] = scale!!.getDevicelist()!![i].devicename
+                    map["value"] = java.lang.String.format(
+                        "%4.1f" + "kg" + "     " + "SUM:%4.1f" + "kg", scale!!.getDevicelist()!![i].scalevalue, scale!!.getDevicelist()!![i].sumvalue
+                    )
+                    eMass?.setText(
+                        java.lang.String.format(
+                            "%4.1f", scale!!.getDevicelist()!![i].scalevalue
+                        )
+                    )
+                    listData.add(map)
+                }
+            } else {
+                listData.clear()
+            }
+            if (listData == listlastData == false) adapter?.notifyDataSetChanged()
+            listlastData?.clear()
+            for (j in listData.indices) listlastData?.add(listData[j])
+        }
+    }
+

@@ -1,0 +1,16 @@
+// code section where "cubeData" should be visible
+#include "CubeData.h"
+
+void mainWidget::createGeoObjects() {
+  cube = new cubeData();
+  // ...
+}
+
+// #uninclude "CubeData.h" - ???
+//
+// code section where "cubeData" should be invisible
+void mainWidget::otherFunction() {
+  cube = new cubeData(); // should result in a compile error
+  // ...
+}
+

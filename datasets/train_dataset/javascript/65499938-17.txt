@@ -1,0 +1,9 @@
+let products = [
+    { name: "laptop", price: 800 },
+    { name: "phone", price:200},
+    { name: "tv", price: 1200}
+];
+products.sort( (a, b) => {
+    {let value= a.name - b.name; console.log(value); return value}
+});
+

@@ -1,0 +1,45 @@
+struct NoType {};
+
+
+template <typename T>
+struct MemberOrNothing
+{
+    MemberOrNothing(T arg) : member(arg) {}
+    constexpr bool hasMember() { return true; }
+    T member;
+};
+template <>
+struct MemberOrNothing<NoType>
+{
+    MemberOrNothing(NoType) {}
+    constexpr bool hasMember() { return false; }
+};
+
+template <typename T_MemberOne, typename T_OptionalSecondMember = NoType>
+struct OneOrTwoMemberStruct
+{
+    OneOrTwoMemberStruct(T_MemberOne firstMember, T_OptionalSecondMember optionalSecond = NoType())
+        : firstMember(firstMember), secondMember(optionalSecond)    {}
+
+
+    T_MemberOne firstMember;
+    MemberOrNothing<T_OptionalSecondMember> secondMember;
+    T_OptionalSecondMember& getSecondMember() { return secondMember.member; }
+    constexpr bool hasSecondMember() { return secondMember.hasMember(); }
+    
+};
+
+int main()
+{
+
+      OneOrTwoMemberStruct objWithSecondMember{ 7, 'c' };
+      OneOrTwoMemberStruct objWithoutSecondMember{ 7 };
+
+    // Works
+    if constexpr (objWithSecondMember.hasSecondMember())
+        std::cout << objWithSecondMember.getSecondMember() << '\n';
+    
+    // Doesn't work, std::cout << doesn't accept a NoType
+    if constexpr (false)
+        std::cout << objWithoutSecondMember.getSecondMember() << '\n';
+} 

@@ -1,0 +1,61 @@
+class MainActivity : AppCompatActivity() {
+
+
+    /*
+    SOME INSIGNIFICANT CODE HERE
+    */
+
+    private fun setUI(currentWeather: Root){
+        tv_city.text = "${currentWeather.name}, ${currentWeather.sys.country}"
+        /*
+        ...
+        */
+    }
+
+    inner class WeatherByNameTask: AsyncTask<String, Unit, Unit>(){
+
+        override fun doInBackground(vararg p0: String?) {
+            val city: String? = p0[0]
+            val call = weatherApi.getCurrentWeatherByCityName(city!!, API_KEY, "metric")
+            call.enqueue(object: Callback<Root>{
+                override fun onResponse(call: Call<Root>, response: Response<Root>) {
+                    if (!response.isSuccessful){
+                        Toast.makeText(this@MainActivity, "Code: ${response.code()}", Toast.LENGTH_LONG).show()
+                    } else {
+                        val currentWeather = response.body()
+                        setUI(currentWeather!!)
+                    }
+                }
+
+                override fun onFailure(call: Call<Root>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Code: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+    }
+
+    inner class WeatherByCoordTask: AsyncTask<Location, Unit, Unit>(){
+
+        override fun doInBackground(vararg p0: Location?) {
+            val lat: String = p0[0]?.latitude.toString()
+            val lon: String = p0[0]?.longitude.toString()
+            val call = weatherApi.getCurrentWeatherByCoordinates(lat, lon, API_KEY, "metric")
+            call.enqueue(object: Callback<Root>{
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(call: Call<Root>, response: Response<Root>) {
+                    if (!response.isSuccessful){
+                        Toast.makeText(this@MainActivity, "Code: ${response.code()}", Toast.LENGTH_LONG).show()
+                    } else {
+                        val currentWeather = response.body()
+                        setUI(currentWeather!!)
+                    }
+                }
+
+                override fun onFailure(call: Call<Root>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Code: ${t.message}", Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+    }
+}
+

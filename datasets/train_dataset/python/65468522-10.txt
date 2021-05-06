@@ -1,0 +1,1 @@
+a = list(filter(None, map(lambda x: x if x.isdigit() else None, a)))

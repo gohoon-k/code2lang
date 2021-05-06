@@ -1,0 +1,84 @@
+#include <iostream>
+#include <stdio.h>
+#include <ctype.h>
+#include <string>
+#include <string.h>
+
+char house;
+char chinese;
+char nose;
+char code1[9];
+char code2[9];
+char code3[9];
+static int cl = 0;
+void function();
+
+using namespace std;
+int main()
+{
+    cout << "enter the first code" << endl;
+    cin >> code1;
+    cout << "enter the second code" << endl;
+    cin >> code2;
+    for (int r = 0; r < 8; r++)
+    {
+    function();
+    }
+    cout << code3 << endl;
+    cin.get();
+}
+void function()
+{
+    //Testing if They both have the same letter
+    if ((code1[cl] = 'h') && (code2[cl] = 'h'));
+    {   
+        house = 'h';
+        code3[cl] = house;
+    }
+    if ((code1[cl] = 'c') && (code2[cl] = 'c'));
+    {
+        chinese = 'c';
+        code3[cl] = chinese;
+    }
+    if ((code1[cl] = 'n') && (code2[cl] = 'n'));
+        nose = 'n';
+        code3[cl] = nose;
+    //Testing if They have the same number
+    if ((isdigit(code1[cl]) && (isdigit(code2[cl]))));
+    {
+         code3[cl] = code1[cl];
+    }
+    //Testing if Second Code has a number
+    if ((code1[cl] = 'h') && (isdigit(code2[cl])));
+    {
+         house = code2[cl];
+         code3[cl] = house;
+    }
+    if ((code1[cl] = 'c') && (isdigit(code2[cl])));
+    {
+         chinese = code2[cl];
+         code3[cl] = chinese;
+    }
+    if ((code1[cl] = 'n') && (isdigit(code2[cl])));
+    {
+        nose = code2[cl];
+        code3[cl] = nose;
+    }
+    //Testing if The First Code has a number
+    if ((code2[cl] = 'h' && (isdigit(code1[cl]))));
+    {
+         house = code1[cl];
+         code3[cl] = house;
+    }
+    if ((code2[cl] = 'c' && (isdigit(code1[cl]))));
+    {
+         chinese = code1[cl];
+         code3[cl] = chinese;
+    }
+    if ((code2[cl] = 'n' && (isdigit(code1[cl]))));
+    {
+         nose = code1[cl];
+         code3[cl] = nose;
+    }
+    cl++;
+}

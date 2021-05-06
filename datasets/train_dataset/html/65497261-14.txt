@@ -1,0 +1,15 @@
+    <body>
+    <a id=id_page href ="#loving"   onclick="load_services()"> loving   </a>
+
+        <script>
+                // This script MUST BE under the "ID" that is calling
+                // Do not transfer it to a differ DIV than the caller "ID"
+                document.getElementById("id_page").addEventListener("click", function(){
+                document.getElementById("mainbody").innerHTML = '<object data="Services.html" class="loving_css_edit"; ></object>'; });
+            </script>
+    </body>
+
+  <div id="mainbody" class="main_body">
+        "here is loaded the external html file when the loving link will 
+         be  clicked. "
+  </div>

@@ -1,0 +1,8 @@
+array = ["String", "12"]
+
+for item in array:
+  try:
+    int(item)
+    print(f"{item} is not string")
+  except:
+    print(f"{item} is string")

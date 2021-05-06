@@ -1,0 +1,35 @@
+
+template <typename T=void> struct Adder;
+
+template <> struct Adder <void>
+{
+    virtual double add(double a, double b)
+    {
+        return (a+b);
+    }
+};
+
+template <typename T> struct Adder : Adder <void>
+{
+    virtual double add(double a, double b)
+    {
+        return ((T)a+(T)b);
+    }
+};
+
+    
+using AdderBase   = Adder <void>;
+using AdderInt    = Adder <int>;
+using AdderFloat  = Adder <float>;
+using AdderDouble = Adder <double>;
+
+int main(int argc, char* argv[])
+{
+    AdderBase* addI = new AdderInt;
+    AdderBase* addF = new AdderFloat;
+    AdderBase* addD = new AdderDouble;
+
+    printf("addI = %18.1f\n", addI->add(11111111111111111.0, 1.0));
+    printf("addF = %18.1f\n", addF->add(11111111111111111.0, 1.0));
+    printf("addD = %18.1f\n", addD->add(11111111111111111.0, 1.0));
+}

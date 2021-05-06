@@ -1,0 +1,115 @@
+public class MainView extends AppCompatActivity {
+
+    public final int[] SERVICIOS = {R.string.servicioEntrenamiento_titulo, R.string.servicioProfesores_titulo, R.string.servicioReparaciones_titulo, R.string.servicioTransporte_titulo};
+
+    //TODO: IMPLEMENTAR LA VISTA PRINCIPAL, DE LA APP.
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    //TODO: Implementar las cardView del MainView.
+    private CardView cardView;
+    private ImageView imgCard;
+    private TextView txtTituloCard;
+    private TextView txtDescCard;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_view);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycleViewServicios);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new MyAdapter(MyAdapter.getmDataset());
+        recyclerView.setAdapter(mAdapter);
+
+        //Setup the CardView components.
+        //TODO: Solucionar NullPointerException. EL CardView y el ImageView, están a Null haga lo que haga.
+        cardView = findViewById(R.id.cv_mainView);
+        imgCard = findViewById(R.id.photo_card);
+
+
+        for (int i = 0; i < SERVICIOS.length; i++) {
+
+            if (SERVICIOS[i] == R.string.servicioReparaciones_titulo) {
+
+                imgCard.setImageResource(R.drawable.reparaciones);
+                txtTituloCard = findViewById(R.id.txtTitulo_Card);
+                txtTituloCard.setText(R.string.servicioReparaciones_titulo);
+                txtDescCard = findViewById(R.id.txtDescripcion_Card);
+                txtDescCard.setText(R.string.servicioReparaciones_descripcion);
+
+
+            } else if (SERVICIOS[i] == R.string.servicioTransporte_titulo) {
+
+                imgCard.setImageResource(R.drawable.transporte);
+                txtTituloCard = findViewById(R.id.txtTitulo_Card);
+                txtTituloCard.setText(R.string.servicioTransporte_titulo);
+                txtDescCard = findViewById(R.id.txtDescripcion_Card);
+                txtDescCard.setText(R.string.servicioTransporte_descripcion);
+            } else if (SERVICIOS[i] == R.string.servicioProfesores_titulo) {
+
+                imgCard.setImageResource(R.drawable.profesores);
+                txtTituloCard = findViewById(R.id.txtTitulo_Card);
+                txtTituloCard.setText(R.string.servicioProfesores_titulo);
+                txtDescCard = findViewById(R.id.txtDescripcion_Card);
+                txtDescCard.setText(R.string.servicioProfesores_descripcion);
+
+            }else if (SERVICIOS[i] == R.string.servicioEntrenamiento_titulo){
+
+                imgCard.setImageResource(R.drawable.entrenadores);
+                txtTituloCard = findViewById(R.id.txtTitulo_Card);
+                txtTituloCard.setText(R.string.servicioEntrenamiento_titulo);
+                txtDescCard = findViewById(R.id.txtDescripcion_Card);
+                txtDescCard.setText(R.string.servicioEntrenamiento_descripcion);
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case R.id.item_info:
+                Toast miToast = Toast.makeText(getApplicationContext(), "¡Bienvenido a App-Añados!\nGracias a esta App prodrás contratar servicios de manera rápida y segura!", Toast.LENGTH_LONG);
+                miToast.setGravity(Gravity.CENTER, 0, 0);
+                miToast.show();
+                return true;
+            case R.id.message_icon:
+                Intent miIntent = new Intent(getApplicationContext(), MessageView.class);
+                startActivity(miIntent);
+                return true;
+            case R.id.perfil:
+                Intent miIntent2 = new Intent(getApplicationContext(), MainView.class);
+                startActivity(miIntent2);
+                return true;
+            case R.id.item__salir:
+                Toast miToast2 = Toast.makeText(getApplicationContext(), "Saliendo de la aplicación", Toast.LENGTH_LONG);
+                miToast2.setGravity(Gravity.CENTER, 0, 0);
+                miToast2.show();
+                System.exit(0);
+                return true;
+            default:
+        return super.onOptionsItemSelected(item);
+        }
+    }
+}
+

@@ -1,0 +1,35 @@
+// B.h
+#ifndef B_H
+#define B_H
+
+struct B {
+    B(int);
+    int x;
+};
+
+#endif
+
+// B.cpp
+#include "B.h"
+B::B(int xx) : x(xx) {}
+
+// A.h
+#include "B.h"
+
+struct A {
+    A(int x);
+    B b;
+};
+
+// A.cpp
+#include "A.h"
+
+A::A(int x) : b(x) {}
+
+// main.cpp
+#include "A.h"
+
+int main() {
+    A a(5);
+    return 0;
+};

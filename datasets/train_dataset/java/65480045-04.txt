@@ -1,0 +1,6 @@
+Filter[] filters = ...;
+String[] ids = ...;
+for (int i=0;i<10;i++) {
+    filters[i] = new Compare.Equal("brokerId.id", ids[i]);
+}
+Or or  = new Or(filters); 

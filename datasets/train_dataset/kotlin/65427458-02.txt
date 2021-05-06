@@ -1,0 +1,26 @@
+@Component
+class IngestPostgres {
+    @Autowired
+    private lateinit var db: JdbcTemplate
+
+    @Transactional
+    fun ingest(bufferedReader: BufferedReader) {
+       db.execute("""
+           DROP TABLE IF EXISTS temporary_pokemon;
+           CREATE TABLE temporary_pokemon (
+             pokemon_id INT,
+             pokemon_name VARCHAR,
+             pokemon_type VARCHAR
+           );
+       """.trimIndent())
+
+        val pgConnection = db.dataSource?.connection?.unwrap(PgConnection::class.java)!!
+
+        CopyManager(pgConnection).copyIn(
+            "COPY temporary_pokemon FROM stdin DELIMITER ',' CSV HEADER",
+            bufferedReader
+        )
+
+        // snipped - later code INSERTS contents of temporary_pokemon into main pokemon table
+    }
+}

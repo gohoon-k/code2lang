@@ -1,0 +1,33 @@
+public class TechTest {
+
+    static int numberOfQuestions = 0;
+        
+    static int questionNum = 0;
+    static Vector  questionSet = new Vector();
+    static Vector answerSet = new Vector();
+        
+    public static void main(String[] args) {
+            // TODO Auto-generated method stub
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    String questionAnsFileName = readQuestionAnswerFileName();
+                    
+                    
+                    parseQuestionAnswerFile(questionAnsFileName);
+                    if (!noFile) {
+                        if (!questionSet.isEmpty()) { 
+                            View view = new View();
+                            System.out.println("run: " + "questionNum " + questionNum); 
+                            view.display((String) questionSet.get((questionNum)));
+                        
+    
+                       }
+                       else
+                          showErrorDialog("questions are missing. Check the javaQuestionAns.txt file");
+                    
+                       }
+                }
+            });
+    
+        }
+    } 

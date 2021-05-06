@@ -1,0 +1,90 @@
+import 'dart:convert';
+
+class ActionsList {
+  final List<ActionsData> actions;
+
+  ActionsList({
+    this.actions,
+  });
+
+  factory ActionsList.fromJson(List<dynamic> parsedJson) {
+
+    List<ActionsData> actions = new List<ActionsData>();
+    actions = parsedJson.map((i)=>ActionsData.fromJson(i)).toList();
+
+    return new ActionsList(
+        actions: actions
+    );
+  }
+}
+
+
+class ActionsData {
+  final String id;
+  final String shopId;
+  final String name;
+  final String validFrom;
+  final String validTo;
+  final String description;
+  final String type;
+  final String otherType;
+  final String discount;
+  final String discountType;
+  final String discountCoupon;
+  final String imageMobileUrl;
+  final String aggregator;
+  final String redirectLink;
+
+  ActionsData(
+      {this.id,
+        this.shopId,
+        this.name,
+        this.validFrom,
+        this.validTo,
+        this.description,
+        this.type,
+        this.otherType,
+        this.discount,
+        this.discountType,
+        this.discountCoupon,
+        this.imageMobileUrl,
+        this.aggregator,
+        this.redirectLink});
+
+  Map<String, dynamic> toJson(){
+    return {
+    "id": this.id,
+    "shopId": this.shopId,
+    "name": this.name,
+    "validFrom": this.validFrom,
+    "validTo": this.validTo,
+    "description": this.description,
+    "type": this.type,
+    "otherType": this.otherType,
+    "discount": this.discount,
+    "discountType": this.discountType,
+    "discountCoupon": this.discountCoupon,
+    "imageMobileUrl": this.imageMobileUrl,
+    "aggregator": this.aggregator,
+    "redirectLink": this.redirectLink
+    };
+  }
+
+  factory ActionsData.fromJson(Map<String, dynamic> json){
+    return new ActionsData(
+        id: json['id'],
+        shopId: json['shop_id'],
+        name: json['name'],
+        validFrom: json['valid_from'],
+        validTo: json['valid_to'],
+        description: json['description'],
+        type: json['type'],
+        otherType: json['other_type'],
+        discount: json['discount'],
+        discountType: json['discount_type'],
+        discountCoupon: json['discount_coupon'],
+        imageMobileUrl: json['image_mobile_url'],
+        aggregator: json['aggregator'],
+        redirectLink: json['redirect_link']);
+  }
+}

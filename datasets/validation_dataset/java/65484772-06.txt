@@ -1,0 +1,16 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.LogManager;
+
+public class Example2 {
+    public static void main(String... args) throws IOException {
+        final InputStream inputStream = Example2.class.getResourceAsStream("/logging.properties");
+        LogManager.getLogManager().readConfiguration(inputStream);
+        Logger logger = LoggerFactory.getLogger(Example2.class);
+        logger.debug("message 0");
+        logger.info("message 1");
+        logger.error("message 2");
+    }
+}

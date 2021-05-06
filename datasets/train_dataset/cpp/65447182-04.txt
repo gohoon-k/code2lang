@@ -1,0 +1,28 @@
+#include "List.h"
+
+int main() {
+
+    
+    List<int> l{};
+
+    int i=8;
+    l.push_front(i); //l-value
+    l.push_back(4); //r-value
+    l.push_back(i+2); //r-value
+    l.push_back(95); //r-value
+    l.push_front(29); //l-value
+    l.push_front(i*i); //r-value
+    std::cout << "My list so far: " << l<<std::endl;
+
+    auto p{l.go_to(3)};
+    auto itt = l.substitute(p, 29);
+    std::cout << "My list after substitution: \t" << l<<std::endl;
+
+    auto pp{l.go_to(2)};
+    auto it2 = l.insert(pp,98);
+    std::cout << "My list after insertion: \t" << l<<std::endl;
+    auto it3= l.insert(--pp,998);
+    std::cout << "My list after insertion: \t" << l<<std::endl;
+    
+    return 0;
+}

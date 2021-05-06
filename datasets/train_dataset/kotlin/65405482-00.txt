@@ -1,0 +1,49 @@
+class SignInDialogFragment: DialogFragment() {
+private lateinit var auth: FirebaseAuth
+private val tag1:String="className"
+private lateinit var intent:Intent
+override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+    Log.d(tag,"Tıklandı. 1")
+    intent=Intent(activity,SignUpActivity::class.java)
+    auth = Firebase.auth
+    return activity?.let {
+        val builder= AlertDialog.Builder(requireContext(),R.style.MyThemeOverlay_MaterialComponents_MaterialAlertDialog)
+        val inflater=requireActivity().layoutInflater
+        builder.setView(inflater.inflate(R.layout.sign_in,null))
+
+           .setPositiveButton(R.string.signIn) { dialog, id ->
+               Log.d(tag1, "edittext2= ${eposta.text}")
+               auth.signInWithEmailAndPassword(
+                   eposta.text.toString(),
+                   sifreGir.text.toString()
+               )
+                   .addOnCompleteListener { task ->
+                       if (task.isSuccessful) {
+                           Log.d(tag1, "signInWithEmail:success")
+                           val user = auth.currentUser
+                           updateUI(user)
+                       } else {
+                           Toast.makeText(
+                               requireContext(), "Authentication failed.",
+                               Toast.LENGTH_SHORT
+                           ).show()
+                           updateUI(null)
+                       }
+                   }
+               //Giriş eylemleri
+           }
+            .setNeutralButton(R.string.sign_up) { dialog, which ->
+                startActivity(intent)
+                //Kayıt ol sayfaseına göndersin
+                dialog.dismiss()
+                Log.d(tag1,"Kayıt ol' a geçti")
+            }
+            .setNegativeButton(R.string.cancel) { dialog, id ->
+                //İptal et
+                dialog.cancel()
+                Log.d(tag1,"Dialog dismissed!")
+            }
+        builder.create()
+    }?:throw IllegalStateException("Aktivite boş olamaz.")
+
+}

@@ -1,0 +1,49 @@
+ class LoginResponse {
+    
+        @SerializedName("status")
+        lateinit var status:String
+    
+        @SerializedName("message")
+        lateinit var message : String
+    
+        @SerializedName("result")
+        lateinit var result:Any
+    
+    
+    
+        lateinit var UserID: String
+    
+        lateinit var UserName:String
+    
+        lateinit var realPassword: String
+    
+    
+        class DataStateDeserializer : JsonDeserializer<LoginResponse>
+        {
+            override fun deserialize(
+                    json: JsonElement?,
+                    typeOfT: Type?,
+                    context: JsonDeserializationContext?
+            ): LoginResponse {
+                val loginResponse : LoginResponse = Gson().fromJson(json, LoginResponse::class.java)
+                val jsonObject = json!!.asJsonObject
+                if(jsonObject.has("result"))
+                {
+                    val element = jsonObject.get("result")
+                    if(element != null && !element.isJsonNull)
+                    {
+                        if(element.isJsonPrimitive){
+                            loginResponse.result = element.asString
+                        }
+                        else{
+                            loginResponse.UserID = element.asJsonObject.get("UserID").asString
+                            loginResponse.UserName = element.asJsonObject.get("UserName").asString
+                        }
+                    }
+                }
+    
+                return loginResponse
+            }
+    
+        }
+    }

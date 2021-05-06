@@ -1,0 +1,18 @@
+@Repository
+public class SubmitOrderDAOImplement implements SubmitOrderDAO {
+    // Define field for entitymanager
+    private EntityManager entityManager;
+    
+    public SubmitOrderDAOImplement(EntityManager theEntityManager){
+        entityManager = theEntityManager;
+    }
+    
+    @Override
+    public void save(SubmitOrder theSubmitOrder) {
+        // Get the current hibernate session
+        Session currentSession = entityManager.unwrap(Session.class);
+        // Save rates
+        currentSession.saveOrUpdate(theSubmitOrder);
+    }
+
+}

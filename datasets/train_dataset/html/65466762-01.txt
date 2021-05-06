@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./Semantic-UI-CSS-master/semantic.css">
+</head>
+<body>
+    <div class="ui visible left demo vertical inverted thin sidebar labeled icon menu">
+        
+      <a class="item" href="index.html">
+        <i class="tint icon"></i>
+        Análise
+      </a>
+      <a class="item" href="resultados.html" style="color: aquamarine;">
+        <i class="chart bar icon" style="color: aquamarine;"></i>
+        Gráficos
+      </a>
+    </div>
+    <div class="pusher">
+      <div class="ui basic segment">
+        <div style="width: 80%; margin: 2%;">     
+            <div class="ui top attached tabular menu">
+                <a class="item active" data-tab="hidrogenio">
+                Níveis de hidrogenio
+                </a>
+                <a class="item" data-tab="etano">
+                Photos
+                </a>
+                <a class="item" data-tab="etileno">
+                    Etileno
+                </a>
+            </div>
+
+            <div class="ui bottom attached segment" data-tab="hidrogenio">
+              <p>First Tab</p>
+            </div>
+
+            <div class="ui bottom attached segment" data-tab="etano">
+              <p>Second Tab</p>
+            </div> 
+
+            <div class="ui bottom attached segment" data-tab="etileno">
+              <p>Third Tab</p>
+            </div> 
+        </div>
+      </div>
+    </div>
+  <script>require('./js/renderer')</script>
+</body>
+<script>
+  var $ = require('jquery');
+  $('.item').click(function(){
+  $('.active').removeClass('active');
+  $(this).addClass('active');
+});
+</script>
+</html>

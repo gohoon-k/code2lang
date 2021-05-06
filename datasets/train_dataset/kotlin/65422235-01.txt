@@ -1,0 +1,15 @@
+data class GetHistoryData(
+    @SerializedName("rates")
+    var rates: Any,
+)
+
+data class Exchange(
+    var date: String? = "",
+    var exchangeCurrencyList: ArrayList<ExchangeCurrency> = ArrayList()
+)
+
+
+data class ExchangeCurrency(
+    var exchangeCurrency: String,
+    var exchangeValue: Double
+)

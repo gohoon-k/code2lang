@@ -1,0 +1,59 @@
+public class AllaBestallningar extends AppCompatActivity {
+
+ArrayList<String> minaOrders = new ArrayList<>();
+
+private static final String TEXT_CONTENTS = "AllaOrders";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_alla_bestallningar);
+
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("orders", Context.MODE_PRIVATE);
+        String order = sp.getString("order", "ingen text");
+        minaOrders.add(order);
+        minaOrders.add("Estelle");
+        minaOrders.add("Nicklas");
+
+        ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, minaOrders);
+
+        ListView ordersList = (ListView) findViewById(R.id.minList);
+
+        ordersList.setAdapter(adapter);
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_meny, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.laggBesMeny:
+                Intent i = new Intent(AllaBestallningar.this, MainActivity.class);
+                startActivity(i);
+                return true;
+            case R.id.minaBesMeny:
+                Toast.makeText(this, "Du är redan på beställningsidan", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putStringArrayList(TEXT_CONTENTS, minaOrders);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        minaOrders = savedInstanceState.getStringArrayList(TEXT_CONTENTS);
+    }
+}

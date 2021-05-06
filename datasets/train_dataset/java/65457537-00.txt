@@ -1,0 +1,261 @@
+ public class RaceUtils {
+
+// Create new Medals Method
+public static Medal generateMedals() {
+    int position = (int) ((Math.random() * 3) + 1);
+
+    Medal medal = new Medal(position, "1500");
+    return medal;
+
+}
+
+// Create new Driver Method
+public static Driver generateDriver() {
+    Medal[] medals = new Medal[4];
+    int age = (int) (Math.random() * 30) + 10;
+    for (int i = 0; i < medals.length; i++) {
+        medals[i] = generateMedals();
+
+    }
+    
+    return new Driver("Dan", age, medals);
+
+}
+
+// Create new Car Method
+public static Car generateCar() {
+    Driver[] drivers = new Driver[2];
+    for (int i = 0; i < drivers.length; i++) {
+        drivers[i] = generateDriver();
+
+    }
+
+    CarModels carModels = CarModels.values()[(int) (Math.random() * CarModels.values().length)];
+    int year = (int) (Math.random() * 1990 - 2000) + 1990;
+
+    return new Car(carModels, year, drivers);
+
+}
+
+// Create new Circuit Method
+public static Circuit generateCircuit() {
+    Car[] cars = new Car[10];
+    for (int i = 0; i < cars.length; i++) {
+        cars[i] = generateCar();
+
+    }
+    CircuitName names = CircuitName.values()[(int) (Math.random() * CircuitName.values().length)];
+    Country country = Country.values()[(int) (Math.random() * Country.values().length)];
+    int length = (int) (Math.random() * 30) + 10;
+
+    return new Circuit(names, country, length, cars);
+
+}
+
+// Print Method
+public static void print(Circuit[] circuit) {
+    for (int i = 0; i < circuit.length; i++) {
+        System.out.println(circuit[i].toString());
+
+    }
+}
+
+
+
+public class Medal {
+
+private int position;
+private String string;
+
+public Medal(int position, String string) {
+    setPosition(position);
+    this.string = string;
+}
+
+public int getPosition() {
+    return position;
+}
+
+public void setPosition(int position) {
+    if (this.position > 0 || this.position <= 3) {
+        this.position = position;
+    } else {
+        System.out.println("Position is out of range");
+    }
+}
+
+public String getString() {
+    return string;
+}
+
+public void setString(String string) {
+    this.string = string;
+}
+
+@Override
+public String toString() {
+    return "Medal [position=" + position + ", string=" + string + "]";
+}
+
+
+  public class Driver {
+
+private String name;
+private int age;
+private Medal[] medals;
+
+public Driver(String name, int age, Medal[] medals) {
+    this.name = name;
+    this.age = age;
+    this.medals = medals;
+}
+
+public String getName() {
+    return name;
+}
+
+public void setName(String name) {
+    this.name = name;
+}
+
+public int getAge() {
+    return age;
+}
+
+public void setAge(int age) {
+    this.age = age;
+}
+
+public Medal[] getMedals() {
+    return medals;
+}
+
+public void setMedals(Medal[] medals) {
+    this.medals = medals;
+}
+
+@Override
+public String toString() {
+    return "Driver: Name = " + name + ", Age = " + age + ", Medals = " + medals;
+}
+
+
+
+
+
+public class Car {
+
+private CarModels models;
+private int year;
+private Driver[] drivers;
+
+public Car(CarModels models, int year, Driver[] drivers) {
+    this.models = models;
+    this.year = year;
+    this.drivers = drivers;
+}
+
+public CarModels getModels() {
+    return models;
+}
+
+public void setModels(CarModels models) {
+    this.models = models;
+}
+
+public int getYear() {
+    return year;
+}
+
+public void setYear(int year) {
+    this.year = year;
+}
+
+public Driver[] getDrivers() {
+    return drivers;
+}
+
+public void setDrivers(Driver[] drivers) {
+    this.drivers = drivers;
+}
+
+@Override
+public String toString() {
+    return "Car: Model = " + models + ", Car Year = " + year + ", Drivers: " + Arrays.toString(drivers);
+}
+
+
+
+
+
+public class Circuit {
+
+private CircuitName names;
+private Country country;
+private int length;
+private Car[] cars;
+
+public Circuit(CircuitName names, Country country, int length, Car[] cars) {
+    this.names = names;
+    this.country = country;
+    this.length = length;
+    this.cars = cars;
+}
+
+public CircuitName getNames() {
+    return names;
+}
+
+public void setNames(CircuitName names) {
+    this.names = names;
+}
+
+public Country getCountry() {
+    return country;
+}
+
+public void setCountry(Country country) {
+    this.country = country;
+}
+
+public int getLength() {
+    return length;
+}
+
+public void setLength(int length) {
+    this.length = length;
+}
+
+public Car[] getCars() {
+    return cars;
+}
+
+public void setCars(Car[] cars) {
+    this.cars = cars;
+}
+
+@Override
+public String toString() {
+    return "Circuit: Circuit Name: " + names + ", Country: " + country + ", Circuit Length: " + length
+            + " Kilometers" + Arrays.toString(cars);
+}
+
+
+
+public class RaceProgram {
+
+private static final int LEN = 4;
+
+public static void main(String[] args) {
+
+    Circuit[] circuit = new Circuit[LEN];
+
+    for (int i = 0; i < circuit.length; i++) {
+        circuit[i] = RaceUtils.generateCircuit();
+
+    }
+    
+    RaceUtils.print(circuit);
+    
+
+}

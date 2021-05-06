@@ -1,0 +1,36 @@
+JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                    Constants.URL_ISSUE + selectedModel + Constants.URL_ISSUE_ISSUENAME + selectedIssue,
+                    null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONArray jsonArray = response.getJSONArray("masterIssue");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                    String IssueName = jsonObject.optString("ISSUENAME");
+
+                                    issueList.add(IssueName);
+
+                                    
+                                    issue_text.setText(IssueName);
+
+                                    yes_btn.setVisibility(View.VISIBLE);
+                                    no_btn.setVisibility(View.VISIBLE);
+
+                                    yes_btn.setOnClickListener(Dashboard.this);
+                                    no_btn.setOnClickListener(Dashboard.this);
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            requestQueue.add(jsonObjectRequest);

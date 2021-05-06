@@ -1,0 +1,31 @@
+var flag = false;
+while(!flag){
+    var anydate = prompt('Enter the date!', anydate);
+    let parts = anydate.split('-');
+    yyyy = Number(parts[0]);
+    mm = Number(parts[1]);
+    dd = Number(parts[2]);
+if ((yyyy<0)||(mm<1)||(mm>12)||(dd>31)||(typeof(anydate)==='undefined')||(yyyy%1!==0)||(mm%1!==0)||(dd%1!==0)||((mm===2)&&(dd>29))||((mm===4)&&(dd>30))||((mm===6)&&(dd>30))||((mm===9)&&(dd>30))||((mm===11)&&(dd>30))){
+    alert('Your date is invalid! Please enter valid date!');
+    continue;
+    flag = false;
+}else{
+    alert('OK! You can continue with process!');
+    break;
+};
+}
+anydate = new Date(anydate);
+var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+
+    console.log(weekday[anydate.getDay()]);
+    console.log(anydate.getMonth()+1);
+    console.log(anydate.getDate());
+    console.log(anydate.getFullYear());
+    console.log(anydate);

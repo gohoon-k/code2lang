@@ -1,0 +1,59 @@
+let arr = [0,1,2,3,4,5];
+let clickIndex;
+let isClicked = false;
+
+function dragenter (index,ev) {
+  if(isClicked) {
+   
+   let imsi = arr[index];
+   let gizon = arr[clickIndex];
+   arr.splice(clickIndex,1, imsi);
+   arr.splice(index,1,gizon);    
+  }
+    
+}
+function mouseClick (index,ev) {
+  clickIndex = index;
+  isClicked = true;
+  
+  if (isClicked) {
+    if (!ev.target.classList.contains("picked")){
+      ev.target.classList.add("picked");
+    }
+  }
+}
+function mouseMove (ev) {
+  if (isClicked) {
+    let pick = document.querySelector(".picked");
+    if(pick){
+        pick.style.top= `${ev.clientY}px`;
+        pick.style.left=`${ev.clientX}px`;
+    }
+  }
+}
+
+var vm = new Vue({
+  el: '#example',
+  data: {
+    arr:arr,
+    picked: false,
+  },
+  methods:{
+    dragenter:dragenter,
+    mouseClick:mouseClick,
+    mouseMove:mouseMove,
+  }
+})
+
+document.addEventListener("mouseup", (ev)=>{
+  
+  isClicked = false;
+ 
+  let pick = document.querySelector(".picked");
+  if(pick){
+    pick.classList.remove("picked");
+    pick.style="";
+  }
+  
+});
+document.addEventListener("mousemove", mouseMove);

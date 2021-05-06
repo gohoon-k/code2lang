@@ -1,0 +1,29 @@
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    theme = PreferenceManager.getDefaultSharedPreferences(context).getString("THEME", "defaultStringIfNothingFound")!!;
+    mClusterGuid = PreferenceManager.getDefaultSharedPreferences(context).getString("GUID", "defaultStringIfNothingFound")!!;
+    dataTypeSelected = PreferenceManager.getDefaultSharedPreferences(context).getString("DataType", "defaultStringIfNothingFound")!!;
+    role = PreferenceManager.getDefaultSharedPreferences(context).getString("Role", "defaultStringIfNothingFound")!!
+    lineChart = line_chart
+    chartsViewModel.getCashCollectionData(mClusterGuid)
+    chartsViewModel.getFinancialDetails(mClusterGuid)
+    cashCollectionObserver()
+    financialDetailsObserver()
+    setLineChartData()
+}
+
+private fun cashCollectionObserver() {
+    chartsViewModel.cashCollection.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        if (it.isNotEmpty()) {
+            setCashValues(it)
+        }
+    })
+}
+
+private fun financialDetailsObserver() {
+    chartsViewModel.financialDetails.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        if (it.isNotEmpty()) {
+            setFinancialValues(it)
+        }
+    })
+}

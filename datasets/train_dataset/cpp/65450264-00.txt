@@ -1,0 +1,122 @@
+#include<iostream>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node *next=NULL;
+};
+
+class LinkedList
+{
+    Node *first=NULL,*last=NULL;
+    int no_of_nodes=10;
+    public:
+    LinkedList(int[],int);
+     ~LinkedList();
+    void display(void);
+    void reverse(int m,int n);
+
+};
+
+LinkedList::~LinkedList()
+{
+    Node *p=NULL;
+    for(int i=0;i<no_of_nodes;i++)
+    {
+      p=first;  
+      for(int j=0;j<no_of_nodes-i-1;j++)
+      {
+          if(p->next==last)
+          {
+            delete(p->next);
+            p->next=NULL;
+            last=p;
+          }
+          else
+          {
+               p=p->next;
+          }
+            
+      }  
+    }
+    delete(first);
+}
+
+void LinkedList::reverse(int m,int n)
+{
+    Node *prev=NULL,*pointer_m=first,*pointer_n=first;
+
+    //Making pointer_m to point on m-th node
+    for(int i=1;i<m;i++)
+    {
+        prev=pointer_m;
+        pointer_m=pointer_m->next;
+    }
+
+
+
+    //Making pointer_n to point on n-th node
+    pointer_n=first;               
+    for(int i=1;i<n;i++)
+    {
+        pointer_n=pointer_n->next;
+    }
+
+    // reversing the list part between m and n
+    Node *p=first->next,*q=first,*r=prev;      // q and r are tailing pointers
+  
+    while(q!= pointer_n  && p)
+    {
+        r=q;
+        q=p;
+        p=p->next;
+
+        q->next=r;
+    }
+
+    //fixing pointers
+    prev->next=pointer_n;
+    pointer_m->next=p;
+}
+
+LinkedList::LinkedList(int arr[],int n)
+{
+    first=new Node;
+    first->data=arr[0];
+    last=first;
+
+    for(int i=1;i<n;i++)
+    {
+        Node *temp=new Node;
+        temp->data=arr[i];
+        last->next=temp;
+        last=temp;
+    }
+}
+
+
+void LinkedList::display(void)
+{
+    Node *p=first;
+  //  cout<<"No.of nodes:: "<<no_of_nodes<<"\t\t";
+    cout<<"List is:: ";
+    while(p!=NULL)
+    {
+        cout<<p->data<<" ";
+        p=p->next;
+    }
+    cout<<endl;
+}
+
+int main(void)
+{
+    int arr[]={2,4,6,8,10,12,14,16,18,20};
+    int n=sizeof(arr)/sizeof(arr[0]);
+
+    LinkedList list(arr,n);
+    list.display();
+    list.reverse(5,8);
+    list.display();
+    return 0;
+}

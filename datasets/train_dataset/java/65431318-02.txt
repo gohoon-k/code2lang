@@ -1,0 +1,70 @@
+  private VehicleRepository vehicleRepository;
+
+  /**
+   * Gets the full list of vehicles based on the provided parameters. If no parameters are
+   * presented, then returns the entire list of vehicles
+   *
+   * @param allParams A map of all possible parameters that can be passed through
+   * @return list of vehicles
+   */
+  @Override
+  public List<Vehicle> getVehicles(Map<String, String> allParams) {
+    //gather all of the possible parameters that can be passed through
+    String type = allParams.get("type");
+    String make = allParams.get("make");
+    String model = allParams.get("model");
+    Integer year;
+    try {
+      year = Integer.parseInt(allParams.get("year"));
+    } catch (NumberFormatException n) {
+      year = 0;
+    }
+
+    if (type != null && make != null && model != null && year != 0) {
+      return vehicleRepository.findByTypeAndMakeAndModelAndYear(type, make, model, year);
+    }
+    if (make != null && type == null && model != null && year != 0) {
+      return vehicleRepository.findByMakeAndModelAndYear(make, model, year);
+    }
+    if (type != null && make == null && model != null && year != 0) {
+      return vehicleRepository.findByTypeAndModelAndYear(type, model, year);
+    }
+    if (type != null && make != null && model == null && year != 0) {
+      return vehicleRepository.findByTypeAndMakeAndYear(type, make, year);
+    }
+    if (model != null && type == null && make == null && year != 0) {
+      return vehicleRepository.findByModelAndYear(model, year);
+    }
+    if (make != null && type == null && model == null && year != 0) {
+      return vehicleRepository.findByMakeAndYear(make, year);
+    }
+    if (type != null && make == null && model == null && year != 0) {
+      return vehicleRepository.findByTypeAndYear(type, year);
+    }
+    if (type != null && make != null && model != null) {
+      return vehicleRepository.findByTypeAndMakeAndModel(type, make, model);
+    }
+    if (make != null && type == null && model != null) {
+      return vehicleRepository.findByMakeAndModel(make, model);
+    }
+    if (type != null && make == null && model != null) {
+      return vehicleRepository.findByTypeAndModel(type, model);
+    }
+    if (type != null && make != null) {
+      return vehicleRepository.findByTypeAndMake(type, make);
+    }
+    if (type != null) {
+      return vehicleRepository.findByType(type);
+    }
+    if (make != null) {
+      return vehicleRepository.findByMake(make);
+    }
+    if (model != null) {
+      return vehicleRepository.findByModel(model);
+    }
+    if (year != 0) {
+      return vehicleRepository.findByYear(year);
+    }
+
+    return vehicleRepository.findAll();
+  }

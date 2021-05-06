@@ -1,0 +1,5 @@
+val jumpToConnection = intent.getBooleanExtra("CONNECTION",false)
+    if (jumpToConnection) {
+        findNavController(this, R.id.navHostFragmentLogin).navigate(R.id.connectFragment)
+        findNavController(this, R.id.navHostFragmentLogin).popBackStack(R.id.connectFragment,false)
+    }

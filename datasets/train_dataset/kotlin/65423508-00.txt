@@ -1,0 +1,14 @@
+@Entity
+@Table(name = "base_entity")
+@Inheritance(strategy = InheritanceType.JOINED)
+open class BaseEntity(
+        @Id // sequence generator left out for brevity
+        open var id: Int = 0,
+        @Column(name = "uuid")
+        open val uuid: UUID,
+       
+        @ElementCollection
+        @CollectionTable(name = "collection_list", joinColumns = [JoinColumn(name = "id")])
+        @Column(name = "collection_name")
+        open val collections: List<String> = emptyList(),
+)

@@ -1,0 +1,43 @@
+#include<iostream>
+
+#include<math.h>
+using namespace std;
+ 
+typedef long long ll; 
+ 
+int main(){
+    int n;
+    cin >> n;
+    ll l, k;
+    cin >> l >> k;
+    int a[n];
+    int b[n];
+    int d1,d2;
+    int out=0;
+    int i=0;
+    while (l>0){
+        a[i]=l%10;
+        b[i]=k%10;
+        l/=10;
+        k/=10;
+        i++;
+        }
+        
+    for (i=0; i<n; i++){
+        
+        d1=abs(a[i]-b[i]); // 1 9 9 1
+        if (b[i]>a[i]) d2=a[i]+(10-b[i]); // this line is highlighted by codeforces judgement
+        else if (a[i]==b[i]){
+            d1=0;
+            d2=0;
+            }
+        else d2=b[i]+(10-a[i]);
+        
+    
+ 
+        if (d1<=d2) out+=d1;
+        else out+=d2;   
+        }       
+    cout << out;
+    return 0;
+}

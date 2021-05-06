@@ -1,0 +1,16 @@
+    fun encryptLoginData(loginData: LoginData): LoginBody {
+        val jsonLoginData: String = Gson().toJson(loginData)
+
+        val iv: ByteArray = generateIv()
+        val publicToken =
+            String(Base64.encode(iv, DEFAULT_BUFFER_SIZE), StandardCharsets.UTF_8)
+
+        val encryptedLoginData: String = encrypt(jsonLoginData, iv)
+        val encryptedLoginDataBase64Encoded =
+            String(
+                Base64.encode(encryptedLoginData.toByteArray(), DEFAULT_BUFFER_SIZE),
+                Charset.defaultCharset()
+            )
+
+        return LoginBody(encryptedLoginDataBase64Encoded, publicToken)
+    }

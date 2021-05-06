@@ -1,0 +1,13 @@
+#include "rectangles.h"
+#include <string> 
+
+rectangle::rectangle(int RectLength, int RectWidth)
+{
+    _rectangle.length = RectLength;
+    _rectangle.width = RectWidth;
+}
+
+unsigned long int rectangle::get_area()
+{
+    return _rectangle.length * _rectangle.width;
+}

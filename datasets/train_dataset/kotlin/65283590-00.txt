@@ -1,0 +1,10 @@
+lateinit var myTextView
+
+override fun onCreate(savedInstanceBundle: Bundle?) {
+    super.onCreate(savedInstanceBundle)
+    // The layout file is "inflated" automatically here
+    setContentView(R.layout.layout_name)
+
+    // Then we can assign a reference to views by ID:
+    myTextView = findViewById<TextView>(R.id.text_view_name)
+}

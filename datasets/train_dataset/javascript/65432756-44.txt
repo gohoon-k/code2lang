@@ -1,0 +1,15 @@
+// @flow
+
+const toPromise = (f: (any) => void) => {
+  return new Promise<any>((resolve, reject) => {
+    try {
+      f((result) => {
+        resolve(result)
+      })
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export default toPromise

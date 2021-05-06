@@ -1,0 +1,34 @@
+private  class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            siteAddressBar.setText(url);
+            view.loadUrl(url);
+            Site = url;
+            return true;
+        }
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            //view.loadUrl();
+            view.evaluateJavascript("(function() {return document.getElementsByTagName('html')[0].outerHTML;})();", new ValueCallback<String>() {
+                @Override
+                public void onReceiveValue(final String value) {
+                    JsonReader reader = new JsonReader(new StringReader(value));
+                    reader.setLenient(true);
+                    try {
+                        if (reader.peek() == JsonToken.STRING) {
+                            String domStr = reader.nextString();
+                            if (domStr != null) {
+                                htmlCode = domStr;
+                                Log.e("Stonmrigal1",domStr);
+                            }
+                        }
+                    } catch (IOException e) {
+                        // handle exception
+                    } finally {
+                        //IoUtil.close(reader);
+                    }
+                }
+            });
+        }
+    }

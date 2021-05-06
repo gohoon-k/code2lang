@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+ {% block content %}*
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Create a Recipe</title>
+  <form class="" action="index.html" method="post">
+    <br>
+    <label for="T">Title: </label>
+    <input type="text" name="T" value="">
+    <br>
+    <label for="Ingr">Ingredients: </label>
+    <select class="" name="Ingr">
+      <option value=""></option>
+    </select>
+    <br>
+    <label for="Tag">Tags: </label>
+    <select class="" name="Tag">
+      <option value=""></option>
+    </select>
+    <br>
+    <label for="Time">Time: </label>
+    <input type="text" name="Time" value="">
+    <br>
+    <label for="P">Price: </label>
+    <input type="text" name="P" value="">
+    <br>
+  </form>
+</head>
+<body class="">
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script>
+
+    var data = {
+    title: 'title',
+    tags: [],
+    ingredients: [],
+    time_minutes: 25,
+    price: 10.5
+};
+var headers = {'X-CSRFToken': '{{ csrf_token }}' };  // Inject our token into the javascript using a template tag
+  $.ajax({
+       type: 'POST',
+       data: data,
+       headers: headers,  // Set the headers in the request
+       url: '/api/recipe/recipes/',
+       success: function(res){
+               console.log(res)
+       },
+   });
+
+
+</script>
+{%endblock%}

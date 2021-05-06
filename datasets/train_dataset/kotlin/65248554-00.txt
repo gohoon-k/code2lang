@@ -1,0 +1,46 @@
+            val networkSSID = "XXX"
+            val networkPass = "XXX"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                // doesn't show suggestion even if have "Suggestion Added" in the log
+                val networkSuggestion1 = WifiNetworkSuggestion.Builder()
+                    .setSsid(networkSSID)
+                    .setWpa2Passphrase(networkPass)
+                    .build()
+
+                val suggestionsList = listOf(networkSuggestion1)
+                var status = wifiManager?.addNetworkSuggestions(suggestionsList)
+                Log.i("WifiNetworkSuggestion", "Adding Network suggestions status is $status")
+                if (status == WifiManager.STATUS_NETWORK_SUGGESTIONS_ERROR_ADD_DUPLICATE) {
+                    Log.d(TAG, "Suggestion Update Needed")
+                    status = wifiManager?.removeNetworkSuggestions(suggestionsList)
+                    Log.i("WifiNetworkSuggestion", "Removing Network suggestions status is $status")
+                    status = wifiManager?.addNetworkSuggestions(suggestionsList)
+                }
+                if (status == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+                    Log.d(TAG, "Suggestion Added")
+                }
+            } else {
+                // Works perfectly good
+                val wifiManager = context?.getSystemService(WIFI_SERVICE) as WifiManager?
+                if (havePermission) {
+                    var found = false
+                    for (config in wifiManager?.configuredNetworks!!) {
+                        if (config.SSID == String.format("\"%s\"", wifi.SSID)) {
+                            wifiManager?.enableNetwork(config.networkId, true)
+                            found = true
+                            break
+                        }
+                    }
+
+                    if (!found) {
+                        val wifiConfiguration = WifiConfiguration()
+                        wifiConfiguration.SSID = String.format("\"%s\"", networkSSID)
+                        wifiConfiguration.preSharedKey = String.format("\"%s\"", networkPass)
+
+                        val wifiID = wifiManager?.addNetwork(wifiConfiguration)
+                        if (wifiID != null) {
+                            wifiManager?.enableNetwork(wifiID, true)
+                        }
+                    }
+                }
+            }

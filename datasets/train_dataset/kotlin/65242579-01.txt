@@ -1,0 +1,15 @@
+fun checkName(name: String): Boolean {
+    if (name.length == 0 || !name[0].isUpperCase()) {
+        return false
+    }
+    var spaces = 0
+    for (i in 0 until name.length) {
+        if (name[i] == ' ') {
+            spaces += 1
+            if (spaces > 1 || !name[i + 1].isUpperCase()) {
+                return false
+            }
+        }
+    }
+    return true
+}

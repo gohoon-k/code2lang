@@ -1,0 +1,24 @@
+public class BeanA {
+ private MongoTemplate mongoTemplate;
+
+ public BeanA(MongoTemplate mongoTemplate, Environment environment) {
+   this.mongoTemplate = mongoTemplate;
+   this.applicationPropertySource = new ApplicationPropertySource(SOURCE_NAME);
+   MutablePropertySources mutablePropertySources = ((StandardEnvironment) environment).getPropertySources();
+   mutablePropertySources.addFirst(applicationPropertySource);
+   getExistingProperties().forEach((key, val) -> applicationPropertySource.set(key, val));
+ }
+
+ private Map<String, String> getExistingProperties() {
+   //assume values are obtained from DB
+ }
+
+ public static class ApplicationPropertySource extends PropertiesPropertySource {
+    public ApplicationPropertySource(String name) {
+        super(name, new HashMap());
+    }
+
+    public Object set(String key, String value) {
+        return getSource().put(key, value);
+    }
+}

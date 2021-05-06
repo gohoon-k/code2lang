@@ -1,0 +1,25 @@
+public class GifSplitter {
+    
+    public static void main(String[] args) {
+        try {
+            splitGif(new File(FCFinder.getOS().getMc() + File.separator + "test.gif"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void splitGif(File file) throws IOException {
+        ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
+        reader.setInput(ImageIO.createImageInputStream(new FileInputStream(file)), false);
+        BufferedImage lastImage = reader.read(0);
+        ImageIO.write(lastImage, "PNG", new File(0 + ".png"));
+
+        for (int i = 1; i < reader.getNumImages(true); i++) {
+            BufferedImage readImage = reader.read(i);
+            BufferedImage image = new BufferedImage(readImage.getWidth(), readImage.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+            
+            ImageIO.write(image, "PNG", new File(i + ".png"));
+        }
+    }
+    
+}

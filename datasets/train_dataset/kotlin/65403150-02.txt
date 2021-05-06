@@ -1,0 +1,28 @@
+private const val TAG = "MapsFragment"
+class MapsFragment : Fragment(), OnMapReadyCallback {
+
+    private lateinit var map: GoogleMap
+    private lateinit var sport: Sport
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_maps, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val bundle = arguments
+        if (bundle !=null) {
+            sport = bundle.getSerializable(EXTRA_USER_MAP) as Sport
+        }
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(this)
+    }
+
+    // Actions for map
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+        Log.i(TAG, "Map rendered: ${sport.title}") // Logcat check once working
+...

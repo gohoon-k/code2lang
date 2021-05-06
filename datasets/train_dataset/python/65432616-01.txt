@@ -1,0 +1,4 @@
+def solve(a, b):
+    seta = set(a)
+    setb = set(b)
+    return "".join(seta.union(setb).difference(seta.intersection(setb))

@@ -1,0 +1,9 @@
+distance = " " + input("Please enter the distance the body is supposed to travel here, if unknow leave empty:  ")
+speed = " " + input("Please enter the velocity of the body here, if unkown leave empty: ")
+time = 0
+
+def get_Time():
+    if(distance == " " and speed == " "):
+        time = int(input("Please enter the time required for the body to cover the distance: ")
+    else:
+        time = int(distance)/int(speed)

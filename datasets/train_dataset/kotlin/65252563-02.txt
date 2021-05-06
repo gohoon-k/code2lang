@@ -1,0 +1,17 @@
+fun readlinesToAddEntryAndValidation() : List<String> {
+    fun read(message: String): String? {
+        println(message)
+        val line = readLine()
+        return if (line.isNullOrEmpty()) null else line
+    }
+
+    read(ENTER_DESCRIPTION_ID_TEKST)?.let { entryId ->
+        read(ENTER_DESCRIPTION_NAME_TEKST)?.let { name ->
+            read(ENTER_DESCRIPTION_TEKST_TEKST)?.let { tekst ->
+                return listOf(entryId, name, tekst)
+            }
+        }
+    }
+    println(EMPTY_READLINE_ERROR)
+    return readlinesToAddEntryAndValidation()
+}

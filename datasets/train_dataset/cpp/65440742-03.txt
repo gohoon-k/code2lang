@@ -1,0 +1,15 @@
+#include <iostream>
+#include "Employee.h"
+using namespace std;
+using namespace Records;
+
+int main()
+{
+  cout << "HELLOOOOOO" << endl;
+  Employee emp;
+  emp.setFirstName("John");
+  emp.setLastName("Doe");
+  emp.display();
+}
+
+

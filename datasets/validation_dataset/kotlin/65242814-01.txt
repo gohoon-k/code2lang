@@ -1,0 +1,6 @@
+private fun swipeDown(view: View) {
+    when (view) {
+        myTextView -> imageOne.isVisible = false. // so this is for swipe 1
+        myRecyclerView -> RecyclerviewAdapter?.notifyDataSetChanged()  // this is for swipe 2
+    }
+

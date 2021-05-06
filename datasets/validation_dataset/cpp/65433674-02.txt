@@ -1,0 +1,22 @@
+    // receive all packages in a while loop
+    std::cout << "Connected on IPv4 Address: " << local_ip << "\n";
+    i = 0;
+    while (i < 2) {
+        data_len = recvfrom(raw_socket, rcvbuf, sizeof(rcvbuf), 0, (SOCKADDR*)&sender_addr, &sender_addr_size);
+
+        std::cout << (i);
+        printf("\nReceived packet from %s:%d\n", inet_ntoa(sender_addr.sin_addr), ntohs(sender_addr.sin_port));
+        printf("Length of bytes received: %d\n", data_len);
+        printf("Data: ");
+        //std::cout.write(rcvbuf, data_len);
+
+        std::string s = rcvbuf;
+        for (int i2 = 0; i2 < data_len;) {
+            std::cout << std::bitset<8>(s[i2]) << " ";
+            i2 = i2 + 1;
+        }
+
+        std::cout << "\n--------------------------\n";
+        memset(rcvbuf, 0, 10000);
+        i = i + 1;
+    }

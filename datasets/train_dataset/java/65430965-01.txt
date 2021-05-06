@@ -1,0 +1,50 @@
+public class GUIBoar {
+
+JPanel buttonPanel = new JPanel();
+JButton button = new JButton();
+JFrame frame;
+
+ButtonClicked clicked = new ButtonClicked();
+
+public GUIBoar(String title, int nbRows, int nbColumns) {
+
+    frame = new JFrame(title);
+
+    buttonPanel.setLayout(new GridLayout(nbRows, nbColumns));
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.fill = GridBagConstraints.BOTH;
+
+    for (int i = 0; i < nbRows; i++) {
+        for (int j = 0; j < nbColumns; j++) {
+            button = new JButton();
+            button.setBackground(Color.LIGHT_GRAY);
+            button.addActionListener(clicked);
+            button.setActionCommand("CLICKED");
+            gbc.gridx = j;
+            gbc.gridy = i;
+            buttonPanel.add(button, gbc);
+        }
+    }
+
+    frame.setPreferredSize(new Dimension(1000, 600));
+    frame.getContentPane().add(buttonPanel, BorderLayout.CENTER);
+
+    frame.pack();
+    frame.setVisible(true);
+
+}
+
+private class ButtonClicked implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("CLICKED")) {
+            /*
+             CODE TO CHANGE COLOR
+             ...
+            ...
+            ...
+            ...
+            */
+        }
+    }
+}

@@ -1,0 +1,9 @@
+fun main(args: Array) {
+   println("Enter text: ")
+   val stringInput = null
+
+   val inputLength = stringInput!!.length
+
+   println("Length of the string is : $inputLength")
+
+}

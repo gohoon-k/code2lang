@@ -1,0 +1,33 @@
+def cache_text(self, text, title, stock_code=""):
+    filepath = os.path.join(self.cache_path, title+'.csv')
+    with open(filepath, 'w') as f:
+        f.write(text)
+
+def getStockHistory(stock_code, unit):
+    # Split a period of time into several small periods.
+    time_segment = segment(stock_code, unit=unit)
+    self.end_date = setting["end_date"]
+
+    tasks = [self._getStockHistory(stock_code, unit, time_segment[i], time_segment[i+1]) for i in range(len(time_segment)-1)]
+
+    # Async part
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(asyncio.wait(tasks))
+    loop.close()
+
+async def _getStockHistory(self, stock_code, unit, start, end):
+    body = {
+        "method": "get_price_period",
+        "token": token,
+        "code": stock_code,
+        "unit": unit,
+        "date": start,    
+        "end_date": end,
+        "fq_ref_date": ""
+    }
+
+    response = await requests.post(url, data = json.dumps(body))
+
+    # Save text to files
+    await self.cache_text(response.text, start+'-'+end, stock_code=stock_code)
+

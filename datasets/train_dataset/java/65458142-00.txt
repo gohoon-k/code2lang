@@ -1,0 +1,23 @@
+public void setUp() throws InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException, IOException{
+            Properties prop_db = new Properties();
+            FileInputStream fis_db = new FileInputStream("src/test/java/resources/DBUtils.properties");
+            prop_db.load(fis_db);
+            h = prop_db.getProperty("DB_HOSTNAME");
+            u = prop_db.getProperty("DB_USERNAME");
+            p = prop_db.getProperty("DB_PASSWORD");
+            System.out.println(h);
+            System.out.println(u);
+            System.out.println(p);
+            String dbClass = "com.mysql.cj.jdbc.Driver";
+            Class.forName(dbClass).newInstance();
+            con = DriverManager.getConnection(h, u, p);
+            System.out.println("Database Connection Established");
+        }
+    
+    public void getProject() throws SQLException {  
+        st = con.createStatement();
+        String sql = "DELETE FROM zs_api.project WHERE id = 12545Test";
+        res = st.executeQuery(sql);
+        st.executeUpdate(sql);
+        con.close();
+    }

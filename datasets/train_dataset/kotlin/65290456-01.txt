@@ -1,0 +1,14 @@
+class GroundTileBitmapContainer(
+res: Resources,
+downScale: Float,
+listener: (() -> Unit)? = null) : BitmapContainer(res, downScale, listener) {
+
+init {
+    if (bitmap == null) {
+        bitmap = createBitmap(R.drawable.ground_02)
+    }
+}
+
+companion object {
+    var bitmap: Bitmap? = null
+}

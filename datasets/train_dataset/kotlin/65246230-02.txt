@@ -1,0 +1,29 @@
+class Matrix(var data: FloatArray, var width: Int) {
+    fun add(rs: RenderScript, s: ScriptC_singlesource?, another: Matrix): Matrix {
+        val newData = vecAdd(rs, s, data, another.data)
+        return Matrix(newData, width)
+    }
+
+    fun slowAdd(another: Matrix): Matrix {
+        val newData = FloatArray(data.size)
+        for (i in data.indices) {
+            newData[i] = data[i] + another.data[i]
+        }
+        return Matrix(newData, width)
+    }
+
+    companion object {
+        fun vecAdd(rs: RenderScript, s: ScriptC_singlesource?, vecA: FloatArray, vecB: FloatArray) : FloatArray {
+            val script = s ?: ScriptC_singlesource(rs)
+            val aAlloc: Allocation = Allocation.createTyped(rs, Type.createX(rs, Element.F32(rs), vecA.size))
+            val bAlloc: Allocation = Allocation.createTyped(rs, Type.createX(rs, Element.F32(rs), vecB.size))
+            aAlloc.copyFrom(vecA)
+            bAlloc.copyFrom(vecB)
+            val outputAllocation = Allocation.createTyped(rs, Type.createX(rs, Element.F32(rs), vecA.size))
+            script.invoke_add(outputAllocation, aAlloc, bAlloc)
+            val output = FloatArray(vecA.size)
+            outputAllocation.copyTo(output)
+            return output
+        }
+    }
+}

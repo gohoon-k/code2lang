@@ -1,0 +1,10 @@
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+   super.onViewCreated(view, savedInstanceState)
+
+   val safeArgs: PetDetailsViewArgs by navArgs()
+   val petId = safeArgs.petId
+
+   viewModel.getPetDetailsForId(petId).observe(viewLifecycleOwner, {
+     // ...
+   })
+}

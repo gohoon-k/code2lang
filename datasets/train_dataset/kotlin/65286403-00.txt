@@ -1,0 +1,72 @@
+private fun getLogin() {
+    
+  val userid = username.text.toString()
+        val pwd = password.text.toString()
+        Global.pswd = pwd
+    
+        try{
+    
+    
+        val gson = GsonBuilder().registerTypeAdapter(LoginResponse::class.java , 
+       LoginResponse.DataStateDeserializer()).create()
+    
+        val retrofit : Retrofit =  Retrofit.Builder()
+                .baseUrl(Global.Main_Url)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build()
+    
+        val apiInterface = retrofit.create(ApiInterface::class.java)
+    
+        val call: retrofit2.Call<LoginResponse> = apiInterface.getLogin(
+                Responses.LoginResponse(Global.HmiSrNo , "1" ,"1" , "IDS")
+        )
+        call.enqueue(object : Callback<LoginResponse> {
+            override fun onFailure(call: retrofit2.Call<LoginResponse>?, t: Throwable?) {
+    
+                //--  snackbar to dispaly error  --//
+                val snackbar =
+                        Snackbar.make(item, t!!.message!!, Snackbar.LENGTH_LONG)
+                                .setAction("Retry") {
+                                    getLogin()
+                                }
+                snackbar.setActionTextColor(Color.YELLOW)
+                snackbar.show()
+            }
+    
+            override fun onResponse(
+                    call: retrofit2.Call<LoginResponse>?,
+                    response: retrofit2.Response<LoginResponse>?
+            ) {
+    
+                if (response!!.isSuccessful) {
+                    val list = response.body()
+                    val status = list!!.status
+                    if (status == "success") {
+    
+      
+                        Global.userid   = list.UserID
+                        Global.userName = list.UserName
+    
+                        val intent = Intent(applicationContext, BalanceCalibration::class.java)
+                        startActivity(intent)
+                        progressDialog.dismiss()
+                    } else {
+                        val snackbar =
+                                Snackbar.make(item, list.result.toString(), 
+                        Snackbar.LENGTH_INDEFINITE)
+                        snackbar.setAction("OK"){
+                            snackbar.dismiss()
+                        }
+                        snackbar.setActionTextColor(Color.YELLOW)
+                        snackbar.show()
+                    }
+                }
+            }
+    
+        })
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    
+    
+}

@@ -1,0 +1,23 @@
+#include <iostream>
+#include <variant>
+#include <limits>
+
+using namespace std;
+
+template < bool bitwise = false, typename T>
+// template <typename T,  bool bitwise = false>  
+// ^ wont work! error: no matching function for call to 'func<true>(int, int)'
+
+bool func(T a, T b) {
+    if constexpr(bitwise) {
+        return a & b;
+    }
+    else {
+        return a && b;
+    }
+}
+int main()
+{
+    cout << func(7,1) << endl;
+    cout << func<true>(7,1) << endl;
+}

@@ -1,0 +1,10 @@
+val callback = object : DiffUtil.ItemCallback<Car>() {
+
+    override fun areItemsTheSame(oldItem: Car, newItem: Car): Boolean
+    // usually checks for id, e.g. oldItem.id == newItem.id
+
+    override fun areContentsTheSame(oldItem: Car, newItem: Car): Boolean
+    // checks if two items look the same.
+    // Used for fancy enter/exit animations afaik.
+    // e.g. (oldItem to newItem).equalIn({it.color}, {it.spoiler})
+}

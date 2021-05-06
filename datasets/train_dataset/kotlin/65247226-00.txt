@@ -1,0 +1,24 @@
+fun Context.isOnline(): Boolean {
+val connectivityManager =
+    this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+val networkInfo = connectivityManager.activeNetworkInfo
+
+if (networkInfo == null) {
+    log(message = "Network info is **NULL**")
+    return false
+} else {
+    val isConnected = when(networkInfo.detailedState) {
+        NetworkInfo.DetailedState.CONNECTING -> true
+        NetworkInfo.DetailedState.AUTHENTICATING -> true
+        NetworkInfo.DetailedState.OBTAINING_IPADDR -> true
+        NetworkInfo.DetailedState.CONNECTED -> true
+        NetworkInfo.DetailedState.VERIFYING_POOR_LINK -> true
+        else -> false
+    }
+
+    if (!isConnected) {
+        log(message = "Network state is **${networkInfo.detailedState?.name ?: "NULL"}**")
+    }
+
+    return isConnected
+}

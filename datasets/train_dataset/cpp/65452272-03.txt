@@ -1,0 +1,4 @@
+template <typename F, typename... Rs>
+auto my_zip(F&& f, Rs const&... args) {
+    return r::to_vector(v::zip_with(f, args...));
+}

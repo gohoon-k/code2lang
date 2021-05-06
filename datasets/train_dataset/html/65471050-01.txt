@@ -1,0 +1,61 @@
+</html>
+
+<body>
+  <div class="container-fluid d-flex justify-content-center" id="searchLogos">
+    <div class="row d-flex justify-content-center ">
+      <div class="col-search">
+        <p>Highlight icon below to search one database</p>
+
+        <div class="d-flex">
+          <ul class="list-inline mx-auto justify-content-center" id="searchLogos">
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="Img/Netflix_Logo_RGB.png" id='netflix' alt="Button to select netflix" style="width:75px;height:75px;">
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="Img/prime-video-logo@logotyp.us.svg" alt="Button to select prime" style="width:75px;height:75px">
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="Img/hulu-digital-blkgrn.png" alt="Button to select Hulu" style="width:75px;height:75px">
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">
+                <img src="Img/Disney+-Logo.wine.png" alt="Button to select Disney+" style="width:75px;height:75px">
+              </a>
+            </li>
+
+
+          </ul>
+          <script>
+            $('#searchLogos a').click(function() {
+              $('#searchLogos a').removeClass('selected');
+              $(this).toggleClass('selected');
+            });
+          </script>
+        </div>
+        <script>
+        </script>
+      </div>
+
+    </div>
+
+
+    <!--End container-->
+  </div>
+
+  <!-- Javascript -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous">
+  </script>
+
+
+</body>
+
+</html>

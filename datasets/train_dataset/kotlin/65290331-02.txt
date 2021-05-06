@@ -1,0 +1,25 @@
+    var userList = null
+    var listToShow = emptyList<Specify type here>()
+    if (model.list.isNotEmpty()) {
+        fun List<UserList>.filter(listType: ListType): UserList? = this.firstOrNull { userList -> userList.listType == listType }
+
+        userList = type.list.filter(getTabSelectedListType())
+
+        if (userList != null) {
+             listToShow = userList.toShoppingWrapper(model.cart)
+
+            adapterShopping.update(listToShow, type.updateCurrentList)
+            if (listToShow.isNotEmpty()) with(binding) {
+                recyclerView.visible()
+                emptyLayoutMyProducts.emptyView.gone()
+                emptyLayoutFavorites.emptyView.gone()
+                emptyLayoutLists.emptyView.gone()
+            } 
+        } 
+    } 
+    if(model.list.isEmpty()||userList == null ||listToShow==null|| listToShow.isEmpty() ){
+        when (binding.tabLayout.getTabAt(binding.tabLayout.selectedTabPosition)?.tag) {
+            PRODUCTS -> showMyProductsEmptyLayout()
+            FAVORITES -> showFavoritesEmptyLayout()
+        }
+    }

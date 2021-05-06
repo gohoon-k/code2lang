@@ -1,0 +1,68 @@
+package cinema;
+import java.util.*;
+public class Cinema {
+
+    private final int rows;
+    private final int seats;
+    private final List<List<Character>> seatsArrangement = new ArrayList<>();
+
+    public Cinema (int rows, int seats) {
+        this.rows = rows;
+        this.seats = seats;
+        List<Character> rowArrangement = new ArrayList<>();
+        while (seats-- != 0) {
+            rowArrangement.add('S');
+        }
+        while (rows-- != 0) {
+            seatsArrangement.add(rowArrangement);
+        }
+    }
+
+    public int calculateProfit() {
+        if (this.rows * this.seats <= 60) {
+            return this.rows * this.seats * 10;
+        } else {
+            return (int) ((Math.floor(this.rows / 2.0) * 10 + (this.rows - Math.floor(this.rows / 2.0)) * 8) * this.seats);
+        }
+    }
+
+    public void showSeatsArrangement() {
+        System.out.print("Cinema:\n  ");
+        int i = 1;
+        while (i <= this.seats) {
+            System.out.printf("%d ", i++);
+        }
+        i = 1;
+        for (var row : this.seatsArrangement) {
+            System.out.print("\n" + i + " ");
+            for (var seat : row) {
+                System.out.printf("%c ", seat);
+            }
+            ++i;
+        }
+    }
+
+    public void bookSeat(int row, int seat) {
+        this.seatsArrangement.get(row  - 1).set(seat - 1, 'B');
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter the number of rows:");
+        int rows = sc.nextInt();
+        System.out.println("Enter the number of seats in each row:");
+        int seats = sc.nextInt();
+
+        Cinema cinema = new Cinema(rows, seats);
+        cinema.showSeatsArrangement();
+
+        System.out.println("\nEnter a row number:");
+        int row = sc.nextInt();
+        System.out.println("Enter a seat number in that row:");
+        int seat = sc.nextInt();
+
+        cinema.bookSeat(row, seat);
+        cinema.showSeatsArrangement();
+    }
+}

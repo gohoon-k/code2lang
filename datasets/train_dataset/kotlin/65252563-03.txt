@@ -1,0 +1,10 @@
+fun read(inputMessage: String, errorMessage: String = EMPTY_READLINE_ERROR): String {
+    println(inputMessage)
+    var line: String? = readLine()
+    while (line.isNullOrEmpty()) {
+        println(errorMessage)
+        println(inputMessage)
+        line = readLine()
+    }
+    return line
+}

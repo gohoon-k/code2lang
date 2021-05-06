@@ -1,0 +1,7 @@
+async function commentSubmit(event) {
+    fetch('http://127.0.0.1:8090/comment');
+    alert('success');
+    CommentSection.reset();
+}
+const CommentSection = document.getElementById("CommentSection");
+commentForm.addEventListener("submit", commentSubmit);

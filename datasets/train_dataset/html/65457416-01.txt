@@ -1,0 +1,26 @@
+<table class="display">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Date Time</th>
+      <th>Details</th>
+      <th>Details_1</th>
+      <th>Details_2</th>
+      <th>Details_3</th>
+      <th>Details_4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>53</td>
+      <td>Jenny</td>
+      <td>2009/10/09</td>
+      <td>Developer</td>
+      <td>Developer_1</td>
+      <td>Developer_2</td>
+      <td>Developer_3</td>
+      <td>Developer_4</td>
+    </tr>
+  </tbody>
+</table>

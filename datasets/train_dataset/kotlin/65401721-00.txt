@@ -1,0 +1,29 @@
+val thingsLiveData: LiveData<List<Thing>> = object: MediatorLiveData<List<Thing>>() {
+    var isSettingA: Boolean = true
+    var settingB: MySortingEnum = MySortingEnum.Alphabetical
+    var data: List<Thing>? = null
+    init {
+        addSource(myRepo.thingsFlow.asLiveData()) {
+            data = it
+            dataToValue()
+        }
+        addSource(settingALiveData) {
+            isSettingA= it
+            dataToValue()
+        }
+        addSource(settingBLiveData) {
+            settingB= it
+            dataToValue()
+        }
+    }
+    private fun dataToValue() {
+        data?.let { data ->
+            viewModelScope.launch {
+                val uiList = withContext(Dispatchers.Default) {
+                    produceUiList(data, isSettingA, settingB)
+                }
+                value = listItems
+            }
+        }
+    }
+}

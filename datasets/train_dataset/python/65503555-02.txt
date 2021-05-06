@@ -1,0 +1,12 @@
+import json
+
+
+def reset_value(path_to_json, key, value):
+    with open(path_to_json) as f:
+        d = json.load(f)
+        d[key] = value
+    with open(path_to_json, 'w') as f:
+        json.dump(d, f)
+
+json_file = "./somefilename123.json"
+reset_value(json_file, "Fake source", "PrintCut")

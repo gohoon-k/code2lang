@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<body>
+<p id = "myString">zyxtspqnmdba</p>
+<p id = "orderedString"></p>
+<script>
+var myString = document.getElementById("myString").innerHTML;
+orderString(myString);
+function orderString(str) {
+    var i = 0;
+    var myArray = str.split("");
+    while (i < str.length){
+        var j = i + 1;
+        while (j < str.length) {
+            if (myArray[j] < myArray[i]){
+                var temp = myArray[i];
+                myArray[i] = myArray[j];
+                myArray[j] = temp;
+            }
+            j++;
+        }
+        i++;
+    }
+    var newString = myArray.join("");
+    document.getElementById("orderedString").innerHTML = newString;
+}
+</script>
+</body>
+</html>

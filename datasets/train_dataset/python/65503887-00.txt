@@ -1,0 +1,8 @@
+import tensorflow as tf
+K = tf.keras.backend
+class SharpeLayer(tf.keras.layers.Layer):
+    def __init__(self):
+        super(SharpeLayer, self).__init__()
+        
+    def call(self, inputs):
+        return K.mean(inputs) / (K.std(inputs) + K.epsilon()) * 15.87450787

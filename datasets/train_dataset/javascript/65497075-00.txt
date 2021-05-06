@@ -1,0 +1,21 @@
+var myArmy = ["arcieri", "fanteria", "cavalleria", "morale"]  // <--- my Army brigades
+function rng_loop() {
+Math.floor(Math.random * myArmy.length)  // <---- the rng function
+}
+
+while (myArmyStrength > 0 && enemyArmyStrength > 0) {
+  rng_loop()
+} if (rng_loop() > 1) {
+  enemyArmyStrength - 25
+} else if (rng_loop() < 1) {
+myArmyStrength - 20
+}
+
+/* this is what was supposed to be my loop generating random numbers and killing off both armies based on the value of said random numbers until one of the two armies got to 0. myArmyStrength and enemyArmyStrength were specified earlier on. */
+
+if (myArmyStrength > 0 && enemyArmyStrength <= 0) {
+console.log("we won the battle! Roma invicta!")
+} else if (myArmyStrength <= 0 && enemyArmyStrength > 0) {
+console.log("We lost the battle...")
+} 
+/* this if else statement was supposed to console.log a message either announcing a victory or defeat to the enemy army, but it's not console.logging anything. Why is that so? */

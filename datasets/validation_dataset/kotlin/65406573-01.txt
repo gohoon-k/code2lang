@@ -1,0 +1,184 @@
+import android.app.Activity
+import android.content.Context
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.BaseAdapter
+import android.widget.EditText
+import android.widget.TextView
+
+
+//Class MyAdapter
+class CustomAdapter(private val data: DataClass, private val activity: MainActivity) : BaseAdapter() {
+
+    override fun getCount(): Int {
+        return data.list1.size
+    }
+    override fun getItem(position: Int): Any {
+        return position
+    }
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    fun fonction3(position: Int) {
+        if(data.list3[position ]!=""){
+        data.list2[position]="Input"}
+        var plage1: Int = 0
+        var plage2: Int = 0
+        var bornesuivante: Int = 0
+        var borneprécédente: Int = 0
+        //if (position >= 0 && position <=100) {
+            var j: Int = 1
+            var k: Int = 1
+            //recherche vers le bas du prochain data non nul
+
+
+            loop1@ for (i in 1..data.list3.size-position-1) {
+                if (data.list2[position + i] == "") {//Log.i("tag",j.toString())
+                    //Log.i("tag",(position+i).toString())
+
+                    j = j + 1
+                } else {
+
+                    var bornesuivante = j + position
+
+                    plage1 = bornesuivante - position
+                    break@loop1
+                }
+            }
+        Log.i("plage1 ",plage1 .toString())
+
+            loop2@  for (i in 1..position) {
+
+                    if (data.list2[position - i] == "") {//Log.i("tag",j.toString())
+                        //Log.i("tag",(position+i).toString())
+
+                        k = k + 1
+                    } else {
+
+                        var borneprécédente = position - k
+
+                        plage2 = position - borneprécédente
+                        break@loop2
+
+                }
+           }
+
+        Log.i("plage2 ",plage2 .toString())
+            /*Log.i("position", position.toString())
+            Log.i("borne précédente", borneprécédente.toString())
+            Log.i("plage 2", plage2.toString())
+            // data.list3[position] = 2.toString()//bornesuivante.toString()
+            Log.i("tag", data.list2[position].toString())
+            Log.i("tag", data.list2[bornesuivante].toString())
+            Log.i("tag", bornesuivante.toString())*/
+
+//if (data.list2[position] !="0" && data.list2[bornesuivante] !="0") {
+            for (k in 1..plage1 - 1) {
+
+                data.list3[position + k] = ((plage1 - k) * (data.list3[position].toDouble()) + k * data.list3[position + plage1].toDouble()).toString()
+                data.list3[position + k] = (data.list3[position + k].toDouble() / (plage1)).toInt().toString()
+                Log.i("k",k.toString())
+                Log.i("plage1",plage1.toString())
+                Log.i("data position",data.list3[position].toString())
+                Log.i("data position+plage1",data.list3[position+plage1].toString())
+
+//a=true                // }
+            }
+
+            for (k in 1..plage2 - 1) {
+
+                data.list3[position - k] = ((plage2 - k) * (data.list3[position].toDouble()) + k * data.list3[position-plage2 ].toDouble()).toString()
+                data.list3[position - k] = (data.list3[position - k].toDouble() / (plage2)).toInt().toString()
+
+                //Log.i("tag6", (data.list3[position + k].toDouble()/(plage)).toString())
+                //Log.i("tag7","!!!!")
+//a=true                // }
+            }
+
+
+            // data.list2[position] = (0.5 * (data.list2[position - 1].toDouble() + data.list2[position + 1].toDouble())).toString()
+
+            //Log.i("tag",bornesuivante.toString())
+            //activity.Update()
+            //   }
+
+            // Log.i("tag",a.toString())
+            //return a
+        }
+
+
+  //  }
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+            val convertView: View? = LayoutInflater.from(parent.context).inflate(R.layout.row, parent, false)
+
+            val Edit1: EditText = convertView!!.findViewById(R.id.Edit1)
+            val Edit2: EditText = convertView.findViewById(R.id.Edit2)
+            val textView: TextView = convertView.findViewById(R.id.textView)
+            val textView3: TextView = convertView.findViewById(R.id.textView3)
+            Edit1.setText(data.list1[position])
+            Edit2.setText(data.list3[position])
+            //textView.setText(data.list3[position])
+            textView3.setText(data.list3[position])
+            Edit1.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(p0: Editable?) {
+                    data.list1[position] = Edit1.text.toString()
+                    //Edit1.setText(data.list1[position])
+                    //textView.setText(data.list3[position])
+                    // activity.fonction()
+                }
+
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+            })
+
+
+            Edit2.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(p0: Editable?) {
+                    Handler().postDelayed({
+                        data.list3[position] = Edit2.text.toString()
+
+
+
+                    if (!Edit2.text.toString().isBlank()) {
+                        fonction3(getItem(position) as Int)
+
+                        //Edit2.setText(data.list2[position])
+                        //activity.fonction2()
+
+                        //textView.setText(data.list3[position])
+                        Handler().postDelayed({
+                            notifyDataSetChanged()
+                        }, 100)
+                    }}, 1000)
+                    //textView3.setText(data.list3[position])
+                }
+
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+                //  })
+            })
+
+            return convertView
+
+
+        }
+
+
+    }

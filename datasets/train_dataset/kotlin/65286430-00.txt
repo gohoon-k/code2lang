@@ -1,0 +1,53 @@
+class MainActivity : AppCompatActivity() {
+private var arrayList: ArrayList<ItemModel>? = null
+private var arrayListView: ArrayList<ItemModel>? = null
+private var recyclerAdapter: RecyclerAdapter? = null
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+
+    arrayList = setDataInList()
+    arrayListView = ArrayList()
+    val gridLayoutManager = GridLayoutManager(this, 2)
+    gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            Log.i("RAZ", position.toString())
+            return when (position) {
+                0 -> 2
+                0, 1 -> 1
+                else -> 1
+            }
+        }
+    }
+    my_recycler_view.layoutManager = gridLayoutManager
+
+    my_recycler_view.setHasFixedSize(true)
+    recyclerAdapter = RecyclerAdapter(applicationContext, arrayListView!!)
+    my_recycler_view.adapter = recyclerAdapter
+
+    var i = 0
+    add_button.setOnClickListener {
+        if (i < arrayList!!.size) {
+            my_recycler_view.adapter?.notifyDataSetChanged()
+            arrayListView!!.add(arrayList!![i])
+            i++
+            my_recycler_view.adapter?.notifyItemInserted(i)
+        } else {
+            Toast.makeText(applicationContext, "No more items accepted", Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
+
+   
+    remove_button.setOnClickListener {
+        if (arrayListView!!.size > 0) {
+            if (i > 0) {
+                arrayListView!!.removeLast()
+                i--
+                my_recycler_view.adapter?.notifyItemRemoved(arrayListView!!.size)
+            }
+        } else {
+            Toast.makeText(applicationContext, "No items available", Toast.LENGTH_SHORT).show()
+        }
+    }
+}

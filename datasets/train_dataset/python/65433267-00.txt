@@ -1,0 +1,9 @@
+classes_values = []
+for i in range(0, len(materiasg), 10):
+  classes = natural_language_classifier.classify_collection(
+    classifier_id,
+    [{"text":materia} for materia in materiasg[i:(i+10 if i+10 < len(materiasg ) else len(materiasg))]]).get_result()
+  c = [sorted([[dicionario_classe["class_name"], dicionario_classe["confidence"]] for dicionario_classe in i["classes"]],key=lambda x: x[0]) for i in classes["collection"]]
+  classes_values += c
+ 
+classes_values = np.array(classes_values)

@@ -1,0 +1,32 @@
+
+struct AdderBase
+{
+    virtual double add(double a, double b)
+    {
+        return (a+b);
+    }
+};
+
+struct AdderInt : AdderBase
+{
+    virtual double add(double a, double b)
+    {
+        return ((int)a+(int)b);
+    }
+};
+
+struct AdderFloat : AdderBase
+{
+    virtual double add(double a, double b)
+    {
+        return ((float)a+(float)b);
+    }
+};
+
+struct AdderDouble : AdderBase
+{
+    virtual double add(double a, double b)
+    {
+        return ((double)a+(double)b);
+    }
+};

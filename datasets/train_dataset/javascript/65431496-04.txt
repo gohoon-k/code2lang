@@ -1,0 +1,14 @@
+const getCurrentColorPicker = () => {
+  return document.getElementById("colorChoice").value;
+};
+
+function btnEditor(h, a, i) {
+  console.log(getCurrentColorPicker());
+  // helloacm.com
+
+  var editor = document.getElementById(h);
+
+  editor.value = a + getCurrentColorPicker() + i;
+
+  // other code...
+}

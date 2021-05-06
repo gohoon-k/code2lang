@@ -1,0 +1,7 @@
+template <typename T>
+class optional {
+    bool isSet = false;
+    union { T value; };
+public:
+    // ...
+};

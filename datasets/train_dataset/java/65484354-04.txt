@@ -1,0 +1,16 @@
+@Override
+public Customer save(CustomerDto customerdto){
+    try {
+        Customer customer = new Customer();
+        convertToEntity(customer, customerdto);
+
+        return customerRepository.save(customer);
+    }
+    
+    catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+    
+    
+}

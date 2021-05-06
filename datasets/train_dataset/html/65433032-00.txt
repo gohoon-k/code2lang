@@ -1,0 +1,30 @@
+
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>Blank Starter Page</title>
+</head>
+
+<body>
+
+<button id="JavaTest1" onclick="button_01()">Button 1</button>
+
+<div id="box01">
+</div>
+
+
+<script>
+
+function button_01() {
+    "use strict"; 
+
+    console.log(#box01.parentElement)
+    return; 
+}
+
+</script>
+
+
+</body>
+</html>
+

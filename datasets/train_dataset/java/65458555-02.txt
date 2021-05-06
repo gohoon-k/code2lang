@@ -1,0 +1,23 @@
+@Repository
+public class MainDAO {
+    private final JdbcTemplate jdbcTemplate;
+    
+
+    public MainDAO(DataSource postgres) {
+        this.jdbcTemplate = new JdbcTemplate(postgres);
+    }
+
+    public Integer getSoundsCount() {
+        return jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM Sound", Integer.class);
+    }
+
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void insertSound() {
+        insertAuthor();
+        jdbcTemplate.update(
+                "INSERT INTO Sound (author, name, id) VALUES (?,?,?)",
+                0, "Spring", 0);
+    }
+}

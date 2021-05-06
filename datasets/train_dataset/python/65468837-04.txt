@@ -1,0 +1,18 @@
+from functools import lru_cache, partial
+import numpy as np
+
+
+def lru_wrapper(array=None):
+    @lru_cache(maxsize=None)
+    def foo(key):
+        return '%s:' % key, array
+    return foo
+
+
+arr = np.array([1, 2, 3])
+func = lru_wrapper(array=arr)
+
+for x in [0, 0, 1, 2, 2, 1, 2, 0]:
+    print (func(x))
+
+print (func.cache_info())

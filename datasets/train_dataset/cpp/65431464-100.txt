@@ -1,0 +1,10 @@
+#include "gum.h"
+#include "foo.h"
+
+int main()
+{
+    gum();
+    foo f;
+    f.bar();
+    return 0;
+}

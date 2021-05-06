@@ -1,0 +1,20 @@
+import torch
+import torch.nn as nn
+
+flag1 = False
+if flag1:
+    tensor1 = torch.randn(10, 512, 7, 7)
+    tensor1 = tensor1.cuda()
+    conv2d = nn.Conv2d(512, 4096, (7, 7))
+    conv2d = conv2d.cuda()
+    output1 = conv2d(tensor1)
+
+flag2 = True
+if flag2:
+    tensor2 = torch.randn(10, 512, 7, 7)
+    tensor2 = tensor2.cuda()
+    linear = nn.Linear(512 * 7 * 7, 4096)
+    linear = linear.cuda()
+    output2 = linear(tensor2.view(10, -1))
+
+print("end")

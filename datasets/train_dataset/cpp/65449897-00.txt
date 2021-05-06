@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    int arr[10];
+    int i;
+    for (i = 0; i < 10; i++) {
+        cout << "enter numbers ";
+        cin >> arr[i];
+    }
+    cout << "NUMBER : ";
+    int key;
+    cin >> key;
+    for (i = 0; i < 10; i++) {
+        if (arr[i] == key) {
+            cout << arr[i] << endl;
+            break;
+        }
+        else {
+            cout << "nothing";
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,2 @@
+public interface NoteListener {
+void onNoteClicked(Note note, int position, RelativeLayout noteLayout);

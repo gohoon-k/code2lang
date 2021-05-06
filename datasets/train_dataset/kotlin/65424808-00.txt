@@ -1,0 +1,25 @@
+class CocktailListFragment : Fragment() {
+
+    private val viewModel: CocktailListViewModel by lazy {
+        ViewModelProvider(this).get(CocktailListViewModel::class.java)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        val binding = CocktailListFragmentBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        setHasOptionsMenu(true)
+        binding.cocktail = viewModel
+        binding.cocktailList.adapter = CocktailListAdapter()
+
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.filter_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+}

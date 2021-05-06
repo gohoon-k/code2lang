@@ -1,0 +1,13 @@
+val fragments = mainActivity!!.supportFragmentManager.fragments
+
+            for (f in fragments) {
+                if (f.isVisible) {
+                    if (f.javaClass.simpleName.equals("ForwardedFragment")) {
+                        val fg = f as ForwardedFragment
+                        fg.adapter.notifyDataSetChanged() <----- HERE
+                    } else if (f.javaClass.simpleName.equals("FailedFragment")) {
+                        val fg = f as FailedFragment
+                        fg.adapter.notifyDataSetChanged()
+                    }
+                }
+            }

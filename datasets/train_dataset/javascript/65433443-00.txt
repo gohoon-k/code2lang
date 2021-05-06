@@ -1,0 +1,27 @@
+var [setRepeatedTimeout, clearRepeatedTimeout] = (() => {
+    const asleep = (delay) => new Promise(resolve => setTimeout(resolve, delay));
+    const repeatedTimeoutIntervals = [];
+
+    function setRepeatedTimeout(f, delay, ...arguments) {
+        //Like setInterval, but waits for an invocation to complete before scheduling the next one
+        //(Supports both classic and async functions)
+        const mySemaphores = {notAborted: true};
+        const intervalID = repeatedTimeoutIntervals.push(mySemaphores) - 1;
+        new Promise( async (resolve) => {
+            await asleep(delay);
+            while(mySemaphores.notAborted) {
+                await f(...arguments);
+                await asleep(delay);
+            }
+            delete repeatedTimeoutIntervals[intervalID];
+        });
+        return intervalID;
+    }
+
+    function clearRepeatedTimeout(intervalID) {
+        //Clears loops set by setInterval()
+        repeatedTimeoutIntervals[intervalID].notAborted = false;
+    }
+
+    return [setRepeatedTimeout, clearRepeatedTimeout];
+})();

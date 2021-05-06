@@ -1,0 +1,30 @@
+override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val secondActivity = findViewById<Button>(R.id.secondActivity)
+        secondActivity.setOnClickListener {
+            val intent = Intent(this, MainActivity2::class.java)
+            startActivity(intent)
+        }
+
+        val toggle: ToggleButton = findViewById(R.id.toggleButton)
+        toggle.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                startService(Intent(this@MainActivity, MusicService::class.java))
+            } else {
+                stopService(Intent(this@MainActivity, MusicService::class.java))
+            }
+        }
+    }
+
+   override fun onPause() {
+        super.onPause()
+       stopService(Intent(this@MainActivity, MusicService::class.java))
+    }
+
+
+    override fun onResume() {
+        startService(Intent(this@MainActivity, MusicService::class.java))
+        super.onResume()
+    }

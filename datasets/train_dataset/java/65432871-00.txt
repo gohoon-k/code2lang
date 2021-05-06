@@ -1,0 +1,5 @@
+private static void runDemo(){
+    Runnable r = () -> {System.out.println("Running...");
+  };
+  r.run();
+}

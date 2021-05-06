@@ -1,0 +1,12 @@
+<table id="table" class="display">
+    <thead>
+        <tr role="row">
+            <th>Rank 12321</th>
+            <th>Username </th>
+            <th>Kill Points </th>
+            <th>Class Points </th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+</table>

@@ -1,0 +1,20 @@
+var rm : String? = null;
+        Fuel.get("http://192.168.56.1:8080/getimage").response { request, response, result ->
+            val (bytes, error) = result
+            when (result) {
+                is com.github.kittinunf.result.Result.Failure -> {
+                    val ex = result.getException()
+                    println(ex)
+                }
+                is com.github.kittinunf.result.Result.Success -> {
+                    if (bytes != null) {
+                        val e = JsonParser().parse(String(bytes))
+                        val obj = e.asJsonObject
+                        val rm = obj.get("url").asString
+                        println(rm) //Has data
+                    }
+                }
+            }
+        }
+        println(rm) //Doesnt have data
+    }

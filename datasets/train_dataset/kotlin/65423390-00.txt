@@ -1,0 +1,38 @@
+suspend fun getConnection(vertx: Vertx, name: String, logger: Logger) : JDBCPool?
+{
+    try {
+        val dbStore = configStoreOptionsOf(
+            //format = "properties",
+            type = "file",
+            config = json {
+                obj(
+                    "path" to "db.json",
+                    "raw-data" to true
+                )
+            })
+
+        val options = configRetrieverOptionsOf(stores = listOf(dbStore))
+        val retriever = ConfigRetriever.create(vertx, options)
+
+        val config = retriever.config.await()
+        val driver = config.getJsonObject("driver")
+        val moduleElement = config.getJsonObject(name)
+
+
+        val data = json {
+            obj(
+                "url" to driver.getString("url"),
+                "driver_class" to driver.getString("driver_class"),
+                "user" to moduleElement.getString("user"),
+                "password" to moduleElement.getString("password"),
+                "max_pool_size" to 30
+            )
+        }
+        
+        return JDBCPool.pool(vertx, data)
+    } catch (e: Throwable)
+    {
+        logger.error("getConnection name: $name, message: ${e.message}")
+        return null
+    }
+}

@@ -1,0 +1,24 @@
+let canScroll = true;
+
+async function scroll() {
+  if(canScroll) {
+    document.getElementById("autoScroll").scrollBy(2, 2);
+    setTimeout(scroll, 30);
+  }
+}
+scroll();
+
+document.querySelectorAll('a').forEach(el => el.addEventListener('click', scrollHandler));
+
+async function scrollHandler(e) {
+  let href = e.target.getAttribute('href');
+  
+  if(href.startsWith('#')) {
+    canScroll = false;
+    document.querySelector(href).scrollIntoView();
+    setTimeout(() => {
+      canScroll = true;
+      scroll();
+    }, 500);
+  }
+}

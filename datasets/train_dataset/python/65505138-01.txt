@@ -1,0 +1,14 @@
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    # ... other columns
+    last_login_date = db.Column(db.DateTime, default=datetime.utcnow())
+
+    @classmethod
+    def update_login_date(self):
+         self.last_login_date = datetime.utcnow()
+         db.session.commit()
+
+@login_manager.user_loader
+# def...

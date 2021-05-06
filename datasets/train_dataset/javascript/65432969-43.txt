@@ -1,0 +1,101 @@
+var t="Test abc test test abc test test test abc test test abc"; // .repeat(5000)
+var log = (version,result) => console.log(`${version}: ${result}`);
+
+
+function A(str) {
+  return str.split('abc').join('');
+}
+
+function B(str) {
+  return str.split`abc`.join``; // my proposition
+}
+
+
+function C(str) {
+  return str.replace(/abc/g, '');
+}
+
+function D(str) {
+  return str.replace(new RegExp("abc", "g"), '');
+}
+
+function E(str) {
+  while (str.indexOf('abc') !== -1) { str = str.replace('abc', ''); }
+  return str;
+}
+
+function F(str) {
+  while (str.indexOf('abc') !== -1) { str = str.replace(/abc/, ''); }
+  return str;
+}
+
+function G(str) {
+  while(str.includes("abc")) { str = str.replace('abc', ''); }
+  return str;
+}
+
+// src: https://stackoverflow.com/a/56989553/860099
+function H(str)
+{
+    let i = -1
+    let find = 'abc';
+    let newToken = '';
+
+    if (!str)
+    {
+        if ((str == null) && (find == null)) return newToken;
+        return str;
+    }
+
+    while ((
+        i = str.indexOf(
+            find, i >= 0 ? i + newToken.length : 0
+        )) !== -1
+    )
+    {
+        str = str.substring(0, i) +
+            newToken +
+            str.substring(i + find.length);
+    }
+    return str;
+}
+
+// src: https://stackoverflow.com/a/22870785/860099
+function RA(string, prevstring) {
+  var omit = 'abc';
+  var place = '';
+  if (prevstring && string === prevstring)
+    return string;
+  prevstring = string.replace(omit, place);
+  return RA(prevstring, string)
+}
+
+// src: https://stackoverflow.com/a/26107132/860099
+function RB(str) {
+  var find = 'abc';
+  var replace = '';
+  var i = str.indexOf(find);
+  if (i > -1){
+    str = str.replace(find, replace);
+    i = i + replace.length;
+    var st2 = str.substring(i);
+    if(st2.indexOf(find) > -1){
+      str = str.substring(0,i) + RB(st2, find, replace);
+    }
+  }
+  return str;
+}
+
+
+
+
+log('A ', A(t));
+log('B ', B(t));
+log('C ', C(t));
+log('D ', D(t));
+log('E ', E(t));
+log('F ', F(t));
+log('G ', G(t));
+log('H ', H(t));
+log('RA', RA(t)); // use reccurence
+log('RB', RB(t)); // use reccurence

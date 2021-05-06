@@ -1,0 +1,15 @@
+class PetDetailsViewModel @ViewModelInject constructor(
+    private val petService: PetService,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) :
+    ViewModel() {
+
+    private val viewState = PetDetailsViewState()
+    var petDetailsViewData =
+        petService.performPetAction(PetAction.GetPetDetails(savedStateHandle.get<String>("petId")!!))
+            .map {
+                when (it) {
+                    // ... 
+                }
+            }.asLiveData(Dispatchers.Default + viewModelScope.coroutineContext)
+}

@@ -1,0 +1,16 @@
+class RepositoryTest {
+
+    private lateinit var repository: Repository
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
+    @Mock
+    private lateinit var retrofitService: ApiService
+
+    @Before
+    fun createRepository() {
+        MockitoAnnotations.initMocks(this)
+        repository = Repository.getInstance(retrofitService, mainCoroutineRule.dispatcher)
+    }
+}

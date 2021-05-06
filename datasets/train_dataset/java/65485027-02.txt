@@ -1,0 +1,24 @@
+private static Object getWithDotNotation(Document doc, String key)
+            throws MongoException {
+
+        String[] keys = key.split("\\.");
+
+        for (int i = 0; i < keys.length - 1; i++) {
+            Object o = doc.get(keys[i]);
+            if (o == null) {
+                throw new MongoException(String.format(
+                        "Field '%s' does not exist or is not a Document", keys[i]));
+            }
+            if (o instanceof ArrayList) {
+                ArrayList<?> docArrayNested = (ArrayList<?>) o;
+                for (Object docNestedObj : docArrayNested) {
+                    if (docNestedObj instanceof Document) {
+                        doc = (Document) docNestedObj;
+                    }
+                }
+            } else {
+                doc = (Document) o;
+            }
+        }
+        return doc.get(keys[keys.length - 1]);
+    }

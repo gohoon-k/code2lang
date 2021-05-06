@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+void print(std::vector<pair<int, int>> a) {
+    for (int i = 0; i < a.size(); i++) {
+        std::cout << "Original " << a[i].first << "," << a[i].second;
+    }
+}
+
+int main()
+{
+    vector<pair<int, int> > a;
+    for (int i = 0; i < 3; i++) {
+        int x, y;
+        cin >> x >> y;
+        a.push_back({x, y});
+    }
+    print(a);
+
+    return 0;
+}

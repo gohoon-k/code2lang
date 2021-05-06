@@ -1,0 +1,9 @@
+<div id="groupStats" class="table-responsive">
+  <table class="table table-hover">
+   <tbody>
+    <tr>
+      <td>Games played total</td>
+    <td>
+      <b>127</b>
+    </td>
+  </tr>

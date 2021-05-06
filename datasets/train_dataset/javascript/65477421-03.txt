@@ -1,0 +1,8 @@
+function getLightBox(text = '') {
+  return text.replace(/<img.*?src="([^"]+)".*?>/g, (img, src) => {
+    return `<a href="images/${src}" data-lightbox="Christmas">${img}</a>`;
+  });
+}
+
+const element = document.getElementById('myElement');
+element.innerHTML = getLightBox(element.innerHTML);

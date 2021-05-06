@@ -1,0 +1,17 @@
+struct data
+    {
+    int value;
+    string text;
+    } 
+    struct Comp
+        {
+           bool operator()(const data & a, const data & b,const unordered_map<string, int> & set)
+           {
+               if(  a.value == b.value)
+                   return set[a.text] < set[b.text];
+               return a.val < b.val;
+           }
+        };
+
+        vector<data> v;
+        make_heap(v.begin(), v.end(), Comp());

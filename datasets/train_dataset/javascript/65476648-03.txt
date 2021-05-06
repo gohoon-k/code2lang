@@ -1,0 +1,25 @@
+const form = document.querySelector("#form");
+let selected = [];
+const numberOfCheckboxes = document.querySelectorAll("#form input").length;
+
+form.addEventListener("click", function(e) {
+  if (e.target.nodeName !== "INPUT") return;
+  if (e.target.checked) {
+    selected.push(parseInt(e.target.value));
+  } else {
+    selected = selected.filter(el => el != e.target.value);
+  }
+})
+
+function check(e) {
+  console.log(selected);
+  if (selected.length !== numberOfCheckboxes) {
+    e.preventDefault();
+    alert("You didn't select all the boxes");
+  }
+  const inOrder = selected.every((el, i, arr) => i === 0 || el === arr[i-1] + 1);
+  if (!inOrder) {
+    e.preventDefault();
+    alert("Wrong order!");
+  }
+}

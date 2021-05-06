@@ -1,0 +1,41 @@
+IMAGE_FOLDER = "videoframe"
+filenames = [img for img in glob.glob("videoframe/*.jpg")]
+filenames = sorted(filenames, key=os.path.getctime)
+destination = {
+"currentSocket": socket_server_a,
+"currentServersTitle": SERVER_A_TITLE,}
+FPS=5  
+def data_rate():
+  global destination, running, endpoint_responses, frame_requests
+  TIME_DELTA = 1
+  while running: 
+    before_sent = frame_requests
+    time.sleep(TIME_DELTA)
+    after_sent = frame_requests
+    print("{} ( i ) : sending frames: {} per second.".format(time.strftime('%H:%M:%S'),round((after_sent - before_sent) / TIME_DELTA, 2)))
+
+def send_frame(frame, frame_requests):
+  global destination, running
+  try:
+    frame = cv2.resize(frame, (224, 224))
+    encoded, buffer = cv2.imencode('.jpg', frame)
+    jpg_as_text = base64.b64encode(buffer)
+    print("{} ( i ) :  Sending frame {} to {}...".format(time.strftime('%H:%M:%S'),frame_requests,destination['currentServersTitle']))
+    destination["currentSocket"].send(jpg_as_text)
+  except Exception as Error:
+    print("{} ( ! ) :  Encountered Error at frame {}\n\n> KILLING CONNECTIONS\n\nERROR MESSAGE:  {Error}".format(time.strftime('%H:%M:%S'),frame_requests,Error))
+def main():
+  global destination, running, frame_requests
+  interval = 1 / FPS
+  while running:
+    for img in filenames:
+        frame = cv2.imread(img)
+        frame_requests += 1
+        print("{} ( i ) :  frames count = {}".format(time.strftime('%H:%M:%S'),frame_requests))
+        threading.Thread(target=send_frame, args=(frame, frame_requests)).start()
+        time.sleep(interval)
+    running=False
+  destination["currentSocket"].close()
+if __name__ == "__main__":
+  threading.Thread(target=data_rate).start()
+  main()

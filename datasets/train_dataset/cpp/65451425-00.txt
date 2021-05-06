@@ -1,0 +1,18 @@
+class A2DD
+{
+  private:
+  int gx;
+  int gy;
+
+  public:
+  A2DD(int x,int y)
+  {
+    gx = x;
+    gy = y;
+  }
+
+  int getSum()
+  {
+    return gx + gy;
+  }
+};

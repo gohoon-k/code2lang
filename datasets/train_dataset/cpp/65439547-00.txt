@@ -1,0 +1,78 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <filesystem>
+#include <fstream>
+#include <cassert>
+#include <chrono>
+#include <boost/iostreams/device/mapped_file.hpp>
+#include <boost/iostreams/stream.hpp>
+
+namespace fs = std::filesystem;
+
+template<typename TYPE>
+inline void read_binary_file_ifstream(const fs::path filename, std::vector<TYPE>& result)
+{
+
+  std::ifstream file(filename, std::ios::in | std::ios::binary);
+
+  size_t filesize = fs::file_size(filename);
+
+  assert(filesize%sizeof(TYPE) == 0);
+  result.resize(filesize/sizeof(TYPE));
+
+  file.read(reinterpret_cast<char *>(result.data()), filesize);
+
+  file.close();
+}
+
+template<typename TYPE>
+inline void read_binary_file_boost(const fs::path filename, std::vector<TYPE>& result)
+{
+
+  using boost::iostreams::mapped_file_source;
+  using boost::iostreams::stream;
+
+  size_t filesize = fs::file_size(filename);
+
+  assert(filesize%sizeof(TYPE) == 0);
+  result.resize(filesize/sizeof(TYPE));
+
+  mapped_file_source mmap(filename.string().c_str());
+  stream<mapped_file_source> file(mmap, std::ios::binary);
+
+  file.read(reinterpret_cast<char *>(result.data()), filesize);
+}
+
+int main()
+{
+  fs::path path = "idx-position-Deces_Agit_FrHex_aPartir1979_Dom_aPartir2000_enCours-liens_age_tranche_age#age_quinquenal_0_100.dat";
+  std::cout << "file size : " << fs::file_size(path) << std::endl;
+
+  std::chrono::time_point<std::chrono::system_clock> start, end;
+
+  start = std::chrono::system_clock::now();
+  for(int i = 0; i<10; ++i)
+  {
+    std::vector<uint32_t> result;
+
+    read_binary_file_ifstream<uint32_t>(path, result);
+  }
+  end = std::chrono::system_clock::now();
+  std::chrono::duration<double> elapsed_seconds = end-start;
+  std::cout << "elapsed time ifstream : " << elapsed_seconds.count() << "s\n";
+
+  start = std::chrono::system_clock::now();
+  for(int i = 0; i<10; ++i)
+  {
+    std::vector<uint32_t> result;
+
+    read_binary_file_boost<uint32_t>(path, result);
+  }
+  end = std::chrono::system_clock::now();
+  elapsed_seconds = end-start;
+  std::cout << "elapsed time boost iostream : " << elapsed_seconds.count() << "s\n";
+
+
+  return 0;
+}

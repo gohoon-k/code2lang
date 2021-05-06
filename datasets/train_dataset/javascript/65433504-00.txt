@@ -1,0 +1,23 @@
+streamlabs.on('event', (eventData) => 
+  {
+    var start = new Date();
+    if (eventData.for === 'twitch_account') 
+    {
+      switch (eventData.type) 
+      {
+        case 'follow':
+          //code to handle follow events
+          console.log(eventData.message);
+          setTimeout(function()
+          {
+            changeWithFollow();
+            setTimeout(function () 
+            {
+              changeToDefault()
+            }, followGifLength);
+          }, start % 2500);
+          break;
+    }
+}
+})
+

@@ -1,0 +1,493 @@
+class LicenseLoginFragment2 : Fragment() {
+
+    private lateinit var viewModel : DataViewModel
+    var enteredLicenseCode = ""
+    var expDate = ""
+    private var oldValues = mutableMapOf<String, String>()
+
+    private var responseSuccess = false
+
+    var myRunnable : Runnable? = null
+
+    var myHandler = Handler()
+
+    var reqBtnClicked = false
+
+    private var licenseVerified = false
+    private var invalidLicense = false
+    private var expLicense = false
+    private var deactivatedLicense = false
+
+    lateinit var mContext : Context
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mContext = requireContext()
+
+        val binding : LicenseLoginBinding = DataBindingUtil.inflate(
+            inflater, R.layout.license_login, container, false)
+
+
+        viewModel = ViewModelProviders.of(requireActivity()).get(DataViewModel::class.java)
+
+        viewModel.branchNames.value = mutableListOf()
+
+        licenseBoxListeners(binding)
+
+        /*
+        binding.no1LicenseLogin.clearFocus()
+        binding.no2LicenseLogin.clearFocus()
+        binding.no3LicenseLogin.clearFocus()
+        binding.no4LicenseLogin.clearFocus()
+        binding.no5LicenseLogin.clearFocus()
+        binding.no6LicenseLogin.clearFocus()
+        */
+
+        var netOprtns = NetworkOperations()
+        var isNetConnected = false
+
+
+        return binding.root
+    }
+
+    private fun licenseBoxListeners(binding: LicenseLoginBinding) {
+
+        /*
+        binding.no1LicenseLogin.isFocusableInTouchMode = true
+        binding.no2LicenseLogin.isFocusableInTouchMode = true
+        binding.no3LicenseLogin.isFocusableInTouchMode = true
+        binding.no4LicenseLogin.isFocusableInTouchMode = true
+        binding.no5LicenseLogin.isFocusableInTouchMode = true
+        binding.no6LicenseLogin.isFocusableInTouchMode = true
+        */
+
+        licenseBox1(binding)
+
+        licenseBox2(binding)
+
+        licenseBox3(binding)
+
+        licenseBox4(binding)
+
+        licenseBox5(binding)
+
+        licenseBox6(binding)
+    }
+
+    private fun licenseBox1(binding : LicenseLoginBinding) {
+
+        binding.no1LicenseLogin.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            //binding.no1LicenseLogin.isCursorVisible = true
+            if (hasFocus) { //Do your work
+                binding.no1LicenseLogin.setSelectAllOnFocus(true);
+                binding.no1LicenseLogin.selectAll()
+            }
+        }
+
+        binding.no1LicenseLogin.setOnClickListener {
+            binding.no1LicenseLogin.isCursorVisible = true
+            binding.no1LicenseLogin.setSelectAllOnFocus(true);
+            binding.no1LicenseLogin.selectAll()
+        }
+
+        binding.no1LicenseLogin.setOnKeyListener { v, keyCode, event ->
+            //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+            if (keyCode == KeyEvent.KEYCODE_DEL) { //this is for backspace
+
+            }
+            false
+        }
+
+        binding.no1LicenseLogin.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.no1LicenseLogin.isCursorVisible = false
+                binding.no1LicenseLogin.setSelectAllOnFocus(false)
+
+                // after click of tick marked (enter) btn on keyboard
+                // cursor goes to first box
+                binding.no1LicenseLogin.clearFocus();
+                binding.no2LicenseLogin.clearFocus();
+                binding.no3LicenseLogin.clearFocus();
+                binding.no4LicenseLogin.clearFocus();
+                binding.no5LicenseLogin.clearFocus();
+                binding.no6LicenseLogin.clearFocus();
+
+                var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+                imm.hideSoftInputFromWindow(binding.mainLicenseLayout.windowToken, 0);
+
+                true
+            }
+            false
+        }
+
+        binding.no1LicenseLogin.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (binding.no1LicenseLogin.text.isNotEmpty()) {
+                    binding.no2LicenseLogin.setSelection(0)
+                    binding.no2LicenseLogin.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkLicenseBoxesFilled(binding)
+            }
+        })
+    }
+
+    private fun licenseBox2(binding : LicenseLoginBinding) {
+
+        binding.no2LicenseLogin.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            //binding.no2LicenseLogin.isCursorVisible = true
+            if (hasFocus) { //Do your work
+                binding.no2LicenseLogin.setSelectAllOnFocus(true);
+                binding.no2LicenseLogin.selectAll()
+            }
+        }
+
+        binding.no2LicenseLogin.setOnClickListener {
+            binding.no2LicenseLogin.isCursorVisible = true
+            binding.no2LicenseLogin.setSelectAllOnFocus(true);
+            binding.no2LicenseLogin.selectAll()
+        }
+
+        binding.no2LicenseLogin.setOnKeyListener { v, keyCode, event ->
+            //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+            if (keyCode == KeyEvent.KEYCODE_DEL) { //this is for backspace
+                binding.no1LicenseLogin.requestFocus()
+                binding.no2LicenseLogin.setText("")
+            }
+            false
+        }
+
+        binding.no2LicenseLogin.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                //Toast.makeText(requireContext(), "Done button clicked", Toast.LENGTH_SHORT).show()
+                binding.no2LicenseLogin.isCursorVisible = false
+                binding.no5LicenseLogin.setSelectAllOnFocus(false)
+
+                // after click of tick marked (enter) btn on keyboard
+                // cursor goes to first box
+                binding.no1LicenseLogin.clearFocus();
+                binding.no2LicenseLogin.clearFocus();
+                binding.no3LicenseLogin.clearFocus();
+                binding.no4LicenseLogin.clearFocus();
+                binding.no5LicenseLogin.clearFocus();
+                binding.no6LicenseLogin.clearFocus();
+
+                var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+                imm.hideSoftInputFromWindow(binding.mainLicenseLayout.windowToken, 0);
+
+                true
+            }
+            false
+        }
+
+        binding.no2LicenseLogin.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {
+                if (binding.no2LicenseLogin.text.isNotEmpty()) {
+                    binding.no3LicenseLogin.setSelection(0)
+                    binding.no3LicenseLogin.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkLicenseBoxesFilled(binding)
+            }
+        })
+    }
+
+    private fun licenseBox3(binding : LicenseLoginBinding) {
+
+        binding.no3LicenseLogin.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            //binding.no3LicenseLogin.isCursorVisible = true
+            if (hasFocus) { //Do your work
+                binding.no3LicenseLogin.setSelectAllOnFocus(true);
+                binding.no3LicenseLogin.selectAll()
+            }
+        }
+
+        binding.no3LicenseLogin.setOnClickListener {
+            binding.no3LicenseLogin.isCursorVisible = true
+            binding.no3LicenseLogin.setSelectAllOnFocus(true);
+            binding.no3LicenseLogin.selectAll()
+        }
+
+        binding.no3LicenseLogin.setOnKeyListener { v, keyCode, event ->
+            //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+            if (keyCode == KeyEvent.KEYCODE_DEL) { //this is for backspace
+                binding.no2LicenseLogin.requestFocus()
+                binding.no3LicenseLogin.setText("")
+            }
+            false
+        }
+
+        binding.no3LicenseLogin.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.no3LicenseLogin.isCursorVisible = false
+                binding.no5LicenseLogin.setSelectAllOnFocus(false)
+
+                // after click of tick marked (enter) btn on keyboard
+                // cursor goes to first box
+                binding.no1LicenseLogin.clearFocus();
+                binding.no2LicenseLogin.clearFocus();
+                binding.no3LicenseLogin.clearFocus();
+                binding.no4LicenseLogin.clearFocus();
+                binding.no5LicenseLogin.clearFocus();
+                binding.no6LicenseLogin.clearFocus();
+
+                var view = requireActivity().currentFocus
+                if (view != null) {
+                    var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+            }
+            false
+        }
+
+        binding.no3LicenseLogin.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (binding.no3LicenseLogin.text.isNotEmpty()) {
+                    binding.no4LicenseLogin.setSelection(0)
+                    binding.no4LicenseLogin.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkLicenseBoxesFilled(binding)
+            }
+        })
+    }
+
+    private fun licenseBox4(binding : LicenseLoginBinding) {
+
+        binding.no4LicenseLogin.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            //binding.no4LicenseLogin.isCursorVisible = true
+            if (hasFocus) { //Do your work
+                binding.no4LicenseLogin.setSelectAllOnFocus(true);
+                binding.no4LicenseLogin.selectAll()
+            }
+        }
+
+        binding.no4LicenseLogin.setOnClickListener {
+            binding.no4LicenseLogin.isCursorVisible = true
+            binding.no4LicenseLogin.setSelectAllOnFocus(true);
+            binding.no4LicenseLogin.selectAll()
+        }
+
+        binding.no4LicenseLogin.setOnKeyListener { v, keyCode, event ->
+            //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+            if (keyCode == KeyEvent.KEYCODE_DEL) { //this is for backspace
+                binding.no3LicenseLogin.requestFocus()
+                binding.no4LicenseLogin.setText("")
+            }
+            false
+        }
+
+        binding.no4LicenseLogin.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.no4LicenseLogin.isCursorVisible = false
+                binding.no4LicenseLogin.setSelectAllOnFocus(false)
+
+                // after click of tick marked (enter) btn on keyboard
+                // cursor goes to first box
+                binding.no1LicenseLogin.clearFocus();
+                binding.no2LicenseLogin.clearFocus();
+                binding.no3LicenseLogin.clearFocus();
+                binding.no4LicenseLogin.clearFocus();
+                binding.no5LicenseLogin.clearFocus();
+                binding.no6LicenseLogin.clearFocus();
+
+                var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+                imm.hideSoftInputFromWindow(binding.mainLicenseLayout.windowToken, 0);
+
+                true
+            }
+            false
+        }
+
+        binding.no4LicenseLogin.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (binding.no4LicenseLogin.text.isNotEmpty()) {
+                    binding.no4LicenseLogin.setSelection(0)
+                    binding.no5LicenseLogin.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkLicenseBoxesFilled(binding)
+            }
+        })
+    }
+
+    private fun licenseBox5(binding : LicenseLoginBinding) {
+
+        binding.no5LicenseLogin.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            //binding.no5LicenseLogin.isCursorVisible = true
+            if (hasFocus) { //Do your work
+                binding.no5LicenseLogin.setSelectAllOnFocus(true);
+                binding.no5LicenseLogin.selectAll()
+            }
+        }
+
+        binding.no5LicenseLogin.setOnClickListener {
+            binding.no5LicenseLogin.isCursorVisible = true
+            binding.no5LicenseLogin.setSelectAllOnFocus(true);
+            binding.no5LicenseLogin.selectAll()
+        }
+
+        binding.no5LicenseLogin.setOnKeyListener { v, keyCode, event ->
+            //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+            if (keyCode == KeyEvent.KEYCODE_DEL) { //this is for backspace
+                binding.no4LicenseLogin.requestFocus()
+                binding.no5LicenseLogin.setText("")
+            }
+            false
+        }
+
+        binding.no5LicenseLogin.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                //Toast.makeText(requireContext(), "Done button clicked", Toast.LENGTH_SHORT).show()
+                binding.no5LicenseLogin.isCursorVisible = false
+                binding.no5LicenseLogin.setSelectAllOnFocus(false)
+
+                // after click of tick marked (enter) btn on keyboard
+                // cursor goes to first box
+                binding.no1LicenseLogin.clearFocus();
+                binding.no2LicenseLogin.clearFocus();
+                binding.no3LicenseLogin.clearFocus();
+                binding.no4LicenseLogin.clearFocus();
+                binding.no5LicenseLogin.clearFocus();
+                binding.no6LicenseLogin.clearFocus();
+
+                var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+                imm.hideSoftInputFromWindow(binding.mainLicenseLayout.windowToken, 0);
+
+                true
+            }
+            false
+        }
+
+        binding.no5LicenseLogin.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (binding.no5LicenseLogin.text.isNotEmpty()) {
+                    binding.no6LicenseLogin.setSelection(0)
+                    binding.no6LicenseLogin.requestFocus()
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkLicenseBoxesFilled(binding)
+            }
+        })
+    }
+
+    private fun licenseBox6(binding : LicenseLoginBinding) {
+
+        binding.no6LicenseLogin.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            //binding.no6LicenseLogin.isCursorVisible = true
+            if (hasFocus) { //Do your work
+                binding.no6LicenseLogin.setSelectAllOnFocus(true);
+                binding.no6LicenseLogin.selectAll()
+            }
+        }
+
+        binding.no6LicenseLogin.setOnClickListener {
+            binding.no6LicenseLogin.isCursorVisible = true
+            binding.no6LicenseLogin.setSelectAllOnFocus(true);
+            binding.no6LicenseLogin.selectAll()
+        }
+
+        binding.no6LicenseLogin.setOnKeyListener { v, keyCode, event ->
+            //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+            if (keyCode == KeyEvent.KEYCODE_DEL) { //this is for backspace
+                binding.no5LicenseLogin.requestFocus()
+                binding.no6LicenseLogin.setText("")
+            }
+            false
+        }
+
+        /*
+        binding.no6LicenseLogin.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                // User has pressed Back key. So hide the keyboard
+                //Log.d("return key pressed  1", "OKKK")
+                binding.no6LicenseLogin.clearFocus();
+            }
+            false
+        }
+        */
+
+        binding.no6LicenseLogin.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                //Log.d("ok", "sir")
+                binding.no6LicenseLogin.isCursorVisible = false
+                if ((event.action == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    return true
+                }
+                //Log.d("ok", "sir")
+                return false
+            }
+        })
+
+        binding.no6LicenseLogin.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {
+                if (binding.no6LicenseLogin.text.isNotEmpty()) {
+
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkLicenseBoxesFilled(binding)
+                binding.no6LicenseLogin.clearFocus()
+                binding.no1LicenseLogin.setSelectAllOnFocus(false)
+                var imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding.mainLicenseLayout.windowToken, 0);
+            }
+        })
+    }
+
+    private fun checkLicenseBoxesFilled(binding: LicenseLoginBinding) {
+
+        enteredLicenseCode = binding.no1LicenseLogin.text.toString() + binding.no2LicenseLogin.text.toString() +
+                binding.no3LicenseLogin.text.toString() + binding.no4LicenseLogin.text.toString() +
+                binding.no5LicenseLogin.text.toString() + binding.no6LicenseLogin.text.toString()
+        if (enteredLicenseCode.length == 6) {
+            binding.next.isEnabled = true
+            binding.next.background = resources.getDrawable(R.drawable.button_rounded_corners)
+        } else {
+            binding.next.isEnabled = false
+            binding.next.background = resources.getDrawable(R.drawable.button_disabled_rounded_corners)
+        }
+    }
+}

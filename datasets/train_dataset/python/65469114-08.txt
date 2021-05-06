@@ -1,0 +1,16 @@
+def convert_to_delimited_keys(obj, parent_key='', delimiter='__', keys_list=None):
+    if keys_list is None: keys_list = []
+
+    if isinstance(obj, dict):
+        for k in obj:
+            convert_to_delimited_keys(obj[k], delimiter.join((parent_key, str(k))), delimiter, keys_list)
+    elif isinstance(obj, list):
+        for i, _ in enumerate(obj):
+            convert_to_delimited_keys(obj[i], delimiter.join((parent_key, str(i))), delimiter, keys_list)
+    else:
+        # Append to list, but remove the leading delimiter due to string.join
+        keys_list.append(parent_key[len(delimiter):])
+    return keys_list
+
+for item in convert_to_delimited_keys(data):
+    print(item)

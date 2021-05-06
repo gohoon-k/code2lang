@@ -1,0 +1,8 @@
+def go_float(s):
+    percent_b = s.endswith('%')
+    if percent_b:
+        s = s[:-1]
+    value = float(s)
+    if percent_b:
+        value /= 100
+    return value

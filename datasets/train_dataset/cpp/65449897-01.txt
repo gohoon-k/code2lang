@@ -1,0 +1,12 @@
+bool found_it = false;
+for ( i = 0; i < 10; i++)
+{
+    if(arr[i]==key)
+    {
+        cout<<arr[i]<<endl;
+        found_it = true;
+        break;
+    }
+}
+if (!found_it) // did we find anything?
+    cout<<"nothing"<<endl;

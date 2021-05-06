@@ -1,0 +1,38 @@
+fun formatPointsTop3(points: Int?): String {
+            if (points == null) return ""
+            if (points == 0) return "0"
+
+            val maxNumberOfDigits = 3
+
+            val multiplierExponent = log(points.toDouble(), 1000.0).toInt()
+
+            val bigPoints = BigDecimal(points)
+            val bigDivider = BigDecimal(1000).pow(multiplierExponent)
+            val reducedPoints = bigPoints.divide(bigDivider)
+
+            val intPart = reducedPoints.toBigInteger().toInt()
+            val decimalPart = reducedPoints.subtract(BigDecimal(intPart)).toDouble()
+
+            val numberOfDecimals = maxNumberOfDigits - (log10(intPart.toDouble()).toInt() + 1)
+
+            var formattedString = "$intPart"
+
+            if (numberOfDecimals > 0) {
+                val multiplier = 10.0.pow(numberOfDecimals)
+                val formatter = NumberFormat.getIntegerInstance()
+                formatter.minimumIntegerDigits = numberOfDecimals
+                formatter.maximumIntegerDigits = numberOfDecimals
+                val multiplied = (decimalPart * multiplier).toInt()
+                formattedString += ",${formatter.format(multiplied)}"
+            }
+
+            formattedString += when (multiplierExponent) {
+                0 -> ""
+                1 -> "k"
+                2 -> "m"
+                3 -> "b"
+                else -> ""  //this is not possible as max int is 2 billions
+            }
+
+            return formattedString
+        }

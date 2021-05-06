@@ -1,0 +1,17 @@
+function divisionAPI (number, divider, callback) {
+
+    return new Promise(function (fulfilled, rejected) {
+
+        if (divider == 0) {
+            let error = new Error("Division by zero")
+            callback && callback( error )
+            return rejected( error )
+        }
+
+        let result = number / divider
+        callback && callback( null, result )
+        fulfilled( result )
+
+     })
+
+}

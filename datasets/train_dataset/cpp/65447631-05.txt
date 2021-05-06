@@ -1,0 +1,72 @@
+#include <utility>
+
+template <typename T>
+struct ForwardIterator {
+    T operator++ () = delete;
+    T operator++ (int) = delete;
+
+    ForwardIterator ()
+     {
+       static_assert( sizeof(decltype(std::declval<T>()++)), "!" );
+       static_assert( sizeof(decltype(++std::declval<T>())), "!" );
+     }
+};
+
+template <typename T>
+struct BidirectionalIterator: public ForwardIterator<T> {
+    T operator-- () = delete;
+    T operator-- (int) = delete;
+
+    BidirectionalIterator ()
+     {
+       static_assert( sizeof(decltype(std::declval<T>()--)), "!" );
+       static_assert( sizeof(decltype(--std::declval<T>())), "!" );
+     }
+};
+
+template <typename T>
+struct RandomAccessIterator: public BidirectionalIterator<T>{
+    T operator+ (int) = delete;
+    T operator- (int) = delete;
+
+    RandomAccessIterator ()
+     {
+       static_assert( sizeof(decltype(std::declval<T>()+0)), "!" );
+       static_assert( sizeof(decltype(std::declval<T>()-0)), "!" );
+     }
+ };
+
+// Custom Iterator Implementation
+
+struct MyCustomRandomAccessIterator
+   : public RandomAccessIterator<MyCustomRandomAccessIterator> {
+
+   // with `if 0` (forgetting definition of requested methods) you get
+   // a lot of compilation errors   
+#if 1
+    MyCustomRandomAccessIterator operator++ ()
+     { return *this; } 
+
+    MyCustomRandomAccessIterator operator++ (int)
+     { return *this; } 
+
+    MyCustomRandomAccessIterator operator-- ()
+     { return *this; } 
+
+    MyCustomRandomAccessIterator operator-- (int)
+     { return *this; } 
+
+    MyCustomRandomAccessIterator operator+ (int)
+     { return *this; } 
+
+    MyCustomRandomAccessIterator operator- (int)
+     { return *this; } 
+#endif
+};
+
+int main()
+ {
+   // simply declaring i you get a lot of errors, in case of no 
+   // methods definitions
+   MyCustomRandomAccessIterator  i;
+ }

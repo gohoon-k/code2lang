@@ -1,0 +1,44 @@
+fun getRetrofitUser(context: Context, userId:Long) {
+    val usersRetrofit = getRetrofit(context)
+    val usersApiService = usersRetrofit.create(ITerminalAPIService::class.java)
+    try {
+        val apiUsers = usersApiService.getUser(userId)
+
+        apiUsers.enqueue(object : Callback<User> {
+            override fun onResponse(
+                call: Call<User>,
+                response: Response<User>
+            ) {
+                if (!response.isSuccessful) {
+                    println("user response unsuccessful: ${response.code()}")
+                }
+                val user = response.body()
+                /** do something with user*/
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+
+
+private fun getRetrofit(context: Context): Retrofit {
+    val logInterceptor = HttpLoggingInterceptor()
+    logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+    return Retrofit.Builder().baseUrl(BACKEND_URL)
+        .client(
+            OkHttpClient().newBuilder()
+                .connectTimeout(120, TimeUnit.SECONDS)
+                .readTimeout(120, TimeUnit.SECONDS)
+                .writeTimeout(120, TimeUnit.SECONDS)
+                .addInterceptor(AuthInterceptor(context))
+                .addInterceptor(logInterceptor)
+                .build()
+        )
+        .addConverterFactory(GsonConverterFactory.create()).build()
+}

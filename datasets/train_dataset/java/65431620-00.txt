@@ -1,0 +1,9 @@
+public class MyDraw extends JPanel {
+  background = new ImageIcon("src/background.jpg").getImage();
+@Override
+    protected void paintComponent(Graphics gr){
+ super.paintComponent(gr);
+ gr.drawImage(background, 0, 0, 800, 600,   null);
+
+}
+}

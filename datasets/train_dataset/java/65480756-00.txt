@@ -1,0 +1,29 @@
+
+import JDBC.DAO.UsuarioDAO;
+import JDBC.DTO.Usuario;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLException;
+import java.util.List;
+
+@RestController
+@RequestMapping("/")
+@CrossOrigin(origins = "*", maxAge = 3600)
+public class UsuarioResource {
+
+   //Get usuario por rut
+    @RequestMapping(method = RequestMethod.GET, value = "traerUsuario/{rut}")
+    public List<Usuario> obtenerUsuarioPorRut (@PathVariable ("rut") String rut) throws SQLException {
+        List<Usuario> user = new UsuarioDAO().obtenerUsuarioPorRut(rut);
+        return user;
+    }
+
+    //Get todos los usuarios
+    @RequestMapping(method = RequestMethod.GET, value = "allUsers")
+    public List <Usuario> getUsuarios() throws SQLException {
+        List <Usuario> usuarios = new UsuarioDAO().obtenerUsuarios();
+        return usuarios;
+    }
+
+
+}

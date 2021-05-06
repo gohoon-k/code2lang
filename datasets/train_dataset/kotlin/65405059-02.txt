@@ -1,0 +1,17 @@
+interface SimpleApi : Serializable{
+
+@GET("list")
+fun productList(): Call<MutableList<Product>>
+
+@GET("api/data")
+fun test(@Header("Authorization") autHeader: String): Call<String>
+
+
+@GET("testc")
+fun testCustomer(): Call<String>
+
+
+@GET("cars")
+fun getCars(): Call<List<Car>>
+
+}

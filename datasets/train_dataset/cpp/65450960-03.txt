@@ -1,0 +1,28 @@
+#include <iostream>
+#include <cpprest/http_listener.h>
+#include "include/handler.h"
+
+using namespace web;
+using namespace web::http;
+using namespace web::http::experimental::listener;
+using namespace std;
+
+int main(const int, const char **)
+{
+    http_listener listener("http://*:8080");
+    listener.support(methods::GET, handle_get);
+    try
+    {
+        listener
+            .open()
+            .then([&listener]() { cout << "starting to listen..." << endl; })
+            .wait();
+        while (true)
+            ;
+    }
+    catch (exception const &e)
+    {
+        cout << e.what() << endl;
+    }
+    return 0;
+}

@@ -1,0 +1,20 @@
+class Person(...) {    
+  var amountOfAllRelatives = 0
+
+    fun countAmountOfAllRelatives() {
+        this.mother?.let {
+            amountOfAllRelatives++
+            it.countAmountOfAllRelatives()
+        }
+        this.father?.let {
+            amountOfAllRelatives++
+            it.countAmountOfAllRelatives()
+        }
+        this.siblings?.let {
+            it.forEach {
+                amountOfAllRelatives++
+                it.countAmountOfAllRelatives()
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+    int n;
+    int accNo[n];
+    bool usedNo[n] = {false};
+    cout <<"Enter the number of persons." <<endl;
+    cin >> n;
+    //error message for inputing less than 2 persons
+    while(n <= 1){
+        cout << "ERROR: There must be at least more than one person." << endl;
+        cin >> n;
+    }
+    //data entry of each person
+    for(int i = 0; i < n; i++){
+        cout << "1) Input the account number. " <<"(Person no. " <<i+1<<")" <<endl;
+        cin >> accNo[i];
+        while(usedNo[i] == true){
+            cout << "ERROR: The account number already exists!" << endl;
+            cin >> accNo[i];
+        }
+        if(usedNo[i] == false){
+            usedNo[i] = true;
+        }
+       
+}

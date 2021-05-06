@@ -1,0 +1,9 @@
+// This is in onCreate
+val mainHandler = Handler(Looper.getMainLooper())
+
+        mainHandler.post(object : Runnable {
+            override fun run() {
+                getNewImage()
+                mainHandler.postDelayed(this, 3000)
+            }
+        })

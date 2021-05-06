@@ -1,0 +1,12 @@
+private fun handleNotification(characteristic: BluetoothGattCharacteristic) {
+    println("Notification !")
+    val data: ByteArray? = characteristic.value
+    if (data?.isNotEmpty() == true) {
+        val hexString: String = data.joinToString(separator = " ", prefix = "[",  postfix = "]") {
+            String.format("0x%02X", it)
+        }
+        println(hexString)
+    } else {
+        println("Data is empty")
+    }
+}

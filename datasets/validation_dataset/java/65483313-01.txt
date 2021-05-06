@@ -1,0 +1,19 @@
+
+import java.rmi.Naming; 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class AdditionClient {
+    public static void main(String[] args) {
+        try {
+            String host="";
+            Registry registry = LocateRegistry.getRegistry(host);
+            AdditionInterface hello = (AdditionInterface) registry.lookup("Addition");
+            int result = hello.add(9, 2);
+            System.out.println("Result is: " + result);
+
+        } catch (Exception ex) {
+            System.out.println("HelloClient Exception" + ex);
+        }
+    }
+}

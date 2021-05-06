@@ -1,0 +1,3 @@
+public void bookSeat(int row, int seat) {
+        this.seatsArrangement.get(row  - 1).set(seat - 1, 'B');
+    }

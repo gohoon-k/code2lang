@@ -1,0 +1,8 @@
+//Append listItem to incompleteTaskHolder
+if (taskInput.value == ""){
+  document.getElementById("warning").innerHTML = "Paragraph changed!";
+} else {
+  document.getElementById("warning").innerHTML = ""; //Remove warning
+  incompleteTaskHolder.appendChild(listItem);
+  bindTaskEvents(listItem, taskCompleted);
+}

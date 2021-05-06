@@ -1,0 +1,27 @@
+#Import modules
+from tkinter import * #For images
+from PIL import Image, ImageTk #For images
+import os #For working directory
+from pynput import keyboard #For hotkeys
+#Set default directory
+os.chdir('C:\\Users\\UserName\\Desktop\\Python\\SomeFolderName')
+
+#Display Menu
+root = Tk()
+image = Image.open('menu.png')
+display = ImageTk.PhotoImage(image)
+root.overrideredirect(True) #Remove toolbar
+label = Label(root, image=display)
+label.pack()
+root.mainloop()
+
+#Functions
+def ExitProgram():
+print('test')
+sys.exit(0)
+
+#Define hotkeys
+with keyboard.GlobalHotKeys({
+'<ctrl>+w': ExitProgram,
+'<ctrl>+0': ExitProgram}) as h:
+h.join()

@@ -1,0 +1,5 @@
+function load() {
+    var d = $q.defer();
+    window.onload = function() { d.resolve(); };
+    return d.promise;
+}

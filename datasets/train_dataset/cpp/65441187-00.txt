@@ -1,0 +1,14 @@
+string pub = str2hex("0504f05568cc7a16fa9b4bc1c9d9294a80b7727e349365f855031a180bf0f80910");
+ec_public_key* pub_key;
+curve_decode_point(&pub_key, (uint8_t*)pub.data(), pub.size(), 0);
+
+string message = str2hex("05f1fd491d63f1860bdaf3f9b0eb46c2494b7f184a32d9e6c859a421ad284f4307");
+string signature = str2hex("5e525df3360ea62281efe8fb9e183521105bb3d9ba8ad43be9fac9d87dd216a6ea9e64099f6f05fbcd6e5a39ab239aad8c1e03d27a1378e4bcbf8937eac4300a");
+
+int ret = curve_verify_signature(
+    pub_key, 
+    (uint8_t*)message.data(), message.size(), 
+    (uint8_t*)signature.data(), signature.size()
+    );
+
+cout << "ret: " << ret << endl; // shows 1 (correct)

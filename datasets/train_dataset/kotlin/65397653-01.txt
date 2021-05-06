@@ -1,0 +1,9 @@
+fun <T> Sequence<T>.destruct(): Pair<T, Sequence<T>>? {
+    val iterator = iterator()
+    
+    return if (iterator.hasNext()) {
+        iterator.next() to iterator.asSequence()
+    } else {
+        null
+    }
+}

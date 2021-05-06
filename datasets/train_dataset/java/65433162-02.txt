@@ -1,0 +1,13 @@
+private void validatePriceGameAccepted(Project project, Participant participant) throws PriceGameNotAcceptedException {
+    boolean priceGameStatementAccepted = participant.isPriceGameAccepted();
+    if(project.isPricegame() && ! priceGameStatementAccepted) {
+        throw new PriceGameNotAcceptedException();
+    }       
+}
+
+private void validateDataPrivacyAccepted(@Valid Participant participant) throws DataPrivacyNotAcceptedException {
+    boolean dataPrivacyStatementAccepted = participant.isDataPrivacyAccepted();
+    if(! dataPrivacyStatementAccepted) {
+        throw new DataPrivacyNotAcceptedException();
+    }
+}

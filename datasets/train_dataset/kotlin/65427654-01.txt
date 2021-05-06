@@ -1,0 +1,112 @@
+    class MainActivity : AppCompatActivity(), OnWordItemClickListener {
+
+    val PERMISSION_REQUEST_CODE: Int = 123
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    lateinit var rv_allWords: RecyclerView
+    lateinit var adapter: CustomAdapter
+    lateinit var databaseHandler: DatabaseHandler
+    lateinit var dataSource: DataSource
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        permissions()
+
+        rv_allWords = findViewById(R.id.rv_allWords) as RecyclerView
+        linearLayoutManager = LinearLayoutManager(this)
+        rv_allWords.layoutManager = linearLayoutManager
+
+        databaseHandler = DatabaseHandler(this)
+        val exampleList = databaseHandler.read_from()
+        adapter = CustomAdapter(exampleList, this)
+        rv_allWords.adapter = adapter
+        adapter.notifyDataSetChanged()
+    }
+
+    fun permissions()
+    {
+        //var permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) +
+                ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED)
+        {
+            // permission granted
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode)
+        {
+            PERMISSION_REQUEST_CODE ->
+            {
+                if ((grantResults.isNotEmpty()) && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                {
+                    // permissions is granted. Continue the action or workflow
+                    Toast.makeText(this, "Permissions granted", Toast.LENGTH_SHORT).show()
+                } else {
+                    // Explain to the user that the feature is unavailable because
+                    // the features requires a permission the the user has denied
+                    val alertDialog: AlertDialog? = this?.let {
+                        val builder = AlertDialog.Builder(it)
+                        builder.apply {
+                            setPositiveButton(R.string.OK, DialogInterface.OnClickListener { dialog, id ->
+                                finish()
+                                System.exit(0)
+                            })
+                            setMessage("The app needs to save some data to external storage.")
+                        }
+                        builder.show()
+                    }
+                }
+                return
+            }
+            // Add other 'when' line to check for other
+            // permissions this app might request
+            else ->
+            {
+                // Ignore all other requests
+            }
+        }
+    }
+    fun generateTestList(size: Int): List<DataSource> {
+        val list = ArrayList<DataSource>()
+
+        for (i in 0 until size)
+        {
+            val item = DataSource(i, "Item $i", "$i")
+            list += item
+        }
+        return list
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        var id = item.itemId
+
+        if(id == R.id.menu_refresh)
+        {
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        databaseHandler.read_from()
+    }
+
+    override fun onItemClick(dataSource: DataSource, position: Int) {
+        Toast.makeText(this, dataSource._back, Toast.LENGTH_SHORT).show()
+        Log.i("onItemClick", dataSource._back)
+    }
+}

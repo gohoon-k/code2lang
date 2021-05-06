@@ -1,0 +1,11 @@
+<div id="book1" class="book1">
+        <img src="images/book1.jpg" height="250px" width="170px" alt="Book 1">
+        <p id="bookInfo"><button id="shop"><i class="fa fa-shopping-cart"></i><a href="#" 
+        target="_blank">  Buy now</a></button><br>Lorem ipsum dolor sit amet, consectetur adipiscing 
+        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
+        quis nostrud exercitation ullamco laboris nisi ut aliquip<span id="dots">...</span><span 
+        id="more">ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse 
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
+        culpa qui officia deserunt mollit anim id est laborum.</span></p>
+        <button onclick="showMore();divExpand()" id="showmore">Read more</button>
+</div>

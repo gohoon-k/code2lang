@@ -1,0 +1,5 @@
+#include <cmath>
+
+double whole;
+double fraction = modf(sum, &whole);
+if (fraction != 0.0) return false;

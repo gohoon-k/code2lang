@@ -1,0 +1,11 @@
+// src1.cpp
+void print();
+
+static int local_var_name; // 'static' makes variable not visible for other modules
+int global_var_name = 123;
+
+int main()
+{
+    print();
+    return 0;
+}

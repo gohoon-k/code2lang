@@ -1,0 +1,8 @@
+function f() {
+    var x = 1
+    let y = 1
+    const z = 1
+}
+console.log(typeof x) // undefined (because var has function scope!)
+console.log(typeof y) // undefined (because the body of the function is a block)
+console.log(typeof z) // undefined (because the body of the function is a block)

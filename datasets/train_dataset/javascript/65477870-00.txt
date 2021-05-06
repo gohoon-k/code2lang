@@ -1,0 +1,23 @@
+const op1 = document.getElementById("op1")
+const op2 = document.getElementById("op2")
+const op3 = document.getElementById("op3")
+const op4 = document.getElementById("op4")
+
+    let origArray = [op1,op2,op3,op4];
+                                    
+var math = origArray[Math.floor(Math.random()* origArray.length)]
+math.innerText = "Right"
+
+function wrong(){
+    var cloneArray = origArray.slice();
+var i = math;
+
+const something = cloneArray.splice(i,1);
+
+something.forEach(elem => {
+    elem.innerText = "Wrong"
+    console.log(elem.id)
+});
+}
+
+wrong()

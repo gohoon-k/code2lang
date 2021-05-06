@@ -1,0 +1,70 @@
+#include <iostream>
+#include <algorithm>
+#include <cctype>
+#include <string>
+
+/// make a string lowercase
+void lower(std::string& text) {
+    std::transform(
+        text.begin(), text.end(), text.begin(),
+        [](const std::string::value_type c) {
+            return std::tolower(c);
+        }
+    );
+}
+
+int main() {
+    using namespace std;
+    // get user's name
+    cout << "Hello user, What is your first name?\n";
+    string first_name;
+    cin >> first_name;
+
+    // ask user for permission to ask another question
+    cout << "Thank you, " << first_name << "!\n";
+    cout << "Can I ask you a question? Yes or No?\n";
+    string yes_no;
+    cin >> yes_no;
+    lower(yes_no);
+
+    // if permission is granted to ask question
+    if (yes_no == "yes") {
+        // ask game preference between Modern Warfare and Cold War
+        string game_preference;
+        cout << "Which game do you like between Modern Warfare and Cold War?\n";
+        getline(cin >> ws, game_preference);
+        lower(game_preference);
+
+        // if game preference is modern warfare
+        if (game_preference == "modern warfare") {
+            // ask kd ratio and respond
+            cout << "What is your kd?\n";
+            double kd_ratio{};
+            cin >> kd_ratio;
+            // kd ratio is terrible
+            if (kd_ratio <= 1.0) {
+                cout << "You're dog water. Uninstall.\n";
+            }
+            // kd ratio is alright
+            else if (kd_ratio < 2.0) {
+                cout << "You're alright in the game, keep practicing.\n";
+            }
+            // kd ratio is great
+            else if (kd_ratio < 3.0) {
+                cout << "you can play with us!\n";
+            }
+            // kd ratio is fantastic
+            else {
+                cout << "Go stream on Twitch, you're a goat!\n";
+            }
+        }
+        // if game preference is Cold War
+        else {
+            cout << "We dont play that game, sorry.\n";
+        }
+    }
+    // if permission is NOT granted to ask question
+    else {
+        cout << "Thank you for participating, have a great day!\n";
+    }
+}

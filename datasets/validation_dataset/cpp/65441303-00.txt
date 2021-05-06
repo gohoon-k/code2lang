@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <cstdio>
+
+using namespace std;
+
+#include "Database.cpp"
+
+int main()
+{
+int choice;
+
+//creating a menu for Database
+cout<<"\t1. Add new customer"<<endl;
+cout<<"\t2. Search Database for Customer"<<endl;
+cout<<"\t3. Clear File"<<endl;
+cout<<"\t4. Edit File "<<endl;
+cout<<"\t5. Exit Program"<<endl;
+
+cin>>choice;
+
+switch (choice){
+    case 1:
+        AddCustomer();
+        break;
+        
+    case 2: 
+        break; 
+//...
+        
+  }
+}

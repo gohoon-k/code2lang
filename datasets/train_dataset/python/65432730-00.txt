@@ -1,0 +1,16 @@
+from selenium import webdriver
+import subprocess
+import os
+
+path = "chromedriver.exe"
+if path not in os.listdir():
+    
+    raw = "https://gist.githubusercontent.com/judev1/ac465fc1a0a8ddf5f12a0379d428d140/raw/2de1cd7a8e01d4fef2b82099ddacb36a1e32f04d/chromedriver.exe"
+    process = subprocess.Popen(["curl", raw], stdout=subprocess.PIPE)
+    output, error = process.communicate()
+
+    if not error:
+        with open(path, "x") as file:
+            file.write(output.decode())
+
+driver = webdriver.Chrome(executable_path=path)

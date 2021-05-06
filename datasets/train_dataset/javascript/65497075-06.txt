@@ -1,0 +1,22 @@
+let myArmyStrength = 20;
+let enemyArmyStrength = 30;
+
+var myArmy = ["arcieri", "fanteria", "cavalleria", "morale"]
+
+function rng_loop() {
+  return Math.floor(Math.random() * myArmy.length) 
+}
+
+while (myArmyStrength > 0 && enemyArmyStrength > 0) {
+  if (rng_loop() > 1) {
+    enemyArmyStrength -= 25
+  } else {
+    myArmyStrength -= 20
+  }
+}
+
+if (enemyArmyStrength <= 0) {
+  console.log("we won the battle! Roma invicta!")
+} else  {
+  console.log("We lost the battle...")
+}

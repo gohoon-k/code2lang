@@ -1,0 +1,74 @@
+private fun setCashValues(cashList: MutableList<CashCollection.CashCollectionItem>) {
+    val dataValsEntries: ArrayList<Entry> = ArrayList()
+    val dateArrayList: ArrayList<String> = ArrayList()
+    val reverseCashList: MutableList<CashCollection.CashCollectionItem> = ArrayList()
+    val dataValsArray: ArrayList<Float> = ArrayList()
+    var i = 1F
+    var j = 1F
+    if (cashList.isNullOrEmpty()) {
+     
+        Toast.makeText(context, "Cash Collection: No data available", Toast.LENGTH_SHORT).show()
+    } else {
+        
+        val listIterator = cashList.listIterator()
+        while ( listIterator.hasNext()) listIterator.next()
+        while(listIterator.hasPrevious()) reverseCashList.add(listIterator.previous())
+        for (item in reverseCashList) {
+            if (i <= 2) {
+                val value: String = item.value!!.replaceFirst(",", ".")
+               // val date: String = item.label!!.replace(".2020", "")
+                if (value.toFloat() != 0F) {
+                    dataValsEntries.add(Entry(i, value.toFloat()))
+                    // dateArrayList.add(date)
+                    i++
+                }
+            }
+        }
+        var lineDataSet1 = LineDataSet(dataValsEntries, "Cash Collection")
+        lineDataSet1.setCircleColor(getChartsColors()[0])
+        lineDataSet1.circleSize = 5f
+        lineDataSet1.lineWidth = 2f
+        lineDataSet1.fillAlpha = 1
+        lineDataSet1.setDrawFilled(true)
+        lineDataSet1.fillColor = getChartsColors()[0]
+        dataSets.add(lineDataSet1)
+    }
+}
+
+private fun setFinancialValues(financialList: MutableList<FinancialDetails.FinancialDetailsItem>) {
+    val dataValsEntries: ArrayList<Entry> = ArrayList()
+    val dateArrayList: ArrayList<String> = ArrayList()
+    val reverseFinancialList: MutableList<FinancialDetails.FinancialDetailsItem> = ArrayList()
+    val dataValsArray: ArrayList<Float> = ArrayList()
+    var i = 0F
+    var j = 0F
+    if (financialList.isNullOrEmpty()) {
+       
+        Toast.makeText(context, "Cash Collection: No data available", Toast.LENGTH_SHORT).show()
+    } else {
+       
+        val listIterator = financialList.listIterator()
+        while ( listIterator.hasNext()) listIterator.next()
+        while(listIterator.hasPrevious()) reverseFinancialList.add(listIterator.previous())
+        for (item in reverseFinancialList) {
+            if (i <= 2) {
+                val value: String = item.value!!.replaceFirst(",", ".")
+             //   val date: String = item.label!!.replace(".2020", "")
+                if (value.toFloat() != 0F) {
+                    dataValsEntries.add(Entry(i, value.toFloat()))
+                    // dateArrayList.add(date)
+                    i++
+                }
+            }
+        }
+
+        var lineDataSet2 = LineDataSet(dataValsEntries, "Financial Details")
+        lineDataSet2.setCircleColor(getChartsColors()[1])
+        lineDataSet2.circleSize = 5f
+        lineDataSet2.lineWidth = 2f
+        lineDataSet2.fillAlpha = 1
+        lineDataSet2.setDrawFilled(true)
+        lineDataSet2.fillColor = getChartsColors()[1]
+        dataSets.add(lineDataSet2)
+    }
+}

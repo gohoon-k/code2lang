@@ -1,0 +1,8 @@
+function getStuffAsync(param) {
+    var d = Q.defer();
+    getStuff(param, function(err, data) {
+        if (err !== null) d.reject(err);
+        else d.resolve(data);
+    });
+    return d.promise;   
+}

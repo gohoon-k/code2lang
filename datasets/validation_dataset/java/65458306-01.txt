@@ -1,0 +1,56 @@
+package com.example.crudrestapi.controller;
+
+import com.example.crudrestapi.model.Customer;
+import com.example.crudrestapi.repository.CustomerRepo;
+import com.example.crudrestapi.exceptions.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+public class CrudController {
+
+    @Autowired
+    CustomerRepo customerRepo;
+
+    //    Iterable is used for iter multiple objects( to loop through objects)
+    @GetMapping("/customers")
+    public Iterable<Customer> getCustomer() {
+
+        return customerRepo.findAll();
+    }
+
+
+    @PostMapping("/customers")
+    public @ResponseBody
+    Customer postCustomer(@RequestBody Customer customer) {
+        return customerRepo.save(customer);
+
+    }
+
+
+    @PutMapping("customers/{customerId}")
+    public Customer updateCustomer(@RequestBody Customer newCustomer, @PathVariable Long customerId) throws ResourceNotFoundException {
+        return customerRepo.findById(customerId)
+                .map(customer -> {
+                    customer.setName(newCustomer.getName());
+                    customer.setGstin(newCustomer.getGstin());
+                    customer.setPhoneNumber(newCustomer.getPhoneNumber());
+                    customer.setAddress(newCustomer.getAddress());
+                    customer.setOutstandingBalance(newCustomer.getOutstandingBalance());
+                    return customerRepo.save(customer);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException());
+    }
+
+    @DeleteMapping("customers/{customerId}")
+    public String deleteCustomer(@PathVariable Long customerId) throws ResourceNotFoundException {
+        return customerRepo.findById(customerId)
+                .map(customer -> {
+                    customerRepo.delete(customer);
+                    return "Success";
+                })
+                .orElseThrow(() -> new ResourceNotFoundException());
+    }
+
+
+}

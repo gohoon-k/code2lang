@@ -1,0 +1,9 @@
+class UserPermissionsViewModel(application: Application): ViewModel() {
+
+private val userPermissionsRepo = UserPermissionsRepo(application)
+
+val readFromDataStore = userPermissionsRepo.userDetailModel.asLiveData()
+
+fun saveToDataStore(userDetailModel: UserDetailModel) = viewModelScope.launch(Dispatchers.IO){
+    userPermissionsRepo.saveUserPermissions(userDetailModel)
+}}

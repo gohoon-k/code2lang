@@ -1,0 +1,18 @@
+function doSomethingWith(theArray, callback) {
+    var results = [];
+    doOne(0);
+    function doOne(index) {
+        if (index < theArray.length) {
+            doSomethingAsync(theArray[index], function(result) {
+                results.push(result);
+                doOne(index + 1);
+            });
+        } else {
+            // Done!
+            callback(results);
+        }
+    }
+}
+doSomethingWith(theArray, function(results) {
+    console.log("Results:", results);
+});

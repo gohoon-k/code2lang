@@ -1,0 +1,9 @@
+@JsonComponent
+public final class MyJsonSerializer extends JsonSerializer<A> {
+
+    @Override
+    public void serialize(A a, JsonGenerator jsonGen, SerializerProvider provider) throws IOException {
+        B b = new B();
+        jsonGenerator.writeObject();
+    }
+}

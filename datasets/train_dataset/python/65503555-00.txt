@@ -1,0 +1,9 @@
+import json
+
+with open("some_file.json",'r') as f:
+    dict_obj = json.loads(f.read())
+
+dict_obj["Fake source"] = "PrintCut"
+
+with open("some_file.json", "w+") as f:
+    f.write(json.dumps(dict_obj, indent = 4))

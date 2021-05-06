@@ -1,0 +1,31 @@
+ bool isPresent(vector<int>& a, vector<int>& v, const double& sum, int i) {
+        int n = a.size();
+        
+        if(i == n) return false;
+        if(int(sum) != (sum)) return false; // i tried like this but not working
+        if(accumulate(v.begin(), v.end(), 0) == sum) return true; 
+        
+        if(a[i] <= sum) {
+            v.push_back(a[i]);
+            for(auto i=v.begin();i!=v.end();i++)
+                cout << *i <<" ";
+            cout << '\n';
+            if(isPresent(a, v, sum, i+1)) 
+                return true;
+            v.pop_back();
+        }
+        if(isPresent(a, v, sum, i+1))
+            return true;
+        return false;
+    }
+    bool canPartition(vector<int>& a) {
+        vector<int> v;
+        int n = a.size();
+        int s=0;
+        for(int i=0;i<n;i++) {
+            s += a[i];
+        }
+        double sum = (double)(s/2);
+        if((int)sum != sum) return false; // also here
+        return isPresent(a, v, sum, 0);
+    }

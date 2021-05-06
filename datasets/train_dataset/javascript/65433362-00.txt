@@ -1,0 +1,35 @@
+module.exports = {
+    name: 'ocean',
+    description: 'Takes User Input and saves it as Text file letters.txt',
+    execute(message, args) {
+      let application = {}
+      let filter = (message) => !message.author.bot;
+      let options = {
+        max: 1,
+        time: 15000
+      };
+      message.member.send("Write something")
+      .then(dm => {
+        // After each question, we'll setup a collector on the DM channel
+        return dm.channel.awaitMessages(filter, options)
+      })
+      .then(collected => {
+        // Convert the collection to an array & get the content from the first element
+        application = collected.array()[0];
+        let fileSearch = Math.floor(Math.random() * 11) + 1
+        let appString = "" + application;
+        var fs = require('fs')
+        fs.appendFile(`./see/letters(${fileSearch}).txt`, appString + "\n", function (err){
+          if (err) {
+
+          } else {
+
+          }
+        })
+        // Ask the next question
+        console.log(application)
+        return message.member.send("Got it, It was recieved")
+        
+      })
+    }
+  }

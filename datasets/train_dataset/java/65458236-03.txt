@@ -1,0 +1,13 @@
+public class Event {
+  private final List<Runnable> handlers = new ArrayList<>();
+
+  public void connect(Runnable handler) {
+    handlers.add(handler);
+  }
+
+  public void fire() {
+    for (Runnable handler : new ArrayList<>(handlers)) {
+      handler.run();
+    }
+  }
+}

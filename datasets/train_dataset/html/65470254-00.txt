@@ -1,0 +1,119 @@
+        <div>
+                <div>
+                    <meta type="xrm/designer/setting" name="layout-editable" value="marketing-designer-layout-editable">
+                        <meta type="xrm/designer/setting" name="layout-max-width" value="600px" datatype="text" label="Layout max width">
+                            <form data-container="true" style="null" action = "" method = "get" novalidate>
+                                    <style>
+                                        div[data-editorblocktype=Field-radioButtons] 
+                                        {
+                                            width: 25% ;
+                                            text-align: left ;
+                                        }
+
+                                        div[data-editorblocktype=Field-radioButtons] input 
+                                        {
+                                            width: auto;
+                                            height: auto;
+                                            margin-bottom: 3px;
+                                            float: right;
+                                        }
+
+                                        div[data-editorblocktype=Field-radioButtons] span.lp-radioButton 
+                                        {
+                                            /* This rule is needed to style all radio button fields. For product constraints each option is defined as input and label wrapped into a span*/
+                                            display: block;
+                                            margin: 2px;
+                                        }
+
+                                        [data-layout="true"]
+                                        {
+                                                margin: 0 auto;
+                                                max-width: /* @layout-max-width */
+                                                600px /* @layout-max-width */
+                                                ;
+                                        }
+                                    </style>
+
+                                        <div data-layout="true" tabindex="0">
+                                                <div data-section="true" class="emptyContainer">
+                                                    <div style=" display: flex;width: 100%;flex-wrap: wrap;">
+                                                        <div style="clear:both;"></div>
+                                                        <div data-container="true" class="columnContainer" data-container-width="100" style="display: block; min-height: 70px; min-width: 20px; width: calc(100% - 0px); padding: 10px; float: left; word-wrap: break-word; word-break: break-word; flex-direction: column;">
+                                                            <div data-editorblocktype="Image">
+                                                                <div class="imageWrapper" width="100%" align="Center">  
+                                                                    <img alt="Test Newsletter" class="" src="https://test/Y0gdmVq8p6izVL5Ig6QF2elBYT71iDv3rsgqHc-uOI8!" style="max-height: 100%; max-width: 100%; position: static; display: block; top: 0px; left: 0px; box-sizing: border-box;">
+                                                                </div>
+                                                            </div>
+                                                            <div data-editorblocktype="Text"><p><big><big><span><strong>Abonnieren Sie unseren </strong></span></big></big><br>
+                                                                <span><big><big><strong>Test Newsletter!</strong></big></big></span></p>
+                                                                <p><span style="font-size:16px;">Nach der Übermittlung Ihrer Kontaktdaten erhalten Sie von <em>info@test.de</em> einen Bestätigungslink, um die Anmeldung abzuschließen.</span></p>
+                                                            </div>
+
+                                                            <div data-editorblocktype="Text"><p>* Pflichtfelder</p> </div>
+
+                                                            <div data-editorblocktype="Field-text" style="text-align: center;">
+                                                                <div class="marketing-field" style="text-align: center;">
+                                                                    <div class="lp-form-field" data-required-field="false" style="text-align: left;"><label class="lp-ellipsis" for="3f746946-34b4-442c-a677-e232cdd2bc40" title="">Vorname</label>
+                                                                        <input class="lp-form-fieldInput form-control form-text lp-form-fieldInput" data-requirederrormessage="Pflichtfeld! Bei Bedarf  ein Pseudonym verwenden" id="3f746946-34b4-442c-a677-e232cdd2bc40" name="3f746946-34b4-442c-a677-e232cdd2bc40" placeholder="Vorname" style="width:100%" title="" type="text" value="Vorname" autocomplete="given-name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div data-editorblocktype="Field-text">
+                                                                <div class="marketing-field">
+                                                                    <div class="lp-form-field" data-required-field="false"><label class="lp-ellipsis" for="e1dfc514-f301-4cb2-855a-4c8fa8331207" title="">Nachname</label>
+                                                                        <input class="lp-form-fieldInput form-control form-text lp-form-fieldInput" data-requirederrormessage="Pflichtfeld! Bei Bedarf ein Pseudonym verwenden." id="e1dfc514-f301-4cb2-855a-4c8fa8331207" name="e1dfc514-f301-4cb2-855a-4c8fa8331207" placeholder="Nachname" style="width:100%" title="" type="text" value="Nachname " autocomplete="family-name">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div data-editorblocktype="Field-email">
+                                                                <div class="marketing-field">
+                                                                    <div class="lp-form-field" data-required-field="true"><label class="lp-ellipsis" for="7f685ebb-7c54-4cff-a1bc-772562d25c38" title="">E-Mail-Adresse</label><span class="lp-required">*</span>
+                                                                        <input class="lp-form-fieldInput form-control form-text lp-form-fieldInput" id="7f685ebb-7c54-4cff-a1bc-772562d25c38" name="7f685ebb-7c54-4cff-a1bc-772562d25c38" placeholder="E-Mail-Adresse" required="required" style="width:100%" title="" type="email" autocomplete="email">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                                        
+                                                        <div style="clear:both;"></div>
+                                                    </div>
+                                                </div>
+                                            <div data-section="true" class="">
+                                                <div style="
+                                                    display: flex;
+                                                    width: 100%;
+                                                    ;flex-wrap: wrap;">
+                                                    
+                                                    <div style="clear:both;"></div>
+                                                        <div data-container="true" class="columnContainer" data-container-width="100" style="display: block; min-height: 70px; min-width: 20px; width: calc(100% - 0px); padding: 10px; float: left; word-wrap: break-word; word-break: break-word; flex-direction: column;">
+                                                            <div data-editorblocktype="Field-dropdown" style="display: none;">
+                                                                <div class="marketing-field">
+                                                                    <div class="lp-form-field" data-required-field="true"><label class="lp-ellipsis" for="f7796368-6e5b-e911-a96e-000d3ab496ce" title="">Datenquelle</label><span class="lp-required">*</span>
+                                                                        
+                                                                        <select class="lp-form-fieldInput" id="f7796368-6e5b-e911-a96e-000d3ab496ce" name="f7796368-6e5b-e911-a96e-000d3ab496ce" required="required" title="">
+                                                                            <option value="120000002">E-Mail (nachverfolgen)</option>
+                                                                            <option value="120000001">Aktion</option>
+                                                                            <option selected="selected" value="120000003">Newsletter / Mailing</option>
+                                                                            <option value="181510000">Projekt-Workshop</option>
+                                                                            <option value="181510001">Registrierung auf Webportal</option>
+                                                                            <option value="120000000">Veranstaltung</option>
+                                                                            <option value="100000000">Visitenkarte erhalten </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div data-editorblocktype="SubscriptionListBlock">
+                                                                <div class="marketing-subscription-list"><input class="lp-form-fieldInput" id="e6648b6d-0894-e911-a971-000d3ab496c3" name="e6648b6d-0894-e911-a971-000d3ab496c3" required="required" type="checkbox"> <label for="e6648b6d-0894-e911-a971-000d3ab496c3">Ich habe die <a href="https://www.test.de/datenschutz">Datenschutzerklärung</a> gelesen und akzeptiert.<span class="lp-required">*</span></label><br>
+                                                                     
+                                                                </div>
+                                                            </div>
+                                                            <div class="btn." data-editorblocktype="SubmitButtonBlock">
+                                                                <p align="“center“"><button class=".btn .btn-primary lp-form-button lp-form-fieldInput" name="submit" type="submit">Anmeldung absenden</button></p>
+                                                            </div>
+                                                        </div>
+                                                        <div style="clear:both;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                            </form>
+                </div>
+            </div>

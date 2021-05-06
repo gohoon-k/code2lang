@@ -1,0 +1,18 @@
+#include <iostream>
+#include "Employee.h"
+using namespace std;
+
+namespace Records
+{
+  Employee::Employee(const string &firstName, const string &lastName)
+      : mFirstName(firstName), mLastName(lastName) {}
+
+  void Employee::display() const
+  {
+    cout << "Employee: " << getLastName() << ", " << getFirstName() << endl;
+    cout << "----------" << endl;
+    cout << "Salary: $" << getSalary() << endl;
+  }
+
+  // implementations
+}

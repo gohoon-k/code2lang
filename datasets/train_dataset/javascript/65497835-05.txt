@@ -1,0 +1,28 @@
+// setting up lotto game parameters
+const RANGE_MAX = 90 // range of numbers
+const NO_NUMBERS = 5 // how many to choose
+
+const lottogame = (rangeMax, noNumbers) => {
+  const range = []
+  let result = []
+
+  for (let i = 0; i < rangeMax; i++) {
+    range.push(i + 1)
+  }
+
+  for (let i = 0; i < noNumbers; i++) {
+    const num = range.splice(randomIntFromInterval(0, range.length - 1), 1)[0] // splice removes the item from the array
+    result.push(num)
+  }
+
+  return result
+
+}
+
+console.log(lottogame(RANGE_MAX, NO_NUMBERS).sort((a, b) => a - b))
+
+// random function
+// source: https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}

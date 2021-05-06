@@ -1,0 +1,27 @@
+def checkdepth(sub_key, variable):
+    delmt = '__'
+    for item in sub_key:
+        try:
+            if isinstance(sub_key[item], dict):
+                sub_variable = variable + delmt + item
+                checkdepth(sub_key[item], sub_variable)
+        except TypeError:
+            continue
+
+        if isinstance(sub_key[item], list):
+            sub_variable = variable + delmt + item
+            for it in sub_key[item]:
+                sub_variable = variable + delmt + item + delmt + str(sub_key[item].index(it))
+                checkdepth(it, sub_variable)
+            print(sub_variable)
+
+        if isinstance(sub_key[item], int) or isinstance(sub_key[item], str):
+                sub_variable = variable + delmt + item
+                print (sub_variable)
+
+for key in data:   
+    if type(data[key]) is str:
+       print(key + '=' +str(data[key]))
+    else:
+      variable = key
+      checkdepth(data[key], variable)

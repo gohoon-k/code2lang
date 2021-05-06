@@ -1,0 +1,2 @@
+const divElement = document.querySelector("div#app");
+new Vue({el: divElement, render: h => h("span", {}, "Hello World")});

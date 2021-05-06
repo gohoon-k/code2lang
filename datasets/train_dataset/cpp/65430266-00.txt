@@ -1,0 +1,31 @@
+#include <iostream>
+#include <future>
+
+uint64_t calc_factorial(int start, int number);
+
+int main()
+{
+    uint64_t n = 1;
+
+    //The user entered number 
+    uint64_t number = 0;
+
+    // get the user input
+    printf("Enter number (uint64_t): ");
+    scanf("%lu", &number);
+
+    std::future<uint64_t> results[4];
+    for (int i = 0; i < 4; i++)
+    {
+        // push to different cores
+        results[i] = std::async(std::launch::async, calc_factorial, i + 2, number);
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        //retrieve result...I don't want to wait here if one threads needs more time than usual
+        n *= results[i].get();
+    }
+    // print n or the time needed 
+    return 0;
+}

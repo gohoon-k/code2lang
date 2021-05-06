@@ -1,0 +1,27 @@
+private static Date calculateLastThird(Date d1, Date d2) { 
+        // Calculate time difference in milliseconds 
+        long differenceMillis = d2.getTime() - d1.getTime();
+        double millisToAdd = (2.0/3.0) * differenceMillis;
+        
+        Date twoThird = new Date(d1.getTime() + (long) millisToAdd);
+        
+        return twoThird;
+    }
+    
+    public static void main(String args[]) {
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        try {
+            Date date1= sdf1.parse("2020/12/26 22:00:00");
+            Date date2= sdf1.parse("2020/12/27 01:00:00");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+            System.out.println("Last third: " + sdf2.format(calculateLastThird(date1, date2)));
+            
+            Date date3= sdf1.parse("2020/12/26 22:25:00");
+            Date date4= sdf1.parse("2020/12/27 01:45:00");
+            System.out.println("Last third: " + sdf2.format(calculateLastThird(date3, date4)));
+            
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }  
+    }

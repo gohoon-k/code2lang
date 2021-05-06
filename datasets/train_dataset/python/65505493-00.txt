@@ -1,0 +1,80 @@
+import os
+import json
+import requests
+from flask import Flask, request
+
+
+app = Flask(__name__)
+
+TOKEN = Page_Token
+VERIFY_TOKEN = verification_token
+
+params = {
+    "access_token": TOKEN
+}
+headers = {
+    "Content-Type": "application/json"
+}
+
+@app.route('/webhook', methods=['GET'])
+def verify():
+    if request.args.get("hub.challenge"):
+        if not request.args.get("hub.verify_token") == VERIFY_TOKEN:
+            return "Verification token mismatch", 403
+        get_started()
+        return request.args["hub.challenge"], 200
+
+    return "Hello world", 200
+
+@app.route('/webhook', methods=['POST'])   
+def webhook():
+    
+    # endpoint for processing incoming messaging events
+
+    data = request.get_json()
+
+    if data["object"] == "page":
+
+        for entry in data["entry"]:
+
+            for messaging_event in entry["messaging"]:
+                
+                if messaging_event.get("message"):     # someone sent us a message
+                    received_message(messaging_event)
+
+                elif messaging_event.get("delivery"):  # delivery confirmation
+                    pass
+                    # received_delivery_confirmation(messaging_event)
+
+                elif messaging_event.get("optin"):     # optin confirmation
+                    pass
+                    # received_authentication(messaging_event)
+
+                elif messaging_event.get("postback"):  # user clicked/tapped "postback" button in earlier message
+                    received_postback(messaging_event)
+
+                else:    # uknown messaging_event
+                    log("Webhook received unknown messaging_event: " + str(messaging_event))
+
+    return "ok", 200
+
+
+def get_started():
+    #some func
+def send_text_message(recipient_id, message_text):
+    #some func
+def received_message(event):
+    #some func
+def call_send_api(message_data):
+    #some func
+def send_button_message(recipient_id):
+    #some func
+def received_postback(event):
+    #some func
+def send_button_message_job(recipient_id):
+    #some func
+def update_user(sender_id,msg_text):
+    #some func
+
+if __name__ == "__main__":
+    app.run(debug=True,threaded=True)

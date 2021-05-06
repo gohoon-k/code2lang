@@ -1,0 +1,13 @@
+function myFunction() {
+    var a = this.value; // to select this "select tag" of this function
+    var b = this.closest("show"); // to select closest "show div" to select tag
+    var c = b.children; //input // to select input in "show div"
+
+    if (a == 1) {
+        b.style.display = "block";
+        c.removeAttribute("disabled");
+    } else {
+        b.style.display = "none";
+        c.setAttribute('disabled','disabled');
+    }
+}

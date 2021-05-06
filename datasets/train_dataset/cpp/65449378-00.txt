@@ -1,0 +1,7 @@
+Struct S {  
+private:
+    int a;
+public:
+    int b;
+S() : a(1), b(a) {}
+}

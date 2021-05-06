@@ -1,0 +1,44 @@
+class TaskPool:
+    def __init__(self, handler: Callable, size: int, name: str = None):
+        self.queue: asyncio.Queue = asyncio.Queue()
+        self.tasks: List[asyncio.Task] = []
+        self.handler: Callable = handler
+        self.size: int = size
+        self.name: str = name
+    
+    async def start(self):
+        async def run():
+            item: object
+            while True:
+                item = await self.queue.get()
+                await self.handler(item)
+                self.queue.task_done()
+
+        for idx in range(self.size):
+            tid = '%s_%s' % (self.name, idx) if self.name is not None else None
+            self.tasks.append(asyncio.create_task(run(), name=tid))
+
+    async def put(self, item: object):
+        await self.queue.put(item)
+
+    async def stop(self):
+        await self.queue.join()
+        task: asyncio.Task
+        for task in self.tasks:
+            task.cancel()
+
+def test_taskpool(n: int, m: int):
+    async def task(item: object):
+        print(asyncio.current_task().get_name())
+        print(item)
+        await asyncio.sleep(3)
+
+    async def test():
+        tp = TaskPool(task, m, 'example')
+        for i in range(n):
+            await tp.put(i)
+        await tp.start()
+        return tp
+    
+    routine = test()
+    return asyncio.run(routine)

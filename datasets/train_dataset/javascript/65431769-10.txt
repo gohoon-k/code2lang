@@ -1,0 +1,28 @@
+const button = document.querySelector('#main_button');
+const pElement = document.querySelector('#p_id');
+var color = '';
+
+function randomColor(){
+  let letters = "0123456789ABCDEF";
+  let color = "#";
+  for(let i = 0; i < 6; i++){
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function changeBackground() {
+  document.body.style.background = color;
+}
+
+function updateParagraph() {
+  pElement.textContent = 'Current Color is ' + color;
+}
+
+function getNewColor() {
+  color = randomColor();
+}
+
+button.addEventListener('click', getNewColor);
+button.addEventListener('click', changeBackground);
+button.addEventListener('click', updateParagraph);

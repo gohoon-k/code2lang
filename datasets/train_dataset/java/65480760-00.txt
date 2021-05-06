@@ -1,0 +1,33 @@
+@Entity
+public class UserEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(generator = "user-uuid")
+    @GenericGenerator(name = "user-uuid", strategy = "uuid2")
+    private String userId;
+
+    private String email;
+
+    @OneToOne(optional = true, fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "profile_fk", nullable = true, unique = true)
+    private ProfileEntity profile;
+
+}
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class ProfileEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(generator = "profile-uuid")
+    @GenericGenerator(name = "profile-uuid", strategy = "uuid2")
+    private String profileId;
+
+    private String email;
+
+}

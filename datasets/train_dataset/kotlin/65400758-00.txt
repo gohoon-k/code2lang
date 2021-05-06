@@ -1,0 +1,16 @@
+fun loadText() : String {
+        myWebView2 = findViewById(R.id.webView2)
+        var stringToBeReturned = ""
+        myWebView2.settings.javaScriptEnabled = true
+        myWebView2.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(myWebView2, url)
+                myWebView2.evaluateJavascript("(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();") { value ->
+                    stringToBeReturned = value.substringAfter("on \\u003C/span>\\u003Ca href=\\\"").substringBefore('\\')
+                }
+            }
+        }
+        myWebView2.loadUrl("https://www.examplewebsite.com")
+
+        return stringToBeReturned
+    }

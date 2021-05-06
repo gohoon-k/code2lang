@@ -1,0 +1,15 @@
+function framedialog() {
+    data1 = new Array();
+    data2 = new Array();
+    var pm = new Object();
+    pm.data1 = data1;
+    pm.data2 = data2;
+    var url = "http://locahost:8080/File2.jsp";
+    var returnValue = window.open(url, pm, '', '');
+    if (returnValue == '1') {
+        for (i in data1) {
+            alert(data1[i]);
+            alert(data2[i]);
+        }
+    }
+}

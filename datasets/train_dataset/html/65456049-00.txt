@@ -1,0 +1,43 @@
+<!--I want the existing table below to stay fixed in place after new rows are added.-->
+
+<table id="table">
+  <tr>
+    <td> Table Cell 1</td>
+    <td> Table Cell 2</td>
+  </tr>
+</table>
+
+<!--The following button will add rows, but also move the table. How do I stop the move?-->
+
+<input type="button" value="ADD NEW ROWS." onclick="generate_table()">
+
+<script>
+  // This function just creates new rows for the table 
+  function generate_table() {
+    var body = document.getElementsByTagName("body")[0];
+    var tbl = document.getElementById("table");
+    var tblBody = document.createElement("tbody");
+
+    for (var i = 0; i < 2; i++) {
+      var row = document.createElement("tr");
+      for (var j = 0; j < 2; j++) {
+        var cell = document.createElement("td");
+        var cellText = document.createTextNode("cell " + i + ", column " + j);
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+      }
+      tblBody.appendChild(row);
+    }
+    tbl.appendChild(tblBody);
+    body.appendChild(tbl);
+  }
+</script>
+
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>

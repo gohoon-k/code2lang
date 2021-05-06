@@ -1,0 +1,11 @@
+bcrypt.compare(
+req.body.password,
+user.password,
+function (_err, validPassword) {
+  if (!validPassword)
+    return res.status(400).send("Invalid email or password.");
+  const token = user.generateAuthToken();
+  res.send(token);
+}
+);
+});

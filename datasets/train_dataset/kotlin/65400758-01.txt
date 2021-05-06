@@ -1,0 +1,15 @@
+  override fun onCreate(savedInstanceState: Bundle?) {
+    val webView: WebView = findViewById(R.id.webView2)
+    webView.settings.javaScriptEnabled = true
+
+    webView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, url: String) {
+                // this function gets called as soon the page has been loaded
+                super.onPageFinished(view, url)
+                webView.evaluateJavascript("(function() { return ('<html>'+document.getElementsByTagName('html')[0].innerHTML+'</html>'); })();") { value ->
+                    val resultString = value.substringAfter("on \\u003C/span>\\u003Ca href=\\\"").substringBefore('\\')
+                    // pass resultString wherever you need it
+                }
+            }
+    }
+  }

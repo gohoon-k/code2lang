@@ -1,0 +1,73 @@
+package battlesystem;
+
+public class Monsters {
+    
+    private int lvl_monster;
+    private String name_monster;
+    private int hp_monster;
+    private int atk_monster;
+    private int def_monster;
+    private int ag_monster;
+    private int g_monster;
+    private int exp_monster;
+    
+    //constructors
+
+    public Monsters (int lvl_monster, String name_monster, int hp_monster, int atk_monster, int def_monster, int ag_monster, int g_monster, int exp_monster) {
+        this.lvl_monster = lvl_monster;
+        this.name_monster = name_monster;
+        this.hp_monster = hp_monster;
+        this.atk_monster = atk_monster;
+        this.def_monster = def_monster;
+        this.ag_monster = ag_monster;
+        this.g_monster = g_monster;
+        this.exp_monster = exp_monster;
+    }
+
+    public void setLvl_monster(int lvl_monster) {
+        this.lvl_monster = lvl_monster;
+    }
+
+    public void setName_monster(String name_monster) {
+        this.name_monster = name_monster;
+    }
+
+    public void setHp_monster(int hp_monster) {
+        this.hp_monster = hp_monster;
+    }
+
+    public void setAtk_monster(int atk_monster) {
+        this.atk_monster = atk_monster;
+    }
+
+    public void setDef_monster(int def_monster) {
+        this.def_monster = def_monster;
+    }
+
+    public void setAg_monster(int ag_monster) {
+        this.ag_monster = ag_monster;
+    }
+
+    public void setG_monster(int g_monster) {
+        this.g_monster = g_monster;
+    }
+
+    public void setExp_monster(int exp_monster) {
+        this.exp_monster = exp_monster;
+    }
+
+    
+    public void display(){
+        System.out.println("Level: "+this.lvl_monster);
+        System.out.println("Name: "+this.name_monster);
+        System.out.println("HP: "+this.hp_monster);
+        System.out.println("Attack/Damage: "+this.atk_monster);
+        System.out.println("Def: "+this.def_monster);
+        System.out.println("Ag: "+this.ag_monster);
+        System.out.println("Gold: "+this.g_monster);
+        System.out.println("Exp: "+this.exp_monster);
+    }
+    
+    
+    
+}

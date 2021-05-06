@@ -1,0 +1,17 @@
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: CocktailsList?) {
+    val adapter = recyclerView.adapter as CocktailListAdapter
+    adapter.submitList(data?.list)
+}
+
+@BindingAdapter("strDrinkThumb")
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
+        Picasso.get()
+            .load(imgUri)
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.ic_broken_image)
+            .into(imgView)
+    }
+}

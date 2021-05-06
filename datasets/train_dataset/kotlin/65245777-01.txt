@@ -1,0 +1,22 @@
+package com.example
+
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
+import org.junit.Test
+import org.mockito.ArgumentMatchers.anyString
+import java.io.PrintStream
+
+class ZinscUtilityTest {
+    fun log() {
+        println("any")
+        //System.out.println("any")
+    }
+
+    @Test
+    fun testLog() {
+        val outStream = mock<PrintStream>()
+        System.setOut(outStream)
+        log()
+        verify(outStream).println(anyString())
+    }
+}

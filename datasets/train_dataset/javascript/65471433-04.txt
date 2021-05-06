@@ -1,0 +1,5 @@
+// GRAB ELEMENT
+const selectTamanho = document.querySelector('[name="Tamanho"]');
+
+// ADD THE EVENT LISTENER TO ELEMENT
+selectTamanho.addEventListener('change', button);

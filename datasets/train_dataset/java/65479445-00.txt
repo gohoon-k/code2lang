@@ -1,0 +1,43 @@
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Calendar.class, TimeZone.class})
+@ExtendWith(SpringExtension.class)
+class SummaryServiceTest{
+
+    @Mock
+    BookingRepository bookingRepository;
+    
+    @InjectMocks
+    private SummaryService summaryService;
+
+    @Before
+    public void setup(){
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void getBookingRejections() throws Exception {
+        TimeZone timezoneObj = TimeZone.getTimeZone("America/Cambridge_Bay");
+        PowerMockito.mockStatic(TimeZone.class);
+        Mockito.when(TimeZone.getTimeZone(eq("America/Cambridge_Bay"))).thenReturn(timezoneObj);
+        Calendar calendar1 = Calendar.getInstance(TimeZone.getDefault(), Locale.US);
+        Calendar ac = PowerMockito.mock(Calendar.class);
+        PowerMockito.doReturn(calendar1).when(ac , "getInstance");
+        Boolean bookingRejectionsByWeekForCarrierList = summaryService.getBookingRejections();
+    }
+}
+
+@Service
+public class SummaryService {
+
+    @Autowired
+    private BookingRepository bookingRepository;
+    
+    @Value("${timezone.default}")
+    private String defaultSystemTimezone;
+    
+    public Boolean getBookingRejections() {
+            Calendar calendarFirstDayOfWeek = Calendar.getInstance(TimeZone.getTimeZone(defaultSystemTimezone), Locale.US);
+            return true;
+        }
+    }
+

@@ -1,0 +1,22 @@
+#include <Windows.h>
+#include <iostream>
+#include <thread>
+
+int main() {
+  const int width = 120, height = 40;
+
+  wchar_t* screen = new wchar_t[width * height];
+  HANDLE console = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+  SetConsoleActiveScreenBuffer(console);
+  DWORD bytesWritten = 0;
+
+  while (true) {
+    for (int i = 0; i < width * height; i++) screen[i] = L' ';
+    wsprintf(&screen[width + 5], L"Testing");
+
+    WriteConsoleOutputCharacter(console, screen, width * height, {0, 0}, &bytesWritten);
+    Sleep(1000 / 30);
+  }
+
+  return 0;
+}

@@ -1,0 +1,102 @@
+// basic game settings
+const gameSettings = {
+  length: 12,
+  die: {
+    min: 1,
+    max: 8,
+  }
+}
+
+// define "actors"
+let gameItems = [{
+    name: "R",
+    bgColor: "red",
+    color: "white",
+    position: 1,
+  },
+  {
+    name: "B",
+    bgColor: "black",
+    color: "white",
+    position: 1,
+  },
+]
+
+// the random function
+// source: https://stackoverflow.com/questions/4959975/generate-random-number-between-two-numbers-in-javascript
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// -----------------
+
+// creating a row & cells
+const rowHtml = (gameItem, cols) => {
+  let html = `<div class="row" style="grid-template-columns: repeat(${ cols }, 1fr)">`
+  for (let i = 0; i < cols; i++) {
+    let marker = "-"
+    let background = "white"
+    let color = "black"
+
+    if (gameItem.position - 1 === i) {
+      marker = gameItem.name
+      background = gameItem.bgColor
+      color = gameItem.color
+    }
+
+    html += `<div class="cell" style="background: ${ background }; color: ${ color }">${ marker }</div>`
+  }
+  html += `</div>`
+  return html
+}
+
+// updating rows
+const updateRows = (container, gameItems, cols) => {
+  let html = ''
+  for (let i = 0; i < gameItems.length; i++) {
+    html += rowHtml(gameItems[i], cols)
+  }
+  container.innerHTML = html
+}
+
+// setting container
+const container = document.getElementById('container')
+
+// set up board for first time
+updateRows(container, gameItems, gameSettings.length)
+
+// -----------------
+// action buttons
+const btnRoll = document.getElementById("rollTheDice")
+const btnResetBoard = document.getElementById("resetBoard")
+
+// roll action
+btnRoll.addEventListener('click', function() {
+  const {
+    length,
+    die: {
+      min
+    },
+    die: {
+      max
+    }
+  } = gameSettings
+
+  gameItems = gameItems.map(item => ({
+    ...item,
+    position: item.position + randomIntFromInterval(min, max),
+  }))
+  updateRows(container, gameItems, length)
+})
+
+// reset action
+btnResetBoard.addEventListener('click', function() {
+  const {
+    length
+  } = gameSettings
+  gameItems = gameItems.map(item => ({
+    ...item,
+    position: 1,
+  }))
+  updateRows(container, gameItems, length)
+})

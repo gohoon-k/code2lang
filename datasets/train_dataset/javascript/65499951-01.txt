@@ -1,0 +1,12 @@
+let nameChannel = "";
+
+if(say.includes("uk8")){
+    nameChannel = "UK8";
+}else if(say.includes("uk3.5")){
+    nameChannel = "uk3.5";
+}else{
+    nameChannel = "defaultChannel";
+}
+
+const selectedChannel = client.channels.cache.find(channel => channel.name === nameChannel );
+selectedChannel.send(say)

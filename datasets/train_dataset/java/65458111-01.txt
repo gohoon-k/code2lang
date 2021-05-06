@@ -1,0 +1,10 @@
+ public static void main(String[] args) {
+        File imageFile = new File("assets/screenshot_22.png");
+        ITesseract instance = new Tesseract();
+        try {
+            String result = instance.doOCR(imageFile);
+            System.out.println("result: " + result);
+        } catch (TesseractException e) {
+            System.err.println(e.getMessage());
+        }
+}

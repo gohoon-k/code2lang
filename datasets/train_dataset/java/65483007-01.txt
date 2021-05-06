@@ -1,0 +1,208 @@
+public abstract class TileLabel extends JLabel {
+
+    /**
+     * "Constructor" for the TileLabel class.
+     * Postcondition: A TileLabel object will be created with the passed values
+     */
+    public TileLabel() {
+        super("x0");
+    }
+
+    public void setLabelIcon(ImageIcon icon) {
+        Image img = icon.getImage();
+        Image newImg = img.getScaledInstance(40,40,Image.SCALE_SMOOTH);
+        setIcon(new ImageIcon(newImg));
+    }
+
+    /**
+     * Accessor function which returns the count of the
+     * tile label.
+     * @return The tile label's count
+     */
+    public int getCount() {
+        return Integer.parseInt(this.getText().substring(1));
+    }
+
+    /**
+     * Transformer function which updates the label's
+     * text by increasing it by one.
+     */
+    public void increaseCnt() {
+        int newCnt = getCount()+1;
+        this.setText("x"+ newCnt);
+    }
+
+    /**
+     * Transformer function which updates the label's
+     * text by decreasing it by one.
+     */
+    public void decreaseCnt() {
+        int newCnt = getCount()-1;
+        if(newCnt < 0) return;
+        this.setText("x"+ newCnt);
+    }
+}
+
+public class StatueLabel extends TileLabel {
+    private final String type;
+
+    /**
+     * Constructor for the StatueLabel class.
+     *
+     * @param type The type of the statue
+     * Precondition: type is either of these values: [sphinx,caryatid]
+     * Postcondition: A new StatueLabel is created with the appropriate image and type
+     */
+    public StatueLabel(String type) {
+        super();
+        this.type = type;
+        try {
+            setLabelIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/"+type+".png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Accessor function which returns the type of the statue label.
+     * @return The statue label's type
+     */
+    public String getType() {return type;}
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof StatueLabel)) return false;
+        StatueLabel statueLabel = (StatueLabel) obj;
+        return getType().equals(statueLabel.getType());
+    }
+}
+
+public class SkeletonLabel extends TileLabel {
+    private final String type;
+    private final String part;
+
+    /**
+     * Constructor for the StatueLabel class.
+     *
+     * @param type The type of the skeleton
+     * @param part The part of the skeleton
+     * Precondition: type is either of these values: [big,small] & part is either [top,bottom]
+     * Postcondition: A new SkeletonLabel is created with the appropriate image and type
+     */
+    public SkeletonLabel(String type, String part) {
+        super();
+        this.type = type;
+        this.part = part;
+        try {
+            setLabelIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/skeleton_"+type.toLowerCase()+"_"+part.toLowerCase()+".png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Accessor function which returns the type of the skeleton label.
+     * @return The skeleton label's type
+     */
+    public String getType() {return type;}
+
+    /**
+     * Accessor function which returns the part attribute of the skeleton label.
+     * @return The skeleton label's part.
+     * Invariant: The part will either be "Top" or "Bottom"
+     */
+    public String getPart() {return part;}
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof SkeletonLabel)) return false;
+        SkeletonLabel otherSkel = (SkeletonLabel) obj;
+        return (getType().equals(otherSkel.getType()) && getPart().equals(otherSkel.getPart()));
+    }
+}
+
+public class MosaicLabel extends TileLabel {
+    private final String color;
+
+    /**
+     * Constructor for the MosaicLabel class.
+     *
+     * @param color The color of the mosaic
+     * Precondition: color is either of these values: [green,red,yellow]
+     * Postcondition: A new MosaicLabel is created with the appropriate image and color
+     */
+    public MosaicLabel(String color) {
+        super();
+        this.color = color;
+        try {
+            setLabelIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/mosaic_"+ color.toLowerCase()+".png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Accessor function which returns the color of the mosaic label.
+     * @return The color of the mosaic label
+     */
+    public String getColor() {
+        return color;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof MosaicLabel)) return false;
+        MosaicLabel mosaicLabel = (MosaicLabel) obj;
+        return getColor().equals(mosaicLabel.getColor());
+    }
+}
+
+public class LandslideLabel extends TileLabel {
+    /**
+     * "Constructor" for the LandslideLabel class.
+     */
+    public LandslideLabel() {
+        super();
+        try {
+            setLabelIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/landslide.png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+public class AmphoraLabel extends TileLabel {
+    private final String color;
+
+    /**
+     * Constructor for the AmphoraLabel class.
+     *
+     * @param color The color of the amphora
+     * Precondition: color is either of these values: [red,yellow,purple,green,blue,brown]
+     * Postcondition: A new AmphoraLabel is created with the appropriate image and color
+     */
+    public AmphoraLabel(String color) {
+        super();
+        this.color = color;
+        try {
+            setLabelIcon(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/amphora_"+color.toLowerCase()+".png"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Accessor function which returns the color of the amphora label.
+     * @return The color of the amphora label
+     */
+    public String getColor() {
+        return color;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof AmphoraLabel)) return false;
+        AmphoraLabel amphoraLabel = (AmphoraLabel) obj;
+        return getColor().equals(amphoraLabel.getColor());
+    }
+}

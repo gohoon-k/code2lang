@@ -1,0 +1,33 @@
+ @InternalCoroutinesApi
+private lateinit var mUserWodViewModel: UserWodViewModel
+
+
+@InternalCoroutinesApi
+override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+): View? {
+
+    val view = inflater.inflate(R.layout.fragment_list_user_wod, container, false)
+
+    val adapter = UserListAdapter()
+    val recyclerView  = view.recyclerView
+    recyclerView.adapter = adapter
+    recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+    mUserWodViewModel = ViewModelProvider(this).get(UserWodViewModel::class.java)
+    mUserWodViewModel.readAllData.observe(viewLifecycleOwner, { userWod ->
+        adapter.setData(userWod)
+    })
+   
+
+    view.floatingActionButton.setOnClickListener{
+        findNavController().navigate(R.id.action_listUserWodFragment_to_updateUserWodFragment)
+    }
+
+    // Add menu
+    setHasOptionsMenu(true)
+
+    return view
+}

@@ -1,0 +1,18 @@
+public void equalsOnClick(View view) {
+    Double result = null;
+    ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
+
+    try {
+        result = (Double)engine.eval(workings);
+        if(result != null) {
+            int intVal = (int)result.doubleValue();
+            if(result == intVal) {// Check if it's value is equal to its integer part
+                resultsTV.setText(String.valueOf(intVal));
+            } else {
+                resultsTV.setText(String.valueOf(result));
+            }
+        }
+    } catch (ScriptException e) {
+        Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+    }    
+}

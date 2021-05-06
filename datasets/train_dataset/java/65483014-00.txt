@@ -1,0 +1,24 @@
+public void setupRecyclerView() {
+    try{
+        RealmResults<Order> orderRealmResults = myRealm.where(Order.class).sort("timestamp", Sort.DESCENDING).findAll();
+        Order order = orderRealmResults.get(positionO);
+
+        RealmList<Product> products = order.getProducts();
+      
+
+        RealmResults<Product> results = products.where().equalTo("status", 1).findAll();
+
+        recyclerView = findViewById(R.id.products_rv);
+        listAdapter = new ProductsListAdapter(this, myRealm, results, positionO,status);
+
+        recyclerView.setLayoutManager((new LinearLayoutManager(this)));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(listAdapter);
+        listAdapter.notifyDataSetChanged();
+    }catch (Exception e){
+        Log.d("orders_data", "order in main: exception :  " + "MainActivity");
+        e.printStackTrace();
+
+    }
+
+}

@@ -1,0 +1,2 @@
+for i in range(3):
+    self.button.append(Button(self, text='Game '+str(i+1), command=partial(self.open_this, i)))

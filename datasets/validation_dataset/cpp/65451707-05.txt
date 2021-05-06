@@ -1,0 +1,7 @@
+std::uint32_t ui = std::bit_cast<std::uint32_t>(f);
+std::cout << f << " 0b";
+for (int i = 0; i < 32; ++i)
+  std::cout << (ui&(1<<i));
+
+std::int32_t i = std::bit_cast<std::int32_t>(f);
+std::cout << " " << i <<std::endl;

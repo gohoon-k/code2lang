@@ -1,0 +1,8 @@
+<div class="book1">
+    <img src="images/book1.jpg" height="250px" width="170px" alt="Book 1">
+    <p><button id="shop"><i class="fa fa-shopping-cart"></i><a href="#" 
+    target="_blank">  Buy now</a></button><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit 
+    Lorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit amet, consectetur 
+    adipiscing elit Lorem ipsum dolor sit amet, consectetur adipiscing elitLorem ipsum dolor sit 
+    amet, consectetur</p>
+</div>

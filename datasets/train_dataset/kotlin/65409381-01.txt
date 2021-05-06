@@ -1,0 +1,10 @@
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    when (requestCode) {
+        Constants.CODES.APP_UPDATE_REQUEST_CODE -> {
+            if (resultCode != RESULT_OK || resultCode == RESULT_CANCELED || resultCode == ActivityResult.RESULT_IN_APP_UPDATE_FAILED) {
+                //Do whatever i want to
+            }
+        }
+    }
+    super.onActivityResult(requestCode, resultCode, data)
+}

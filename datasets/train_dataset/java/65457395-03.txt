@@ -1,0 +1,58 @@
+class ThirdScreen extends StatefulWidget {
+  ThirdScreen({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _ThirdScreenState createState() => _ThirdScreenState();
+}
+
+class _ThirdScreenState extends State<ThirdScreen> with TickerProviderStateMixin {
+
+  Future<List<ActionsList>> futureAction;
+
+
+  @override
+  void initState() {
+    super.initState();
+   futureAction = getActions();
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 0.0,
+        title: IconButton(
+          icon: Icon(
+            Icons.shopping_cart,
+          ),
+          onPressed: () {},
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.menu,
+            ),
+            onPressed: () {},
+          )
+        ],
+      ),
+      body: Center(
+          child: FutureBuilder<List<ActionsList>>(
+        future: futureAction,
+        builder: (context, AsyncSnapshot snapshot) {
+          if (!snapshot.hasData) {
+            print("snapshot doesn't have data");
+            return Center(child: CircularProgressIndicator());
+          } else {
+           // print(snapshot.data);
+            return Container(child: _albumGridView(snapshot.data));
+          }
+        },
+      )),
+    );
+  }
+}
+

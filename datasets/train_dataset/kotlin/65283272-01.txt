@@ -1,0 +1,15 @@
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is ViewHolder -> {
+                val resources = holder.itemView.context.resources
+                val ingredientItem = getItem(position)
+                holder.bind(ingredientClickListener, ingredientItem)
+                val groceryInStock: GroceryInStock? = availableGroceries.firstOrNull{ 
+
+                    ingredientItem.grocery.groceryId == it.grocery.groceryId 
+                }
+
+                holder.binding.listItemAvailableAmount.text = groceryInStock.amount
+            }
+        }
+    }

@@ -1,0 +1,46 @@
+static List checkUserInput() {
+    System.out.print("Enter: ");
+    int g = 0, h = 0;
+    boolean numeric = true;
+    boolean numera = true;
+    Scanner scanner = new Scanner(System.in);
+    int xAxis = 0, yAxis = 0, a = 0, r = 0;
+    String m = scanner.next();
+
+    try {
+        yAxis = Integer.parseInt(m);
+    } catch (NumberFormatException e) {
+        numeric = false; //
+    }
+
+    if (!numeric) {
+        System.out.println(" numbers only!"); //exclude letters
+        checkUserInput();
+    }
+
+    String n = scanner.next();
+
+    try {
+        xAxis = Integer.parseInt(n);
+    } catch (NumberFormatException e) {
+        numera = false; //
+    }
+
+    if (!numera) {
+        System.out.println(" numbers only!"); //exclude letters
+        checkUserInput();
+    } else if (xAxis < 1 || xAxis > 3 || yAxis < 1 || yAxis > 3) { 
+        System.out.println("1 to 3 only!");
+        checkUserInput();
+    } else {
+        //inputs that pass all tests can proceed
+        //assign array indices to respective coordinates
+        g = yAxis - 1;
+        h = xAxis - 1;
+    }
+
+    cords = new ArrayList<Integer>();
+    cords.add(g);
+    cords.add(h);
+    return cords;
+}

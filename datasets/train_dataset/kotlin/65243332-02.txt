@@ -1,0 +1,13 @@
+class AlertDialogFragment: DialogFragment() {
+...
+ val mArgs = arguments
+        val dupeListener = mArgs?.getSerializable("dupeListener") as? OnDupeListener
+        val deleteListener = mArgs?.getSerializable("deleteListener") as? OnDeletePlannerListener
+        val dupeListenerListener = mArgs?.getSerializable("dupeListenerListener") as? OnDupeListenerListener
+        val title = mArgs?.getString("title")
+
+        btn_dupe_planner.setOnClickListener {
+            dupeListener?.onDupeClicked(title!!, dupeListenerListener!!)
+        }
+      }
+    }

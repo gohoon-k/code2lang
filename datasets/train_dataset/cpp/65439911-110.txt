@@ -1,0 +1,17 @@
+#pragma once
+#include <iostream>
+
+struct foo {
+    void bar() const  { // In-class definition is implicitly inline
+        std::cout << __PRETTY_FUNCTION__ << std::endl;
+    }
+};
+// Alternatively...
+#if 0
+struct foo {
+    void bar() const;
+};
+inline void foo::bar() const  {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+}
+#endif

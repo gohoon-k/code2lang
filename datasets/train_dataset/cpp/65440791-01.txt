@@ -1,0 +1,11 @@
+std::string b2a_hex(char *byte_arr, int n)
+{
+    const static std::string hex_codes = "0123456789abcdef";
+    std::string hex_string;
+    for ( int i = 0; i < n ; ++i ) {
+        unsigned char bin_value = byte_arr[i];
+        hex_string += hex_codes[( bin_value >> 4 ) & 0x0F];
+        hex_string += hex_codes[bin_value & 0x0F];
+    }
+    return hex_string;
+}

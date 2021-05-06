@@ -1,0 +1,28 @@
+<div class="panel-body">
+
+  <table class="table table-striped table-bordered">
+   <thead>
+     <tr>
+       <th><input type="text"
+         class="form-control"
+         placeholder="Search for an incident"
+         ng-model="c.keyword"/>Number</th>
+       <th><input type="text"
+         class="form-control"
+         placeholder="Search for an incident"
+         ng-model="c.keyword2"/>Priority</th>
+       <th><input type="text"
+         class="form-control"
+         placeholder="Search for an incident"
+         ng-model="c.keyword3"/>Short description</th>
+    </tr>
+  </thead>
+  <tbody>
+        <tr ng-repeat="item in data.items | filter:c.keyword">
+      <td><a>{{item.number.display_value}}</a></td>
+      <td>{{item.priority.display_value}}</td>
+      <td>{{item.short_description.display_value}}</td>
+    </tr>
+  </tbody>
+  </table>
+</div>

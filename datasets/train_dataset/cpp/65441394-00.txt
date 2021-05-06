@@ -1,0 +1,34 @@
+#include <stdint.h>
+#include <math.h>
+
+#define local_persist static
+#define global_variable static
+#define internal static
+
+#define pi32 3.14159265359f
+
+typedef uint32_t uint32;
+typedef int32_t int32;
+typedef uint32 bool32;
+
+#include <Windows.h>
+
+// typedef int __stdcall test(int x, int y)
+// expected a ';'C/C++(65)
+typedef int WINAPI test(int x, int y);
+
+// int __stdcall wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+// expected a ';'C/C++(65)
+int WINAPI wWinMain(HINSTANCE hInstance, 
+    HINSTANCE hPrevInstance, 
+    PWSTR pCmdLine, int nCmdShow){
+
+    int num;
+    num = 5;
+
+    while(true){
+        // nothing here
+    }
+
+    return 0;
+}

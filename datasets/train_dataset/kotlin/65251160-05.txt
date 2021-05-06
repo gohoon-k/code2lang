@@ -1,0 +1,5 @@
+    private fun encrypt(stringToEncrypt: String, iv: ByteArray): String {
+        val encrypted: ByteArray =
+            initCipher(iv).doFinal(stringToEncrypt.toByteArray(Charsets.UTF_8))
+        return String(Base64.encode(encrypted, DEFAULT_BUFFER_SIZE))
+    }

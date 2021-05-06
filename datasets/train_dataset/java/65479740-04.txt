@@ -1,0 +1,22 @@
+@Component
+public class JsonGlobalExceptionResolver
+             implements GlobalMethodExceptionResolverContainer {
+
+    @Override
+    public void fakeHanderMethod() {
+    }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ValidationErrorDto handleMethodArgumentNotValidException(
+                MethodArgumentNotValidException validationException,
+                Locale locale) {
+
+         ...
+         /* map validationException.getBindingResult().getFieldErrors()
+          * to ValidationErrorDto (custom class) */
+         return validationErrorDto;
+    }
+}

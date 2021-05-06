@@ -1,0 +1,40 @@
+// Check if there is a locked message.
+// insert a new message or update if one is found but return old message (or nothing if one didn't' exist)
+const messageQuery = {
+    listingID: listing._id,
+    messageRuleID: messageRule._id,
+    reservationID: reservation._id
+};
+
+let message = await Message.findOne({
+    ...messageQuery,
+    ...{status: {$in: ["disabled", "sent"]}}
+});
+// If message has been sent or is disabled don't continue
+if (message) {
+    return;
+}
+
+message = await Message.findOneAndUpdate(
+    messageQuery,
+    {
+        listingID: listing._id,
+        messageRuleID: messageRule._id,
+        reservationID: reservation._id,
+        lockedAt: moment().toDate() // Check out the message with the current date
+    },
+    {upsert: true}
+);
+// If no message is defined, then it's new and not locked, move on.
+if (message) {
+    // If message has been locked for less than X minutes don't continue
+    const cutoff = moment().subtract(
+        Config.messageSendLock.amount,
+        Config.messageSendLock.unit
+    );
+    if (message.lockedAt && moment(message.lockedAt).isAfter(cutoff)) {
+        // Put the last lock time back
+        await Message.findOneAndUpdate(messageQuery, {lockedAt: message.lockedAt});
+        return;
+    }
+}

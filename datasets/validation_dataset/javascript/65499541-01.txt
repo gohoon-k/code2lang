@@ -1,0 +1,37 @@
+var calulatorButtons = document.querySelectorAll('button.calulator_button');
+for (var i = 0; i < calulatorButtons.length; i++) {
+    calulatorButtons[i].addEventListener('click', appendNumberToCalulator);
+}
+
+function getCalculatorDisplayElement() {
+    return document.getElementById('Calculator_Total');
+}
+
+function appendNumberToCalulator(event) {
+
+    var valueToAppend = event.target.getAttribute('data-default-value');
+    var totalDisplay = getCalculatorDisplayElement();
+
+    if (valueToAppend == '.' && totalDisplay.value.indexOf('.') > -1) {
+
+        return;
+    }
+
+    totalDisplay.value += valueToAppend;
+}
+
+
+/* Handle Clear Screen */
+document.getElementById('Calulator_Clear').addEventListener('click', function (_event) {
+    getCalculatorDisplayElement().value = '';
+});
+
+
+/* Handle Clear Backspace */
+document.getElementById('Calulator_Backspace').addEventListener('click', function (_event) {
+    var value = getCalculatorDisplayElement().value;
+    if (!value) {
+        return;
+    }
+    getCalculatorDisplayElement().value = value.slice(0, -1);
+});

@@ -1,0 +1,49 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+   
+    <title>Incrementalism</title>
+</head>
+<body>
+    <div id="app">
+        <div class="IPPoints-container">
+            {{ message }}
+        </div>
+        <div class="IPPointsGen-container">
+            <!--This will print the cost of every IPGenerator-->
+            <div class="generator IPPoints-generator" v-for="IPGenerators in player.IPGenerators">
+                {{ IPGenerators.cost }}
+            </div>
+        </div>
+        <!--From here it's not important-->
+        <div class="triGenPoints-container">
+            <div class="EXPPoints-container">
+
+            </div>
+            <div class="XPEPoints-container">
+
+            </div>
+            <div class="PEXPoints-container">
+
+            </div>
+        </div>
+        <div class="triGenerators-container">
+            <div class="triGenerator EXPPoints-generator" v-for= "EXPPoints in player.EXPPoints">
+                {{ EXPGenerators.cost }}
+            </div>
+            <div class="triGenerator EXPPoints-generator">
+
+            </div>
+            <div class="triGenerator EXPPoints-generator">
+                
+            </div>
+        </div>
+    </div>
+<script src="js/vue.js"></script>
+<script src="js/player.js"></script>
+<script src="js/index.js"></script>
+</body>
+
+</html>

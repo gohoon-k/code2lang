@@ -1,0 +1,9 @@
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+        playButton.setBounds(240, 410, 300, 100);   // x + 10 & y + 10
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
+        playButton.setBounds(230, 400, 300, 100);   // reverse the move
+    }

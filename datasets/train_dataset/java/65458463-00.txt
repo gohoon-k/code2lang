@@ -1,0 +1,22 @@
+ protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_first_page);
+
+        Click = findViewById(R.id.click);
+        Text = findViewById(R.id.text);
+        try {
+            number = Integer.parseInt(Text.getText().toString());
+        }catch (NumberFormatException e){
+                   number = 2; //the problem is here getText() is always getting null string
+                   //and hence catch statement is always getting executed
+        }
+
+        Click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ii= new Intent(FirstPage.this, MainActivity.class);
+                ii.putExtra("value", number);
+                startActivity(ii);
+            }
+        });
+    }

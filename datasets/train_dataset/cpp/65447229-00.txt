@@ -1,0 +1,27 @@
+public:
+    bool isPresent(vector<int>& a, const double& sum, int i, vector<vector<bool>> &dp) {
+        int n = a.size();
+        if(i == n) return false;
+        
+        if(sum < 0) return false;
+        if(sum == 0) return true;
+        
+        if(dp[i][sum] == true) return true;
+        
+        if(isPresent(a, sum - a[i], i+1, dp) || isPresent(a, sum, i+1, dp))
+            return dp[i][sum] = true;
+        return dp[i][sum] = false;
+    }
+    bool canPartition(vector<int>& a) {
+        
+        int n = a.size();
+        int s=0;
+        for(int i=0;i<n;i++) {
+            s += a[i];
+        }
+        double sum = ((double)s) / 2.0;
+        vector<vector<bool>> dp(n+1, vector<bool> (sum+1, false));
+        
+        return isPresent(a, sum, 0, dp);
+    }
+};

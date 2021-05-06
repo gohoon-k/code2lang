@@ -1,0 +1,22 @@
+public class classroom {
+    private String classRoomName;
+    private String teacherName;
+
+    public void setClassRoomName(String newClassRoomName) {
+        classRoomName = newClassRoomName;
+
+    }
+
+    public String returnClassRoomName() {
+        return classRoomName;
+    }
+
+    public void setTeacherName(String newTeacherName) {
+        teacherName = newTeacherName;
+
+    }
+
+    public String returnTeacherName() {
+        return teacherName;
+    }
+}

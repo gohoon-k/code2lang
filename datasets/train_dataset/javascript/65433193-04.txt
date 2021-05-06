@@ -1,0 +1,23 @@
+function getBrackets(str) {
+    const chunks = [];
+    const openBrackets = [];
+    let pushedFirst = false;
+    for (let i = 0; i < str.length; i ++) {
+        if (str[i] == "[") {
+            openBrackets.push(i);
+            // for pushing the first section not enclosed in brackets
+            if (!pushedFirst) {
+                chunks.push(str.slice(0, i));
+                pushedFirst = true;
+            }
+        } else if (str[i] == "]") {
+            const start = openBrackets.pop();
+            if (openBrackets.length == 0) {
+                chunks.push(str.slice(start + 1, i));
+            }
+        }
+    }
+    return chunks;
+}
+
+console.log(getBrackets("params[0][header][name[0]]")); // ["params", "0", "header", "name[0]"]

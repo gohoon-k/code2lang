@@ -1,0 +1,16 @@
+class MyClass {
+public:
+    LibClass libClass;
+
+    void my_function() { libClass.start(my_callback); }
+
+    static void my_callback(const Param& param) { // static need here, of free function
+        // ...
+    }
+};
+
+int main ()
+{
+    MyClass myClass;
+    myClass.my_function();
+}

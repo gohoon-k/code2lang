@@ -1,0 +1,12 @@
+var collUsersRef: CollectionReference = db.collection("users")
+val doc = collUsersRef.document()
+var data: HashMap<String, Any> = hashMapOf(
+                        "docID" to doc
+                        , "email" to email
+                        , "username" to user
+                        , "createDate" to FieldValue.serverTimestamp()
+                        , "modifiedDate" to FieldValue.serverTimestamp()
+                        , "stat" to 1
+                    )
+
+ doc.set(data)

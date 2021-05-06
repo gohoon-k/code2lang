@@ -1,0 +1,40 @@
+public abstract class AbstractReadableMap<K, V> implements ReadableMap {
+    protected Entry<K, V>[] entries;
+
+    public AbstractReadableMap(Entry<K, V>[] entries) {
+        this.entries = GenericArrayHelper.copyArray(entries);
+    }
+
+    public AbstractReadableMap() {
+        this.entries = GenericArrayHelper.newEntryArrayOfSize(10);
+    }
+
+    @Override
+    public Object getOrThrow(Object key) throws UnknownKeyException {
+        for(Entry<K, V> entry :entries)
+        {
+            if(entry!=null && entry.getKey().equals(key))
+                return entry.getValue();
+            throw new UnknownKeyException();
+        }
+        return null;
+    }
+
+    @Override
+    public ImmutableMap asImmutableMap() {
+        return new ImmutableMap<>(entries);
+    }
+
+    @Override
+    public Set keysAsSet() {
+        HashSet<Entry<K, V>> hashSet = new HashSet<>();
+        for(Entry<K, V> entry : entries)
+
+        {
+            if(entry!=null)
+                hashSet.add(entry);
+        }
+        return hashSet;
+    }
+
+}

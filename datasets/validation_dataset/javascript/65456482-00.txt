@@ -1,0 +1,15 @@
+const container = document.getElementById('container');
+const glow = document.getElementById('glow');
+
+container.addEventListener('mousemove', e => {
+  glow.style.left = e.pageX + 'px';
+  glow.style.top = e.pageY + 'px';
+});
+
+container.addEventListener('mouseenter', () => {
+  glow.style.display = 'block';
+})
+
+container.addEventListener('mouseleave', () => {
+  glow.style.display = 'none';
+})

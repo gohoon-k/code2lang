@@ -1,0 +1,107 @@
+import android.annotation.SuppressLint;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+public class DOMParser {
+
+    private RSSFeed _feed = new RSSFeed();
+
+    public RSSFeed parseXml(String xml) {
+
+        try {
+            // Create required instances
+            DocumentBuilderFactory dbf;
+            dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+
+            // Parse the xml
+            Document doc = db.parse(xml);
+            doc.getDocumentElement().normalize();
+
+            NodeList nl = doc.getElementsByTagName("item");
+            int length = nl.getLength();
+
+            for (int i = 0; i < length; i++) {
+
+                RSSItem _item = new RSSItem();
+
+                if (nl.item(i).getNodeType() == Node.ELEMENT_NODE) {
+
+                        Element eElement = (Element) nl.item(i);
+
+                        //Get Link
+                        _item.setLink(eElement.getElementsByTagName("link").item(0).getTextContent());
+
+                        //Get Date
+                        //Taking pubDate and make it HH:mm dd/MM/yy
+                        String TimeDate = eElement.getElementsByTagName("pubDate").item(0).getTextContent();
+                        String ZYear = TimeDate.substring(12, 16), ZMonth = TimeDate.substring(8, 11), ZDay = TimeDate.substring(5, 7);
+                        String ZHour = TimeDate.substring(17, 19), ZMinute = TimeDate.substring(20, 22);
+                        String ZTimezone = TimeDate.substring(26, 30);
+
+                        if (ZMonth.equals("Jar")) {
+                            ZMonth = "01";
+                        } else if (ZMonth.equals("Feb")) {
+                            ZMonth = "02";
+                        } else if (ZMonth.equals("Mar")) {
+                            ZMonth = "03";
+                        } else if (ZMonth.equals("Apr")) {
+                            ZMonth = "04";
+                        } else if (ZMonth.equals("May")) {
+                            ZMonth = "05";
+                        } else if (ZMonth.equals("Jun")) {
+                            ZMonth = "06";
+                        } else if (ZMonth.equals("Jul")) {
+                            ZMonth = "07";
+                        } else if (ZMonth.equals("Aug")) {
+                            ZMonth = "08";
+                        } else if (ZMonth.equals("Sep")) {
+                            ZMonth = "09";
+                        } else if (ZMonth.equals("Oct")) {
+                            ZMonth = "10";
+                        } else if (ZMonth.equals("Nov")) {
+                            ZMonth = "11";
+                        } else if (ZMonth.equals("Dec")) {
+                            ZMonth = "12";
+                        }
+
+                        TimeDate = ZHour + ":" + ZMinute + " " + ZDay + "/" + ZMonth + "/" + ZYear;
+
+                        //Convert date to milliseconds since 00:00 01/01/1970
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+                        formatter.setLenient(false);
+                        Date date_before = formatter.parse(TimeDate);
+                        assert date_before != null;
+                        long milliseconds = date_before.getTime();
+
+                        //Add time to reach +0200 Athens/Greece
+                        if (ZTimezone.equals("0000")) {
+                            milliseconds = milliseconds + 7200000;
+                        }
+
+                        _item.setDateComparison((int) milliseconds);
+
+                        // add item to the list
+                        _feed.addItem(_item);
+                    }
+                }
+            } catch (ParserConfigurationException | IOException | ParseException | SAXException e) {
+            e.printStackTrace();
+        }
+        // Return the final feed once all the Items are added to the RSSFeed
+        // Object(_feed).
+        return _feed;
+
+    }
+
+}

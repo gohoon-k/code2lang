@@ -1,0 +1,5 @@
+var pElement = document.querySelector('#p-id');
+
+document.querySelector('button').addEventListener('click', () => {
+  pElement.textContent = "This is its new text, assigned using the '.textContent'-property!";
+});

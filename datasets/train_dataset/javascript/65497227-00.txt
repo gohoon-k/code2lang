@@ -1,0 +1,25 @@
+const inpfile = document.getElementById("inpfile");
+        const previewcontainer = document.getElementById("imagepreview");
+        const previewimage = previewcontainer.querySelector(".image-preview__image");
+        const previewdefaulttext = previewcontainer.querySelector(".image-preview__default-text");
+        inpfile.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+
+                previewdefaulttext.style, display = "none";
+                previewimage.style, display = "block";
+
+
+                reader.addEventListener("load", function () {
+                    previewimage.setAttribute("src", this.result);
+                });
+
+                reader.readAsDataURL(file);
+            } else {
+                previewdefaulttext.style, display = null;
+                previewimage.style, display = null;
+                previewimage.setAttribute("src", "");
+            }
+        });

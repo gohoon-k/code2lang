@@ -1,0 +1,7 @@
+var i = 1;
+function abc() {
+  var i;     // var declaration moved to the top of the scope
+  i = 2;
+  i = 3;     // the assignment stays where it is
+}
+console.log(i);

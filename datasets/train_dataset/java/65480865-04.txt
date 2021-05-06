@@ -1,0 +1,34 @@
+public static void main(String... args) throws Exception {
+    Runnable[] jobs = new Runnable[]{
+            () -> scrape("https://www.stackoverfow.com"),
+            () -> scrape("https://www.github.com"),
+            () -> scrape("https://www.facebook.com"),
+            () -> scrape("https://www.twitter.com"),
+            () -> scrape("https://www.wikipedia.org"),
+    };
+
+    for (int i = 0; true; i++) {
+        int remainingAttempts = 3;
+        while (remainingAttempts > 0) {
+            try {
+                jobs[i % jobs.length].run();
+                break;
+            } catch (Throwable err) {
+                err.printStackTrace();
+                remainingAttempts--;
+            }
+        }
+    }
+}
+
+private static void scrape(String website) {
+    System.out.printf("Doing my job against %s%n", website);
+    try {
+        Thread.sleep(100); // Simulate network work
+    } catch (InterruptedException e) {
+        throw new RuntimeException("Requested interruption");
+    }
+    if (Math.random() > 0.5) {   // Simulate network failure
+        throw new RuntimeException("Ooops! I'm a random error");
+    }
+}

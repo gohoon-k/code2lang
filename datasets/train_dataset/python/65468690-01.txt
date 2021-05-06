@@ -1,0 +1,21 @@
+#SERVER
+from ftplib import FTP
+
+import socket
+import select
+serverPort = 21 #Sets server port to 21
+serverSocket = socket.socket(socket.AF_INET,socket.SOCK_STREAM) #Creates server TCP socket
+serverSocket.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR, 1)
+serverSocket.bind(("",serverPort)) #Assigns port number to server socket
+serverSocket.listen(1) #Server listens to at least 1 client connection. Server socket is the welcoming port.
+
+print("Server is ready to receive connection.")
+data=open("userDat.dat",'a')
+
+while 1:
+
+   connectionSocket, addr = serverSocket.accept()
+   sentence = connectionSocket.recv(1024)
+   connectionSocket.send("Connection established")
+   connectionSocket.close()
+

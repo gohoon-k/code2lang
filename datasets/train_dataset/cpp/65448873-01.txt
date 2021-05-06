@@ -1,0 +1,26 @@
+bool isPrime(int num){
+   for(int i = 2; i <= num; i++){
+      if(i == num){
+         return true;
+       }else if(num % i == 0){
+         return false;
+       }
+   }return false;
+}
+
+void deletefirst()
+{
+    if (head==NULL)
+        cout<<"Empty";
+    else
+    {
+       node *b=head;
+       if(isPrime(b->data)){
+          head=b->next;
+          delete b;
+       }else{
+          cout<<"is Prime";
+       }
+       
+    }
+}

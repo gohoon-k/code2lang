@@ -1,0 +1,28 @@
+const val EXTRA_USER_MAP = "EXTRA_USER_MAP"
+private const val TAG = "MainFragment"
+
+class MainFragment : Fragment() {
+
+override fun onCreateView ... // code to inflate my fragment view
+
+override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val sports = generateData()
+
+        myMaps.layoutManager = LinearLayoutManager(activity)
+
+        myMaps.adapter = this.context?.let {
+            MapsAdapter(it, sports, object: MapsAdapter.OnClickListener {
+                override fun onItemClick(position: Int) {
+                    Log.i(TAG, "onItemClick $position")
+
+                    // When user taps on view in recyclerview, navigate to new fragment and opens corresponding map
+                    val bundle =  Bundle()
+                    bundle.putSerializable(EXTRA_USER_MAP, sports[position])
+
+                    view.findNavController().navigate(R.id.action_mainFragment_to_mapsFragment)
+                }
+            })
+        }
+    }
+private fun generateData(): List<Sport> { ... // code for my data set

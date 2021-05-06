@@ -1,0 +1,7 @@
+var request = new XMLHttpRequest();
+request.open('GET', 'yourURL', false);  // `false` makes the request synchronous
+request.send(null);
+ 
+if (request.status === 200) {// That's HTTP for 'ok'
+  console.log(request.responseText);
+}

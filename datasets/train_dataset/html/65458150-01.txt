@@ -1,0 +1,23 @@
+<head>
+<link rel="stylesheet" href="/engines/register/register.css">
+</head>
+<div class="register--wrapper">
+
+  <div class="register--outer">
+    <h1 class="register--title">REGISTER</h1>
+    <hr class="register--hr">
+    <form class="register--form" method="post" action="<?php echo htmlspecialchars("/x/register");?>">
+      <label class="register--input-wrapper">
+        <p class="register--input-text">USERNAME <span class="register--error"><i><?php echo $usernameError; ?></i></span></p>
+      <input class="register--input" type="username" name="registerUsername"/>
+      </label>
+      <label class="register--input-wrapper">
+        <p class="register--input-text">EMAIL <span class="register--error"><i><?php echo $emailError; ?></i></span></p>
+      <input class="register--input" type="username" name="registerEmail"/>
+      </label>
+      <p class="register--note">By using our site, you confirm that you accept the Terms of Service</p>
+      <button class="register--submit" type="submit">REGISTER</button>
+    </form>
+    <a class="register--link" href="/x/login">Login</a>
+  </div>
+</div>

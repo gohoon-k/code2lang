@@ -1,0 +1,14 @@
+import java.io.File
+
+import javax.xml.parsers.DocumentBuilderFactory
+
+
+fun main() {
+
+    val xmlFile = File("meter1.xml")
+    val doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
+    var list = doc.getElementsByTagName("value").
+    for (i in 0 until list.length){
+        println(list.item(i))
+    }
+}

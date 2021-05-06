@@ -1,0 +1,93 @@
+import android.content.Context.MODE_PRIVATE
+import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import androidx.fragment.app.Fragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
+
+class PrinterFragment: Fragment() {
+    private val TAG = "PrinterFragment"
+    private lateinit var pMap: PrinterManager
+    private lateinit var mListView: ListView
+    private lateinit var sharedPreferences: SharedPreferences
+    //private val db = DatabaseManager()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.printer_fragment, container, false)
+        mListView = view.findViewById(R.id.ListView)
+
+        val newPrinter: FloatingActionButton = view.findViewById(R.id.addPrinter)
+        newPrinter.setOnClickListener {
+            val intent = Intent(this.context, PrinterAddActivity::class.java)
+            startActivity(intent)
+        }
+
+        //AsyncTask.execute() {
+        populateListView(mListView, view)
+        //}
+
+        Log.d(TAG, "ListView: Populated")
+        mListView.onItemClickListener =
+            AdapterView.OnItemClickListener { adapterView, _, i, _ ->
+                val name = adapterView.getItemAtPosition(i).toString()
+                Log.d(TAG, "onItemClick: You Clicked on $name")
+
+                val itemId = pMap.getIdByName(name) //get the id associated with that name
+
+                Log.d(TAG, "onItemClick: The ID is: $itemId")
+                val editScreenIntent =
+                    Intent(view.context, PrinterEditActivity::class.java)
+                editScreenIntent.putExtra("id", itemId)
+                startActivity(editScreenIntent)
+            }
+
+        return view
+    }
+
+    private fun populateListView(mListView: ListView, view: View) {
+        /*
+        db.context = view.context
+        db.initialize()
+
+        val data = db.getPrinterNames()
+
+        val adapter = ArrayAdapter(
+            view.context, android.R.layout.simple_list_item_1, data
+        )
+        mListView.adapter = adapter
+
+        mListView.onItemClickListener =
+            OnItemClickListener { adapterView, _, i, _ ->
+                val name = adapterView.getItemAtPosition(i).toString()
+                Log.d(TAG, "onItemClick: You Clicked on $name")
+
+                val itemId = db.getPrinterIdByName(name) //get the id associated with that name
+
+                Log.d(TAG, "onItemClick: The ID is: $itemId")
+                val editScreenIntent =
+                    Intent(view.context, PrinterEditActivity::class.java)
+                editScreenIntent.putExtra("id", itemId)
+                startActivity(editScreenIntent)
+
+            }
+    }
+    */
+        sharedPreferences = requireContext().getSharedPreferences("Printers", MODE_PRIVATE)
+        pMap = PrinterManager(sharedPreferences.all as MutableMap<Int, Printers>)
+
+        val pList = pMap.hashPrinter!!.values.toList()
+        val adapter = ArrayAdapter(view.context, android.R.layout.simple_list_item_1, pList)
+        mListView.adapter = adapter
+    }
+}

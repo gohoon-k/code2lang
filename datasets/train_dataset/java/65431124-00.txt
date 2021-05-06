@@ -1,0 +1,21 @@
+public static String converter(String filename) throws Exception {
+        FileWriter writer = null;
+        if (filename.toString().endsWith("TXT")) {
+            File file = new File("C:\\convertertool\\inputFiles\\" + filename + "");
+            Scanner scan = new Scanner(file);
+            filename = filename.replace("TXT", "CSV");
+            File file2 = new File("C:\\convertertool\\ParsedFiles\\" + filename + "");
+            file.createNewFile();
+            writer = new FileWriter(file2);
+
+            while (scan.hasNext()) {
+                String csv = scan.nextLine().replace("|", ",");
+                System.out.println(csv);
+                writer.append(csv);
+                writer.append("\n");
+                writer.flush();
+            }
+        }
+        return filename;
+
+    }

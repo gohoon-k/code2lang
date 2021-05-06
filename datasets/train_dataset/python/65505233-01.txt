@@ -1,0 +1,68 @@
+import os
+from googleapiclient import discovery
+from google.oauth2 import service_account
+
+scopes = ['https://www.googleapis.com/auth/cloud-platform']
+sa_file = <<credentials file>>
+zone = 'europe-west2-c'
+project_id = <<project id>> # Project ID, not Project Name
+
+credentials = service_account.Credentials.from_service_account_file(sa_file, scopes=scopes)
+
+# Create the Cloud Compute Engine service object
+service = discovery.build('compute', 'v1', credentials=credentials)
+
+def create_instance(compute, project, zone, name):
+    # Get the latest Debian Jessie image.
+    image_response = (
+        compute.images()
+        .getFromFamily(project="debian-cloud", family="debian-9")
+        .execute()
+    )
+    source_disk_image = image_response["selfLink"]
+
+    # Configure the machine
+    machine_type = "zones/%s/machineTypes/n1-standard-1" % zone
+    config = {
+        "name": name,
+        "machineType": machine_type,
+        # Specify the boot disk and the image to use as a source.
+        "disks": [
+            {
+                "kind": "compute#attachedDisk",
+                "type": "PERSISTENT",
+                "boot": True,
+                "mode": "READ_WRITE",
+                "autoDelete": True,
+                "deviceName": "instance-1",
+                "initializeParams": {
+                    "sourceImage": "projects/<<project id>>/global/images/pandora-pagespeed-image",
+                    "diskType": "projects/<<project id>>/zones/us-central1-a/diskTypes/pd-standard",
+                    "diskSizeGb": "10",
+                },
+                "diskEncryptionKey": {},
+            }
+        ],
+        "metadata": {
+            "kind": "compute#metadata",
+    "items": [
+      {
+        "key": "startup-script",
+        "value": "sudo apt-get -y install python3-pip\npip3 install -r /home/tommyp/pandora/requirements.txt\ncd /home/tommyp/pandora\npython3 /home/tommyp/pandora/main.py"
+      }
+    ]
+        },
+        "networkInterfaces": [
+            {
+                "network": "global/networks/default",
+                "accessConfigs": [{"type": "ONE_TO_ONE_NAT", "name": "External NAT"}],
+            }
+        ],
+        "tags": {"items": ["http-server", "https-server"]},
+    }
+
+    return compute.instances().insert(project=project, zone=zone, body=config).execute()
+
+def run(data, context):
+    create_instance(service, project_id, zone, "vm-instance")
+

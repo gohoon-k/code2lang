@@ -1,0 +1,13 @@
+class MyFragment : BaseFragment(R.layout.fragment_my_fr) {
+...
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) = super.onViewCreated(view, savedInstanceState).also {
+    setup()
+  }
+
+  private fun setup() {
+    binding.myButton.setOnClickListener {
+      GenericDialog.build(context = requireContext(), title = string(R.string.my_string_title), content = string(R.string.my_string_msg)).safeShow(requireActivity())
+    }
+  }
+}

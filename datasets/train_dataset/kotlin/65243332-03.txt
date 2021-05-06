@@ -1,0 +1,9 @@
+class PlannersFragment : Fragment(),OnDupeListenerListener {
+...
+ rv_planners.adapter = PlannerAdapter(planners,this)
+...
+    override fun onDupeClickedForReal(title: String) {
+        val intent = Intent(requireContext(), DupePlannerActivity::class.java)
+        intent.putExtra("title",title)
+        requireContext().startActivity(intent)
+    }

@@ -1,0 +1,11 @@
+import javax.script.*
+import java.io.*
+
+
+fun executeScript(script:String){
+    val engine = ScriptEngineManager().getEngineByExtension("kts")
+    val str = StringWriter()
+    engine.context.writer = str
+    val result = engine.eval(script)
+    println("output"+str.buffer.toString())
+}

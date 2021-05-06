@@ -1,0 +1,17 @@
+function x(a, b, e, d, c){ // URL, callback, method, formdata or {key:val}, placeholder
+  c = new XMLHttpRequest;
+  c.open(e||'get', a);
+  c.onload = b;
+  c.onerror = error;
+  c.send(d||null)
+}
+
+function error(e){
+  console.log('--Error--', this.type);
+  console.log('this: ', this);
+  console.log('Event: ', e)
+}
+function displayAjax(e){
+  console.log(e, this);
+}
+x('WRONGURL', displayAjax);

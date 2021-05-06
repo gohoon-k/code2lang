@@ -1,0 +1,49 @@
+
+public class PlayerPanel extends JPanel implements Runnable{
+   PlayerPanel(){
+
+        newPaddles();
+        newBall();
+        this.setFocusable(true);
+        this.addKeyListener(new AL());
+        this.setPreferredSize(SCREEN_SIZE);        
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+
+    public void run() {
+
+        long start = System.currentTimeMillis();
+        long lastTime = System.nanoTime();
+        double amountOfTicks =60.0;
+        double ns = 1000000000 / amountOfTicks;
+        double delta = 0;
+        while(run) {
+
+
+            long now = System.nanoTime();
+            delta += (now -lastTime)/ns;
+            lastTime = now;
+            if(delta >=1) {
+
+                try{
+                    score.checkScore();
+
+                }catch (Exception e){
+                 
+                    System.out.println("GAME OVER !!" );
+
+                }
+                
+                checkCollision();
+                move();
+                repaint();
+                delta--;
+
+            }
+
+        }
+
+    }
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-35390079-2">
+    </script>
+    <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-35390079-2');
+    </script>
+    <script language="php"> </script>
+    <title>
+            Grade A Painters | Resdidential House Painting
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+           .error {color: #FF0000;}
+           * {box-sizing: border-box;}
+           /* Style inputs */
+           input[type=text], select, textarea { width: 100%;padding: 12px; border: 1px solid #ccc; margin-top: 6px; margin-bottom: 16px; resize: vertical;}
+           input[type=submit] {background-color: #4CAF50; color: white; padding: 12px 20px; border: none; cursor: pointer;}
+           input[type=submit]:hover {background-color: #45a049;}
+           /* Style the container/contact section */
+           .container {border-radius: 5px; background-color: #f2f2f2; padding: 10px;}
+           /* Create two columns that float next to eachother */
+           .column {float: left; width: 50%; margin-top: 6px; padding: 20px;}
+           /* Clear floats after the columns */
+           .row:after {content: ""; display: table; clear: both;}
+           /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+           @media screen and (max-width: 600px) {.column, input[type=submit] {width: 100%; margin-top: 0;}}
+           h3 {text-align : center; font-size : 36px; color: #3F729B;}
+           h2 {color: #3F729B;}
+            h4 {font-size: 16px; color:darkblue; font-family:Helvetica;}
+           h1 {text-align : center; font-size: 48px; color:#ED1C24;font-family:Helvetica;}
+           h5 {text-align : center; color : #ED1C24;}
+           img {border-radius: 16px;}
+           .b {font-style: italic; text-align: center;}
+    </style>
+</head>
+<body>
+
+  <div class="container">
+    <div style="text-align:center">
+      <h2>Grade A Painters Estimate Contact Form</h2>
+      <br><br>
+    </div>
+    <div class="row">
+      <div class="column">
+        <a href="index.html">
+          <img src="OldLogo.jpg" style="width:100%" alt="Company Logo">
+        </a>
+        <br><br>
+        <h3>What are our clients saying about us?</h3>
+        <br>
+        <p class="b">Excellent job, professional, clean, caring and reasonably priced.  I would not hesitate to
+                          recommend this company. - Alison Koch</p>
+        <br>
+        <p class="b">Very high quality work, amazing finish and crisp lines. Left the area clean and good
+                          housekeeping. No regrets from choosing Grade A Painters! - Trever Crowe</p>
+        <br>
+        <p class="b">Chris at Grade A painters painted my whole house on the inside and did some outside work as
+                          well. My house was renovated so they painted new drywall. After we moved in Chris offered to
+                          come back and touch up any walls that may have had dings from the moving. He kept his word!
+                          Since then I have referred him to many clients, friends and family who were are all as equally
+                          impressed. - Leanne Woodward</p>
+        <br>
+        <p class="b">Absolutely satisfied amazing job! - Marcus Anthony Ray</p>
+      </div>
+      <div class="column">
+        <h2>What Can We Paint For You?</h2>
+        <p><span class="error">* required field</span></p>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);">
+          <br>
+          Type of Job:
+          <input type="radio" name="jobtype" value="interior">Inside My Home
+          <input type="radio" name="jobtype" value="exterior">Exterior
+          <input type="radio" name="jobtype" value="Commercial">Commercial
+          <span class="error">* <?php echo $jobtypeErr;?></span>
+          <br><br>
+          Job Details: <textarea name="jobdetails" input id="input1" type="text" rows="5" cols="40"
+          placeholder="Examples: 3 bdrm, drywall repairs ect."></textarea>
+          <br><br>
+          <h2>Your Contact Information</h2>
+          <br><br>
+          First Name: <span class="error">* <?php echo $firstnameErr;?></span>
+          <input type="text" name="firstname">
+          <br><br>
+          Last Name: <span class="error">* <?php echo $lastnameErr;?></span>
+          <input type="text" name="lastname">
+          <br><br>
+          Phone: <span class="error">* <?php echo $phoneErr;?></span>
+          <input type="tel" name="phone">
+          <br><br>
+          E-mail: <span class="error">* <?php echo $emailErr;?></span>
+          <input type="text" name="email">
+          <br><br>
+          <h2>Service Address</h2>
+          <br><br>
+          Address: <span class="error">* <?php echo $addressErr;?></span>
+          <input type="text" name="address">
+          <br><br>
+          City: <span class="error">* <?php echo $cityErr;?></span>
+          <input type="text" name="city">
+          <br><br>
+          Site Details: <textarea name="sitedetails" input id="input2" type="text" rows="5" cols="40"
+          placeholder="Examples: buzzer number, parking ect."></textarea>
+          <br><br>
+          <input type="submit" name="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+      <div class="bg-dark">
+            <h1>CALL US TODAY!</h1>
+            <h3><a href="tel:16047269705">604-726-9705</a></h3>
+            <h5> Monday - Friday 8am - 9pm Pacific</h5>
+            <h5> Saturday 9am - 9pm Pacific</h5>
+            <h5> Sunday 10am - 6pm Pacific</h5>
+      </div>
+      <div class="footer-copyright bg-info text-center py-3">© 2020 Copyright:
+          <a href="https://gradeapainters.com" class="text-danger">GradeAPainters.com</a>
+      </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

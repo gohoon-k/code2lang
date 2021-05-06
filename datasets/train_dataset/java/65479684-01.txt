@@ -1,0 +1,5 @@
+public interface MovieRepository extends JpaRepository<Movie, Long> {
+
+    List<Movie> findByWatchTimeAndReleaseYear(double 2.30d, int 2020);**//Line i have doubt**
+    
+}

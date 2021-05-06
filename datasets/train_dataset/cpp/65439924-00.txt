@@ -1,0 +1,30 @@
+struct A {
+    int v;
+};
+
+struct A_eq
+{
+    bool operator()(A* lhs, A* rhs) const {
+        return lhs->v == rhs->v;
+    }
+};
+
+struct A_hash
+{
+    std::size_t operator()(A* obj) const {
+        return std::hash<int>{}(obj->v);
+    }
+};
+
+int main(int , char* []) {
+    A* a7 = new A(); A* a5 = new A(); A* a7_ = new A(); A* a5_ = new A();
+    a7->v = 7; a5->v = 5; a7_->v = 7; a5_->v = 5;
+
+    std::unordered_set<A*, A_hash, A_eq> s;
+    s.insert(a7); s.insert(a5); s.insert(a7_);
+
+    printf("dump s:");
+    for (auto& obj : s) {
+        printf("%d,", obj->v);
+    }
+}

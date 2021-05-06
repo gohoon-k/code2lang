@@ -1,0 +1,4 @@
+    <html class="js backgroundsize borderimage csstransitions fontface svg details progressbar meter no-mathml cors xxsmallview wb-enable" dir="ltr" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head></head>
+<body></body>
+</html>

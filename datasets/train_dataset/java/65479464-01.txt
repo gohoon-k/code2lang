@@ -1,0 +1,28 @@
+public List<Order> findAllOrders() {
+
+        String sql = "SELECT orders.order_id, orders.orderNumber, orderRow.itemName, orderRow.quantity, orderRow.price\n" +
+                "FROM orders\n" +
+                "LEFT JOIN orderRow\n" +
+                "ON orders.order_id=orderRow.order_id";
+
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                return null;
+            }
+
+            List<Order> orders = new ArrayList<>();
+
+            while (rs.next()) {
+                orders.add(new Order(rs.getLong("order_id"),
+                        rs.getString("ordernumber"), null));
+            }
+
+            return orders;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }

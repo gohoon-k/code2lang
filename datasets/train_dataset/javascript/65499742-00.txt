@@ -1,0 +1,15 @@
+
+router.get("/search", async (req, res)=>{
+    let search = {}
+    if(req.query.q !=null && req.query.q!==""){
+        search.title = new RegExp(req.query.q, "i")
+        search.description = new RegExp(req.query.q, "i") 
+    }
+    try{
+        console.log(search)
+        const posts = await Post.find(search)
+        res.render("posts/search", {posts: posts, search: req.query})
+    }catch(err){
+        console.log(err)
+    }
+})

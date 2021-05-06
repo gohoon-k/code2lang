@@ -1,0 +1,6 @@
+public class Driver {
+    @Override
+    public String toString() {
+        return "Driver: Name = " + name + ", Age = " + age + ", Medals = " + Arrays.toString(medals);
+    }
+}

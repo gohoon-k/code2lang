@@ -1,0 +1,19 @@
+package com.stackoverflow.question;
+
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.printf("%-30s : ", "Some Text"); //Justify left
+        for (int stars = 0; stars < 5; stars++) { 
+            System.out.print("*");
+        } 
+        System.out.println();
+
+        System.out.printf("%-30s : ", "Some Bigger Text"); //Justify left
+        for (int stars = 0; stars < 3; stars++) {
+            System.out.print("*");
+        } 
+        System.out.println();
+    }
+
+}

@@ -1,0 +1,29 @@
+
+import javafx.fxml.FXML
+import javafx.scene.control.Button
+import kotlinx.coroutines.*
+
+class appGui{
+    @FXML
+    private var buttonExecute: Button? = null
+
+    @FXML
+    fun buttonExecuteClick() {
+       buttonExecute!!.isDisable = true
+
+       CoroutineScope(Dispatchers.Main).launch {
+           withContext(Dispatchers.IO){
+               work()
+           }
+
+           buttonExecute!!.isDisable = false
+       }
+    }
+
+    private suspend fun work() {
+       println("corotine starting...")
+       delay(5000);
+       //springMain.applyChanges()
+       println("corotine finished...")
+    }
+}

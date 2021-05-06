@@ -1,0 +1,13 @@
+private fun updateData() {
+        GlobalScope.launch(Dispatchers.Default){ //work on default thread
+            while (true){
+                response.forEach {
+                val out = doIntensiveWork()
+                    withContext(Dispatchers.Main){ //update on main thread
+                        _data.postValue(out)
+                        delay(1500L)
+                    }
+                }
+            }
+        }
+}

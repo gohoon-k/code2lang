@@ -1,0 +1,13 @@
+public List<Container.Filter> getFilters() {
+        List<Container.Filter> filters = new LinkedList<>();
+        Container.Filter filter;
+
+        Set brokerList = (Set) broker_ListSelect.getValue();
+        if (brokerList.size() > 0) {
+            for (Object brokerId : brokerList) {
+                filter = new Compare.Equal("brokerId.id", brokerId);
+                filters.add(filter);
+            }
+
+        return filters;
+}

@@ -1,0 +1,22 @@
+@JvmStatic
+        fun formatPointsTop3(points: Int?): String {
+            if (points == null) return ""
+
+            val formatter = NumberFormat.getInstance(Locale.ITALIAN)
+            val mathContext = MathContext(3, RoundingMode.DOWN)
+
+
+            return when {
+                points < 1000 -> {
+                    "$points"
+                }
+                points < 1000000 -> {
+                    val bigDecimal = BigDecimal(points / 1000.0, mathContext)
+                    "${formatter.format(bigDecimal)}k"
+                }
+                else -> {
+                    val bigDecimal = BigDecimal(points / 1000000.0, mathContext)
+                    "${formatter.format(bigDecimal)}m"
+                }
+            }
+        }

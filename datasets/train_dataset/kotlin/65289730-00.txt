@@ -1,0 +1,9 @@
+private var loadingFlag: Boolean = false
+
+override fun onResume() {
+        super.onResume()
+        if (!loadingFlag) {
+            // do something
+            loadingFlag = true
+        }
+    }

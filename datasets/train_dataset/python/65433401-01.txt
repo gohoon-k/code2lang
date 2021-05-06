@@ -1,0 +1,7 @@
+import re
+user_regex = r"@[a-zA-Z0-9]+"
+message = "I'm tagging @you and @you2 in this message!"
+match = re.findall(user_regex, message)
+if match:
+    await ctx.send("You can not ping everyone")
+    return

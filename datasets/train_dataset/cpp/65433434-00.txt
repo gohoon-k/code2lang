@@ -1,0 +1,25 @@
+void do_stuff(){
+    for(int i=0; i<30; i++){
+        cout << "Doing Stuff.\n";
+        sleep(10);
+    }
+}
+
+void main_loop(){
+    std::vector<std::thread> client_threads;
+    while(1){
+        if(stuff_needs_to_be_done()){
+            client_threads.push_back(std::thread(&do_stuff));
+        }
+
+        // Cleanup threads.
+        auto itr = std::begin(client_threads);
+        while (itr != std::end(client_threads)) {
+            if ((*itr).joinable()){
+                itr = client_threads.erase(itr);
+            }else{
+                ++itr;
+            }
+        }
+    }
+}

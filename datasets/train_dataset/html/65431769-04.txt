@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0- 
+      beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384- 
+       giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <title>Color picker</title>
+  </head>
+  <body>
+    <div class="container d-flex align-items-center justify-content-center">
+      <div>
+        <button id="main_button" class="btn btn-danger">Change color</button>
+      </div>
+      <p id="par"></p> <!-- <== You Need this for render every time color -->
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

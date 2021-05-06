@@ -1,0 +1,5 @@
+public class AOPTest extends BaseTest {
+    @Autowired
+    IBookService iBookService;
+
+}

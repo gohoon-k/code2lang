@@ -1,0 +1,36 @@
+class ap_uint
+{
+  public:
+    unsigned int tmp;
+
+    // constructor
+    ap_uint(){
+        tmp = 0;
+    }
+
+    // slice the bit[b:a]
+    unsigned int range(int b, int a){
+        unsigned tmp1;
+        unsigned tmp2;
+        tmp1 = tmp >> a;
+        tmp2 = (1 << (b-a+1))-1;
+        return tmp1&tmp2;
+    }
+
+    // overloading () with range() function
+    unsigned int operator() (int Hi, int Lo){
+        return this->range(Hi, Lo);
+    }
+
+    // manually set bit[b:a] = rhs
+    void set(int b, int a, unsigned int rhs){
+        unsigned int hi;
+        unsigned int mi;
+        unsigned int lo;
+        hi = (tmp >> (b+1)) << (b+1);
+        lo = (tmp << (32-a)) >> (32-a);
+        mi = rhs << a;
+        tmp = hi | lo | mi;
+    }
+
+};

@@ -1,0 +1,23 @@
+@FragmentScoped
+class ShopLoadAdapter(private val retry: () -> Unit): LoadStateAdapter<ShopLoadAdapter.ShopLoadStateViewHolder>() {
+
+    inner class ShopLoadStateViewHolder(private val binding: ShopLoadStateFooterBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(loadState: LoadState) {
+            with(binding) {
+                shopLoadPb.isVisible = loadState is LoadState.Loading
+                shopLoadMbtnRetry.isVisible = loadState is LoadState.Error
+                shopLoadTvError.isVisible = loadState is LoadState.Error
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: ShopLoadStateViewHolder, loadState: LoadState) = holder.bind(loadState)
+
+    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): ShopLoadStateViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ShopLoadStateFooterBinding.inflate(layoutInflater, parent, false)
+        return ShopLoadStateViewHolder(binding).also {
+            binding.shopLoadMbtnRetry.setOnClickListener { retry.invoke() }
+        }
+    }
+}

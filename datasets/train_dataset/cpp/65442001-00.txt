@@ -1,0 +1,24 @@
+bool validShipCoords(char input_char, int num) {
+    /* Check character from A-J or a-j, and number 
+       less or equal to 14*/
+    return ((input_char >= 65 && input_char <= 75)
+        || (input_char >= 97 && input_char <= 107))
+        && num <= 14;
+}
+
+int main()
+{
+    string shipCoords;
+    cout<<"Enter coordinates" <<endl;
+    getline(cin, shipCoords);
+    string subCoordNum = shipCoords.substr(1); // Get the number
+    int coordnum = std::stoi(subCoordNum); // change to int
+
+    //shipCoords.at(0) is the letter
+    if (validShipCoords(shipCoords.at(0), coordnum)) {
+        cout << shipCoords << " is valid coordinates" << endl;
+    }
+    else {
+        cout << "invalid coordinates" <<endl;
+    }
+}

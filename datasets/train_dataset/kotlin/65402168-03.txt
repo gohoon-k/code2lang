@@ -1,0 +1,62 @@
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
+class LoginResponse: BaseResponse() {
+
+    // Declaring the json data
+    // Start
+    @SerializedName("id")
+    @Expose
+    var id: String? = null
+
+    @SerializedName("token")
+    @Expose
+    var token: String? = null
+
+    @SerializedName("name")
+    @Expose
+    var name: String? = null
+
+    @SerializedName("homeowner")
+    @Expose
+    var homeowner: String? = null
+    // End
+
+    @JvmName("getToken1")
+    fun getToken(): String? {
+        return token
+    }
+
+    @JvmName("setToken1")
+    fun setToken(token: String?) {
+        this.token = token
+    }
+
+    @JvmName("getId1")
+    fun getId(): String? {
+        return id
+    }
+
+    @JvmName("setId1")
+    fun setId(id: String?) {
+        this.id = id
+    }
+
+    @JvmName("getName1")
+    fun getName(): String? {
+        return name
+    }
+
+
+    override fun toString(): String {
+        return if (super.getError() != null && super.getError_Msg() != null) {
+            super.getError() + super.getError_Msg()
+        } else "LoginResponse{" +
+                "id='" + id + '\'' +
+                ", token='" + token + '\'' +
+                ", name=" + name +
+                ", homeowner='" + homeowner + '\'' +
+                '}'
+    }
+
+}

@@ -1,0 +1,40 @@
+    package com.companyname.appname;
+    
+    import android.util.Log;
+    import com.google.android.play.core.assetpacks.AssetPackLocation;
+    import com.google.android.play.core.assetpacks.AssetPackState;
+    import com.google.android.play.core.assetpacks.AssetPackStates;
+    import com.google.android.play.core.tasks.OnCompleteListener;
+    import com.google.android.play.core.tasks.RuntimeExecutionException;
+    import com.google.android.play.core.tasks.Task;
+    
+    import static android.content.ContentValues.TAG;
+    
+    
+    interface AssetPackManager {
+        // I am passing the assetPackName to here with this call:
+        // AssetPackLocation assetPackLocation = AssetPackManager.getPackLocation("SongsNW");
+        public static final String TAG = "LoadAssetPack";
+        public static final String assetPackName = "";
+        // public static final String assetPackName = "SongsNW";
+        public static final AssetPackLocation assetPacklocation = null;
+
+        public static final AssetPackLocation assetPackLocation = getPackLocation(assetPackName);
+
+        public static AssetPackLocation getPackLocation(String assetPackName) {
+            Log.d(TAG, "in AssetPackManager assetPackName:" + assetPackName);
+                    AssetPackLocation assetPackLocation = getPackLocation(assetPackName);
+            Log.d(TAG, "assetPackName:" + assetPackName + " assetPackLocation: " + assetPackLocation );
+            return assetPackLocation;  // null if it isn't complete
+
+        }
+
+        // I need to run the following list, but first I need to understand what I am doing wrong.
+        AssetPackStates cancel (List<String> packNames)
+        Task<AssetPackStates> fetch (List<String> packNames)
+        Task<AssetPackStates> getPackStates (List<String> packNames)
+        void registerListener (AssetPackStateUpdateListener listener)
+        Task<Void> removePack (String packName)
+        Task<Integer> showCellularDataConfirmation (Activity activity)
+        void unregisterListener (AssetPackStateUpdateListener listener)
+    }

@@ -1,0 +1,40 @@
+    class CustomAdapter(var data: List<DataSource>, val clickListener: OnWordItemClickListener):
+RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    {
+        val tv_front: TextView = view.findViewById(R.id.tv_front) as TextView
+        val tv_back: TextView = view.findViewById(R.id.tv_back) as TextView
+        // Define the click listener
+        fun initialize(dataSource: DataSource, action: OnWordItemClickListener)
+        {
+            tv_front.text = dataSource._front
+            tv_back.text = dataSource._back
+
+            itemView.setOnClickListener {
+                action.onItemClick(dataSource, adapterPosition)
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_item, parent, false)
+
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        /*val currentItem = data[position]
+        holder.tv_front.text = currentItem._front
+        holder.tv_back.text = currentItem._back*/
+
+        holder.initialize(data[position], clickListener)
+    }
+
+    override fun getItemCount(): Int = data.size
+}
+
+interface OnWordItemClickListener
+{
+    fun onItemClick(dataSource: DataSource, position: Int)
+}

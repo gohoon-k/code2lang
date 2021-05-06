@@ -1,0 +1,38 @@
+object RetrofitInstance {
+
+private var retrofit: Retrofit? = null
+
+
+
+fun getClient(username: String, password : String): Retrofit {
+
+    val client =  OkHttpClient.Builder()
+        .addInterceptor(BasicAuthInterceptor(username,password))
+        .build()
+
+
+
+    val gson = GsonBuilder().apply {
+        setLenient()
+        registerTypeAdapter(Date::class.java,
+                JsonDeserializer<Date> { json, typeOfT, context ->
+                    if(json.asJsonPrimitive.isNumber) {
+                        Date(json.asJsonPrimitive.asLong * 1000)
+                    } else {
+                        null
+                    }
+                })
+    }.create()
+
+
+    if (retrofit == null)
+        retrofit =  Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+
+    return retrofit as Retrofit
+}
+}

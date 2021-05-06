@@ -1,0 +1,22 @@
+function removeCartItem(event){
+
+    var buttonClicked = event.target;
+    
+     if (buttonClicked) {
+        var current = buttonClicked.parentElement.parentElement;
+        var title = current.querySelectorAll('.cart-item-title')[0].innerText;
+        var cartItems = localStorage.getItem('productsInCart');
+            cartItems = JSON.parse(cartItems)
+
+        if (cartItems) {
+            var itemKeys = Object.keys(cartItems);
+                for (var i = 0; i < itemKeys.length; i++) {
+                    var key = itemKeys[i]
+                    console.log(key)//in this case prints: Jack Daniels 1L, as desired.
+                    if (title === key ) {
+                        localStorage.removeItem(key)
+                    }
+                }
+        }
+    }
+} 

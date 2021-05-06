@@ -1,0 +1,17 @@
+def bestsum(sum, numbers, memo={}):
+    if sum == 0:
+        return []
+    elif sum < 0:
+        return False
+    else:
+        if sum not in memo:
+            shortest_combination = False
+            for number in numbers:
+                remainder = sum - number
+                combination = bestsum(remainder, numbers)
+                if combination != False:
+                    combination.append(number)
+                    if shortest_combination == False or len(combination) < len(shortest_combination):
+                        shortest_combination = combination
+            memo[sum] = shortest_combination
+        return memo[sum]

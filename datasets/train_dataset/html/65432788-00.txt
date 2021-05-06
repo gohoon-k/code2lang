@@ -1,0 +1,30 @@
+    <header class="header">
+        <div class="container-fluid">
+
+<nav class="navbar navbar-expand-lg">
+<div class="col-lg-3 header__menu mobile-menu">
+        <ul>
+            <li class="active"><a href="/">Home</a></li>
+            <li class="active"><a href="/portfolio">Portfolio</a></li>
+        </ul>
+</div>
+<div class="col-lg-6 position-relative">
+        <a class="mx-auto" href="">
+            <img style='width: 300px;' src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Wikipedia_svg_logo.svg/1024px-Wikipedia_svg_logo.svg.png" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+</div>
+<div class="col-lg-3 header__menu mobile-menu">
+        <ul>
+            <li class="active"><a href="/about">About</a></li>
+            <li class="active"><a href="/contact">Contact</a></li>
+        </ul>
+</div>
+</nav>
+            </div>
+            <div id="mobile-menu-wrap"></div>
+        </div>
+    </header>
+

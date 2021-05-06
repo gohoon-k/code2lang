@@ -1,0 +1,26 @@
+class Order(models.Model):
+product = models.ForeignKey(Product, on_delete=models.CASCADE)
+category = models.ForeignKey(Category, on_delete=models.CASCADE)
+brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
+distribute_price = models.IntegerField()
+mrp_price = models.IntegerField(null=True)
+created_at = models.DateTimeField(auto_now_add=True)
+user_give_quantity = models.IntegerField(null=True)
+user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+def __str__(self):
+    return self.product.item_name
+
+
+def available_quantity(self):
+    return self.product.quantity - self.user_give_quantity if all([self.product, 
+           self.product.quantity, self.user, self.user_give_quantity]) else 0
+
+
+def stock_quantity(self):
+    return self.available_quantity() - self.user.user_give_quantity if all([self.user, 
+           self.user.user_give_quantity]) else 0
+
+
+def amount(self):
+    return self.mrp_price * self.user_give_quantity

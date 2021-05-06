@@ -1,0 +1,15 @@
+public void update(String tempid,String name,String sid,int age,String course,String department) throws SQLException {
+    try {
+        int result = 0;
+        s = con.createStatement();
+        result = s.executeUpdate("Update db set Name="+name+", Age="+age+ 
+                ",Course=" +course+ ",Department="+department+", where StudentID="+tempid);
+        if(result > 0) {
+            System.out.println("更新成功");
+        }
+    }catch(Exception e) {
+        e.printStackTrace();
+    }finally {
+        con.close();
+    }
+}

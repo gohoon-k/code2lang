@@ -1,0 +1,87 @@
+template <typename... Range>
+struct zip_view
+    : std::ranges::view_base
+{
+    template <typename V>
+    struct rvalue_view
+    {
+        std::shared_ptr<std::decay_t<V>> view;
+        rvalue_view() = default;
+        rvalue_view(V v): view(new std::decay_t<V>(std::move(v))) {}
+        auto begin() const { return this->view->begin(); }
+        auto end() const { return this->view->end(); }
+    };
+    template <typename T>
+    using element_t = std::conditional_t<
+        std::is_rvalue_reference_v<T>,
+        rvalue_view<T>,
+        T
+        >;
+    using storage_t = std::tuple<element_t<Range>...>;
+    using value_type = std::tuple<std::ranges::range_reference_t<std::remove_reference_t<Range>>...>;
+    using reference = value_type;
+    using difference_type = std::common_type_t<std::ranges::range_difference_t<Range>...>;
+    storage_t ranges;
+    
+    template <typename> struct base;
+    template <std::size_t... I>
+    struct base<std::integer_sequence<std::size_t, I...>>
+    {
+        using value_type = zip_view::value_type;
+        using reference = zip_view::value_type;
+        using pointer = value_type*;
+        using difference_type = std::common_type_t<std::ranges::range_difference_t<Range>...>;
+        using iterator_category = std::common_type_t<std::random_access_iterator_tag,
+                                                     typename std::iterator_traits<std::ranges::iterator_t<Range>>::iterator_category...>;
+
+        using iterators_t = std::tuple<std::ranges::iterator_t<Range>...>;
+        iterators_t iters;
+
+        reference operator*() const { return {*std::get<I>(iters)...}; }
+        reference operator[](difference_type n) const { return {std::get<I>(iters)[n]...}; }
+        void increment() { (++std::get<I>(iters), ...); }
+        void decrement() { (--std::get<I>(iters), ...); }
+        bool equals(base const& other) const {
+            return ((std::get<I>(iters) == std::get<I>(other.iters)) || ...);
+        }
+        void advance(difference_type n){ ((std::get<I>(iters) += n), ...); }
+        
+        base(): iters() {}
+        base(const storage_t& s, auto f): iters(f(std::get<I>(s))...) {}
+    };
+
+    struct iterator
+        : base<std::make_index_sequence<sizeof...(Range)>>
+    {
+        using base<std::make_index_sequence<sizeof...(Range)>>::base;
+        iterator& operator++() { this->increment(); return *this; }
+        iterator  operator++(int) { auto rc(*this); operator++(); return rc; }
+        iterator& operator--() { this->decrement(); return *this; }
+        iterator  operator--(int) { auto rc(*this); operator--(); return rc; }
+        iterator& operator+= (difference_type n) { this->advance(n); return *this; }
+        iterator& operator-= (difference_type n) { this->advance(-n); return *this; }
+        bool      operator== (iterator const& other) const { return this->equals(other); }
+        auto      operator<=> (iterator const& other) const {
+            return std::get<0>(this->iters) <=> std::get<0>(other.iters);
+        }
+        friend iterator operator+ (iterator it, difference_type n) { return it += n; }
+        friend iterator operator+ (difference_type n, iterator it) { return it += n; }
+        friend iterator operator- (iterator it, difference_type n) { return it -= n; }
+        friend difference_type operator- (iterator it0, iterator it1) {
+            return std::get<0>(it0.iters) - std::get<0>(it1.iters);
+        }
+    };
+
+    zip_view(): ranges() {}
+    template <typename... R>
+    zip_view(R&&... ranges): ranges(std::forward<R>(ranges)...) {}
+
+    iterator begin() const { return iterator(ranges, [](auto& r){ return std::ranges::begin(r); }); }
+    iterator end() const { return iterator(ranges, [](auto& r){ return std::ranges::end(r); }); }
+};
+
+auto zip(auto&&... ranges)
+    -> zip_view<decltype(ranges)...>
+{
+    return {std::forward<decltype(ranges)>(ranges)...};
+}

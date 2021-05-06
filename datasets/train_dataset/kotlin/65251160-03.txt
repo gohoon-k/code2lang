@@ -1,0 +1,5 @@
+    private fun generateIv(): ByteArray {
+        val iv = ByteArray(16)
+        SecureRandom().nextBytes(iv)
+        return iv
+    }

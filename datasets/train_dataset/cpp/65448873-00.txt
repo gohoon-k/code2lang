@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+class node
+{
+public:
+    int data;
+    node*next;
+};
+class list
+{
+public:
+    node * head;
+    list()
+    {
+        head=NULL;
+    }
+    void insertfirst(int d)
+    {
+        node * x=new node;
+        x->data=d;
+        x->next=NULL;
+        if(head==NULL)
+            head=x;
+        else
+        {
+            x->next=head;
+            head=x;
+        }
+    }
+    void deletefirst()
+    {
+        if (head==NULL)
+            cout<<"Empty";
+        else
+        {
+            node *b=head;
+            head=b->next;
+            delete b;
+        }
+    }
+    void print()
+    {
+        node *p=head;
+        while (p!=NULL)
+        {
+            cout<<p->data << " ";
+            p=p->next;
+        }
+    }
+   
+};
+int main()
+{
+    list s;
+    s.insertlast(6);
+    s.insertfirst(37);
+    s.deletefirst();
+    s.print();
+}

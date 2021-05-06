@@ -1,0 +1,10 @@
+@Component
+class Seed : CommandLineRunner {
+    @Autowired
+    lateinit var ingester : IngestPostgres
+
+    override fun run(vararg args: String?) {
+        val buffer = BufferedReader(FileReader(File("src/main/resources/ingest.csv")))
+        ingester.ingest(buffer)
+    }
+}

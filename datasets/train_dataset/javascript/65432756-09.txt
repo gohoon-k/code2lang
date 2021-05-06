@@ -1,0 +1,5 @@
+function getUserDataAsync(userId) {
+    return new Promise(function(resolve, reject) {
+        getUserData(userId, resolve, reject);
+    });
+}

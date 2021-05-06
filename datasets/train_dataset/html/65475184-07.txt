@@ -1,0 +1,10 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<table class="table table-bordered" id="RemittanceResult">
+  <thead>
+    <tr>
+      <th class="remInfo" width="50%">Info</th>
+      <th class="remData" width="50%">Data</th>
+    </tr>
+  </thead>
+</table>

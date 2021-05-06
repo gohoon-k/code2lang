@@ -1,0 +1,31 @@
+class Settings {
+    public int a;
+    public String b;
+
+    // 0 arg constructor uses the static defaults via the copy constructor
+    public Settings() {
+        this(Config.defaultSettings);
+    }
+
+    // copy constructor
+    public Settings(Settings other) {
+        // other will be null when creating the default settings
+        if(other == null) return;
+
+        // rest of copy constructor
+    }
+}
+
+class Entry {
+    public String name;
+    public Settings settings = Config.defaultSettings; // use default if not set separately
+}
+
+class Config {
+    public static Settings defaultSettings; // this is static
+    public List<Entry> entries;
+
+    // this is a setter that actually sets the static member
+    public void setDefaultSettings(Settings defaultSettings) {
+        Config.defaultSettings = defaultSettings);
+}

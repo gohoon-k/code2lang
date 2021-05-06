@@ -1,0 +1,19 @@
+def set(self,stone,x,y):
+    s1=[x,y]
+    self.rotations.append(stone)
+    .
+    .
+    .
+    some code
+    .
+    .
+    .
+    else:
+       h = []
+         for j in stone:
+         h.append(self.rotateRight(j[0], j[1]))
+       if h not in self.rotations:
+         h = self.shift(h, s1)
+         return self.set(h,s1[0],s1[1])
+       else:
+         return []

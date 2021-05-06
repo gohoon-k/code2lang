@@ -1,0 +1,147 @@
+{
+  private double hourlyRate;
+  private double hoursWorked;
+
+
+  public PayCalculator()
+  {
+    hourlyRate = 0.0;
+    hoursWorked = 0.0;
+  }
+
+  /**
+   * Two parameter constructor
+   * Add hourlyRate and hoursWorked
+   * @param the hourly rate
+   * @param the hours worked
+   */
+  public PayCalculator(double aHourlyRate, double aHoursWorked)
+  {
+    hourlyRate = aHourlyRate;
+    hoursWorked = aHoursWorked;
+  }
+
+  /**
+   * sets the hourly rate
+   * @return hourlyRate
+   */ 
+  public void setHourlyRate(double aHourlyRate)
+  {
+    hourlyRate = aHourlyRate;
+  }
+
+  /**
+   * gets the hourly rate
+   * @param hourlyRate
+   */
+  public double getHourlyRate()
+  {
+    return hourlyRate;
+  }
+
+  /**
+   * sets the hours worked
+   * @return hoursWorked
+   */ 
+  public void setHoursWorked(double aHoursWorked)
+  {
+    hoursWorked = aHoursWorked;
+  }
+
+  /**
+   * gets the hours worked
+   * @param hours worked
+   */
+  public double getHoursWorked()
+  {
+    return hoursWorked;
+  }
+
+
+
+  public boolean workedOvertime()
+  {
+    if (hoursWorked > 40)
+    {
+      return true;
+    }
+    else 
+    {
+      return false;
+    }
+  }
+
+  public double numHoursOvertime()
+  {
+    if (hoursWorked > 40)
+    {
+      return hoursWorked - 40;
+    }
+    else 
+    {
+      return 0;
+    }
+  }
+
+  public double calculateGrossPay()
+  {
+    if (hourlyRate  <= 10.25)
+    {
+      if (hourlyRate <= 40)
+        return hourlyRate * hoursWorked;
+    }
+    else 
+    {  
+      double grossPay = ((40 * hourlyRate) + ((hourlyRate * 2) * hoursWorked - 40));
+      return grossPay;
+    }
+
+    if (hoursWorked <= 60)
+    {
+      return hourlyRate * hoursWorked;
+    }
+    else
+    {
+      return 60 * hourlyRate;
+    }
+  }
+
+  public double determineTaxRate(double grossPay)
+  {
+    if (grossPay >= 800)
+    {
+      double tax = 0;
+      tax = grossPay * 0.37;
+      return tax;
+    }
+    else if ( grossPay >= 400)
+    {
+      double tax = 0;
+      tax = grossPay * 0.22;
+      return tax;
+    }
+    else
+    {
+      double tax = 0;
+      tax = grossPay * 0.12;
+      return tax;
+    }
+  }
+
+  public double calculateNetPay(double grossPay, double tax)
+  {
+    double calculateNetPay = grossPay - tax;
+    return calculateNetPay;
+  }
+
+  public void printData(double grossPay, double tax)
+  {
+    System.out.println("Hours Worked: " + hoursWorked);
+    System.out.println("Hourly rate: " + hourlyRate);
+    System.out.println("Number of hours of overtime worked: " + numHoursOvertime());
+    System.out.println("Worked overtime? " + workedOvertime());
+    System.out.println("Gross pay: " + calculateGrossPay());
+    System.out.println("Tax Rate: " + determineTaxRate(grossPay));
+    System.out.println("Net Pay: " + calculateNetPay(grossPay, tax));
+  }
+}

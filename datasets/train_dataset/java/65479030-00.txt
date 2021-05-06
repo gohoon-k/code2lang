@@ -1,0 +1,8 @@
+    @Override
+    public void add(Demo demo) throws ApiError {
+     if (!repository.existsByNameAndAge(demo.getName(), demo.getAge())) {
+                throw new ApiError(HttpStatus.BAD_REQUEST, "bad request");
+            }
+            Integer count = newRepository.countByName(cart.getName());
+            newRepository.save(new Demo(demo.getName(), demo.getAge(), demo.getCity(), count));
+   }

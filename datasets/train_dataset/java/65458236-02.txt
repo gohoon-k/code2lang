@@ -1,0 +1,27 @@
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+public class Model {
+  private PropertyChangeSupport support = new PropertyChangeSupport(this);
+  private String                field1  = "";
+
+  public void setField1(String newValue) {
+    String oldValue = this.field1;
+    this.field1 = newValue;
+    support.firePropertyChange("field1", oldValue, newValue);
+  }
+
+  public void addField1Listener(PropertyChangeListener listener) {
+    support.addPropertyChangeListener("field1", listener);
+  }
+
+  public void removeField1Listener(PropertyChangeListener listener) {
+    support.removePropertyChangeListener("field1", listener);
+  }
+
+  public static void main(String[] args) {
+    Model model = new Model();
+    model.addField1Listener(e -> System.out.println("field1 changed to: " + model.field1));
+    model.setField1("new");
+  }
+}

@@ -1,0 +1,18 @@
+for x in range(numberOfNeurons):
+    for y in range(neuronTryNumber):
+        neurons[x] = bestNeurons[x]
+        trainingSample = random.randint(0, (len(images) - 1))  # Choose a random image in the sample file
+        weights[x] = random.uniform(0.75, 1.25)
+        neurons[x] = weights[x] * neurons[x]  # Modify a single neuron
+        if float(arrayOfImages[trainingSample][x]) == 0.0 == float(neurons[x]) * float(arrayOfImages[trainingSample][x]):
+            dataGapArray[y] = 1.0
+        elif float(arrayOfImages[trainingSample][x]) > float(neurons[x]):
+            dataGapArray[y] = float(neurons[y]) / float(arrayOfImages[trainingSample][x])
+        elif float(arrayOfImages[trainingSample][x]) < float(neurons[x]):
+            dataGapArray[y] = float(arrayOfImages[trainingSample][x]) / float(neurons[x])
+        totalScore = (sum(dataGapArray) / numberOfNeurons)
+        # print("Current score:", totalScore)
+        if totalScore > bestScore:
+            print("New Best Score!:", totalScore)
+            bestNeurons[x] = neurons[x]
+            totalScore = bestScore

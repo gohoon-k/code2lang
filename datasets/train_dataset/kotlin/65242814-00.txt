@@ -1,0 +1,4 @@
+private fun swipeDown() {
+  
+    imageOne.isVisible = false. // so this is for swipe 1
+    RecyclerviewAdapter?.notifyDataSetChanged()  // this is for swipe 2

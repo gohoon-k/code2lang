@@ -1,0 +1,24 @@
+function setDescription(eventId) {
+    var curEv = getEventById(eventId);
+
+    var didascalia = document.getElementById("didascalia");
+    didascalia.firstChild.data = curEv.titolo;
+
+    var eventDescription = document.getElementById("eventDescription");
+    if (eventDescription.firstChild) eventDescription.firstChild.data = curEv.descrizione;
+    else eventDescription.appendChild(document.createTextNode(curEv.descrizione));
+
+    var image = document.getElementById("imageEventImmagine");
+    if (image) {
+        if (image.alt === curEv.tipologia) return;
+        image.src = "./resource/img/eventi/" + curEv.tipologia + ".jpg";
+        image.alt = curEv.tipologia;
+    } else {
+        var divImmagine = document.getElementById("divImmagine");
+        var img = document.createElement("img");
+        img.id = "imageEventImmagine";
+        img.src = "./resource/img/eventi/" + curEv.tipologia + ".jpg";
+        img.alt = curEv.tipologia;
+        divImmagine.appendChild(img);
+    }
+}

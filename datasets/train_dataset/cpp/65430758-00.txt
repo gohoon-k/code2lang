@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int numPairsDivisibleBy60(vector<int>& time) {
+        map<int, int> mod_d;
+        
+        for(auto el : time) {
+            if(mod_d.count(el % 60) == 0) {
+                mod_d[el % 60] = 1;
+            }else mod_d[el % 60]++;
+        }
+        
+        int ans = 0, i = 1;
+        //cout << "Size: " << mod_d.size() << "\n";
+        for(auto el : mod_d) {
+            int f = el.first, s = el.second;
+            cout << f << " " << 60 - f << "\n";
+            ans += mod_d[(60 - f) % 60] * (((60 - f) % 60) == f ? s - 1 : s);
+        }
+        
+        return ans / 2;
+    }
+};

@@ -1,0 +1,371 @@
+import android.bluetooth.*
+import android.bluetooth.BluetoothAdapter.LeScanCallback
+import android.content.Context
+import android.os.Build
+import android.os.Handler
+import androidx.annotation.RequiresApi
+import java.util.*
+import kotlin.experimental.and
+
+@Suppress("DEPRECATION")
+class WeightScale(private val context: Context) {
+    var connectState = 0
+    private val handler = Handler()
+    var mScaleDevice: ArrayList<ScaleDevice>? = null
+    var mScanaddr: List<String>? = null
+    private val bluetoothAdapter: BluetoothAdapter?
+    private var device: BluetoothDevice? = null
+    private var bluetoothGatt: BluetoothGatt? = null
+    private val outCharacteristic: BluetoothGattCharacteristic? = null
+    private var ltimes: MutableList<Long?>? = null
+    private var scalevalue = 0f
+    private var scalesumvalue = 0f
+    private var senddate: Byte = 0x00
+    private var isBLEWriteWithResponse = false
+    private var utime: Long? = null
+    var mScanning = false
+    private val scanDevice: ScanDevice = ScanDevice()
+    private var scanupdate = false
+    var ble_item = BLE_item()
+
+    enum class BTN_TYPE {
+        BTN_ZERO, BTN_CALIIB
+    }
+
+    private val task: Runnable = object : Runnable {
+        override fun run() {
+            handler.postDelayed(this, 100)
+            if (scanupdate == true) {
+                if (scanDevice.scanRecord?.let { bytestoAnalysis(it) } == true) {
+                    val scaleDevice = ScaleDevice()
+                    scaleDevice.devicename = scanDevice.devicename
+                    scaleDevice.deviceaddr = scanDevice.deviceaddr
+                    if (scaleDevice.devicename == null) {
+                        scaleDevice.devicename =
+                            "(" + scaleDevice.deviceaddr?.substring(12, 14) + scaleDevice.deviceaddr?.substring(15, 17).toString() + ")"
+                    }
+                    scaleDevice.scalevalue = scalevalue
+                    scaleDevice.sumvalue = scalesumvalue
+                    if (mScaleDevice?.isEmpty() != true) {
+                        for (i in mScaleDevice?.indices!!) {
+                            if (mScaleDevice!![i]?.deviceaddr.equals(scanDevice.deviceaddr) === true) {
+                                mScaleDevice!![i] = scaleDevice
+                                ltimes?.set(i, utime)
+                                break
+                            }
+                            if (i == mScaleDevice!!.size - 1) {
+                                mScaleDevice!!.add(scaleDevice)
+                                ltimes?.add(utime)
+                            }
+                        }
+                    } else {
+                        mScaleDevice!!.add(scaleDevice)
+                        ltimes?.add(utime)
+                    }
+                }
+                scanupdate = false
+            }
+        }
+    }
+
+    fun bluetoothIsEnabled(): Boolean {
+        if (bluetoothAdapter == null) return false
+        return if (!bluetoothAdapter.isEnabled) false else true
+    }
+
+    fun m_ScaleDevice(): ArrayList<ScaleDevice>? {
+        return mScaleDevice
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun scanDevice(enable: Boolean) {
+        if (connectState == 0) {
+            if (Build.VERSION.RELEASE === "4.3") {
+                scan_PERIOD = 200
+            }
+            if (enable) {
+                Handler().postDelayed({
+                    mScanning = false
+                    bluetoothAdapter!!.stopLeScan(mLeScanCallback)
+                }, scan_PERIOD)
+                mScanning = true
+                bluetoothAdapter!!.startLeScan(mLeScanCallback)
+            } else {
+                mScanning = false
+                bluetoothAdapter!!.stopLeScan(mLeScanCallback)
+            }
+        }
+    }
+
+    fun updataDevicelist() {
+        if (mScaleDevice?.isEmpty() == false && connectState == 0) {
+            for (i in mScaleDevice?.indices!!) {
+                if (System.currentTimeMillis() - ltimes?.get(i)!! > 3000) {
+                    mScaleDevice!!.removeAt(i)
+                    ltimes!!.removeAt(i)
+                }
+            }
+        }
+    }
+
+    private val mLeScanCallback = LeScanCallback { device, rssi, scanRecord ->
+        for (i in scanRecord.indices) {
+            if (scanRecord[i] == 15.toByte()) {
+                if (i + 5 < scanRecord.size) {
+                    if (scanRecord[i + 1] == 22.toByte()) {
+                        if (scanRecord[i + 2] == 29.toByte() && scanRecord[i + 3] == 24.toByte()) {
+                            if (scanRecord[i + 4] == (-6).toByte() && scanRecord[i + 5] == (-5).toByte()) {
+                                scanDevice.deviceaddr = device.address
+                                scanDevice.devicename = device.name
+                                scanDevice.scanRecord = scanRecord
+                                utime = System.currentTimeMillis()
+                                scanupdate = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun connectDevice(scaledevice: ScaleDevice, type: BTN_TYPE): Boolean {
+        if (connectState == 0) {
+            connectState = 1
+            bluetoothAdapter!!.stopLeScan(null)
+            device = bluetoothAdapter.getRemoteDevice(scaledevice.deviceaddr)
+            bluetoothGatt = device!!.connectGatt(context, false, mGattCallback)
+            if (bluetoothGatt == null) {
+                connectState = 0
+                return false
+            }
+            for (i in 0..799) {
+                if (connectState == 2) break
+                if (connectState == 0) break
+                try {
+                    Thread.sleep(10)
+                } catch (e: InterruptedException) {
+                }
+            }
+            if (connectState != 2) {
+                close()
+                connectState = 0
+                return false
+            }
+            if (type == BTN_TYPE.BTN_ZERO) senddate = 0xc0.toByte()
+            if (type == BTN_TYPE.BTN_CALIIB) senddate = 0xEC.toByte()
+            for (i in 0..99) {
+                if (ble_item.write_characteristic != null) break
+                try {
+                    Thread.sleep(10)
+                } catch (e: InterruptedException) {
+                }
+            }
+            try {
+                Thread.sleep(500)
+            } catch (e: InterruptedException) {
+            }
+            isBLEWriteWithResponse = false
+            if (write(byteArrayOf(senddate)) == 0) {
+                connectState = 0
+                close()
+                return false
+            }
+            connectState = 0
+            close()
+            return true
+        }
+        return false
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun close() {
+        if (bluetoothGatt == null) {
+            return
+        }
+        try {
+            Thread.sleep(100)
+        } catch (e: InterruptedException) {
+        }
+        ble_item.write_characteristic = null
+        bluetoothGatt!!.disconnect()
+        try {
+            Thread.sleep(100)
+        } catch (e: InterruptedException) {
+        }
+        bluetoothGatt!!.close()
+    }
+
+    private val mGattCallback: BluetoothGattCallback = @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    object : BluetoothGattCallback() {
+        //¼ì²âÁ¬½Ó×´Ì¬±ä»¯
+        @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                gatt.discoverServices()
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                connectState = 0
+            }
+        }
+
+        override fun onServicesDiscovered(gatt: BluetoothGatt, status: Int) {
+            if (status == BluetoothGatt.GATT_SUCCESS) {
+                setServiceUUID(supportedGattServices)
+                connectState = 2
+            }
+        }
+
+        //¼ì²âÓÃ»§ÏòÀ¶ÑÀÐ´Êý¾ÝµÄ×´Ì¬
+        override fun onCharacteristicWrite(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic, status: Int) {
+            isBLEWriteWithResponse = true
+        }
+    }
+
+    val supportedGattServices: List<BluetoothGattService>?
+        @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2) get() = if (bluetoothGatt == null) null else bluetoothGatt!!.services
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun setServiceUUID(services: List<BluetoothGattService>?) {
+        for (service in services!!) {
+            ble_item.addService(service)
+        }
+        for (service in services) {
+            for (characteristic in service.characteristics) {
+                val charaProp = characteristic.properties
+                if (charaProp or BluetoothGattCharacteristic.PROPERTY_READ > 0) {
+                }
+                if (charaProp or BluetoothGattCharacteristic.PROPERTY_NOTIFY > 0) {
+                    setCharacteristicNotification(characteristic, true)
+                }
+                if (charaProp or BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE > 0) {
+                    if (ble_item.write_characteristic_NoRe == null) {
+                        ble_item.write_characteristic_NoRe = characteristic
+                    }
+                }
+                if (charaProp or BluetoothGattCharacteristic.PROPERTY_WRITE > 0) {
+                    if (ble_item.write_characteristic == null) {
+                        ble_item.write_characteristic = characteristic
+                    }
+                }
+            }
+        }
+    }
+
+    inner class BLE_item {
+        var arr_serviceUUID = ArrayList<String>()
+        var arr_services = ArrayList<BluetoothGattService>()
+        var write_characteristic: BluetoothGattCharacteristic? = null
+        var write_characteristic_NoRe: BluetoothGattCharacteristic? = null
+        @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+        fun addService(service: BluetoothGattService) {
+            service.characteristics
+            arr_services.add(service)
+            val str_uuid = service.uuid.toString()
+            arr_serviceUUID.add(str_uuid.substring(4, 8))
+            val list: ArrayList<Any?> = ArrayList<Any?>()
+            for (characteristic in service.characteristics) {
+                var str_c_uuid = characteristic.uuid.toString()
+                str_c_uuid = str_c_uuid.substring(4, 8)
+                list.add(str_c_uuid)
+                if (str_c_uuid.toLowerCase().contains("fff1")) {
+                    setCharacteristicNotification(characteristic, true)
+                }
+                if (str_c_uuid.toLowerCase().contains("fff2")) {
+                    write_characteristic = characteristic
+                }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun setCharacteristicNotification(
+        characteristic: BluetoothGattCharacteristic, enabled: Boolean
+    ) {
+        if (bluetoothAdapter == null || bluetoothGatt == null) {
+            return
+        }
+        bluetoothGatt!!.setCharacteristicNotification(characteristic, enabled)
+        val descriptor = characteristic.getDescriptor(
+            UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
+        )
+        if (descriptor != null) {
+            descriptor.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+            bluetoothGatt!!.writeDescriptor(descriptor)
+        }
+    }
+
+    fun write(b: ByteArray?): Int {
+        if (ble_item.write_characteristic == null) return 0
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            ble_item.write_characteristic!!.value = b
+            return if (writeCharacteristic(ble_item.write_characteristic)) 1 else 0
+        }
+        return 0
+    }
+
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    fun writeCharacteristic(characteristic: BluetoothGattCharacteristic?): Boolean {
+        return if (bluetoothAdapter == null || bluetoothGatt == null) {
+            false
+        } else bluetoothGatt!!.writeCharacteristic(characteristic)
+    }
+
+    private fun bytestoAnalysis(bytes: ByteArray): Boolean {
+        val AnChars = ByteArray(12)
+        var i = 0
+        while (i < bytes.size) {
+            if (bytes[i] == (-6).toByte()) {
+                if (bytes.size - i >= 9 && bytes[i + 1] == (-5).toByte()) {
+                    for (j in 0..11) AnChars[j] = bytes[i + j]
+                    i = bytes.size - 1
+                    break
+                }
+            }
+            if (i == bytes.size - 1) return false
+            i++
+        }
+        val xor8: Byte
+        xor8 = AnChars[11]
+        if (sum8xor(AnChars, 11) == xor8) {
+            scalevalue = ArryToFloat(AnChars, 3)
+            scalesumvalue = ArryToFloat(AnChars, 7)
+        } else return false
+        return true
+    }
+
+    private fun sum8xor(data: ByteArray, len: Int): Byte {
+        var fcs = 0
+        var sc: Int
+        for (i in 0 until len) {
+            sc = (data[i] and 0xff.toByte()).toInt()
+            fcs += sc
+        }
+        fcs = fcs xor 0xFF
+        return fcs.toByte()
+    }
+
+    companion object {
+        private var scan_PERIOD: Long = 10000
+        fun ArryToFloat(Array: ByteArray, Pos: Int): Float {
+            var accum = 0
+            accum = (Array[Pos + 0] and 0xFF.toByte()).toInt()
+            accum = accum or ((Array[Pos + 1] and 0xFF.toByte()).toLong() shl 8).toInt()
+            accum = accum or ((Array[Pos + 2] and 0xFF.toByte()).toLong() shl 16).toInt()
+            accum = accum or ((Array[Pos + 3] and 0xFF.toByte()).toLong() shl 24).toInt()
+            return java.lang.Float.intBitsToFloat(accum)
+        }
+    }
+
+    init {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        mScaleDevice = ArrayList()
+        ltimes = ArrayList()
+        utime = System.currentTimeMillis()
+        handler.post(task)
+    }
+
+    fun stopHandler(){
+        handler.removeCallbacks(task)
+    }
+}

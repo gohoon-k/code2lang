@@ -1,0 +1,11 @@
+a = ["345", "sadas", "324a", "14", "john"]
+tempList = []
+for i in a:
+    try:
+        int(i)
+        tempList.append(i) # if int(i) fails, this line won't be reached
+    except ValueError:
+        pass
+
+a = tempList[:] # we use [:] to copy the list
+print(a)

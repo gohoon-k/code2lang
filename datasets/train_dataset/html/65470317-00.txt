@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>max-width issue</h1>
+        <div class="column column639">
+            <h2>Column 1</h2>
+        </div>
+          
+        <div class="column column640">
+            <h2>Column 2</h2>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us</title>
+    <script>
+        function clickHere() {
+            var name = document.getElementById("textName");
+            var namevalue = name.value;
+            var email = document.getElementById("emailName");
+            var emailvalue = email.value;
+            var subject = document.getElementById("subjectName");
+            var subjectvalue = subject.value;
+            var text = document.getElementById("importantName");
+            var textvalue = text.value;
+            var regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+            var regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            if (namevalue.length == 0) { 
+                alert("Please enter your name");    
+                     return false; 
+                    } 
+                if(!regName.test(namevalue)){
+                    alert('Invalid name given.');
+                return false;   
+                    }
+            if (emailvalue.length == 0) {
+
+                alert ("Please enter your email"); }
+
+                if(!regEmail.test(emailvalue)){
+                    alert("Please enter valid Email ID");
+                        return false;
+                }
+            
+            if (subjectvalue.length == 0) {
+                alert ("Please enter the subject");
+            
+            }
+
+            if (textvalue.length == 0) {
+                alert ("Please enter some text");
+            
+            }
+            if((namevalue.length != 0) && (emailvalue.length != 0) && (subjectvalue.length != 0) && (textvalue.length != 0)) {
+                alert("Thank you for submitting")
+                    return true;
+            }
+        }
+    </script>
+    
+</head>
+<body>
+    <div style="background-color: lightblue; font-size: 25px; text-align: center; border: 4px solid blue;">
+        <p>Contact Us</p>
+    </div>
+    <div style="background-color: lightblue; font-size: 15px; text-align: center; border: 4px solid blue;"> 
+        <p>For any business inquires contact us</p>
+    </div>
+        <div><input type="text" value=" Full Name" id="textName" maxlength="100"/></div>
+        <div><input type="text" value="Email" id="emailName"/></div>
+        <div><input type="text" value="Subject" id="subjectName"/></div>
+        <div><input type="text" value=Text id="importantName" style=”width:500px;height:50px;”></div>
+        <input type="button" value="Click here" onclick="clickHere();"/>
+        
+    </div>
+</body>
+</hmtl>

@@ -1,0 +1,18 @@
+let letVar = 'global';
+var varVar = 'global';
+
+function foo () {
+  
+  if (true) {
+    // this variable declared with let is scoped to the if block, block scoped
+    let letVar = 5;
+    // this variable declared with let is scoped to the function block, function scoped
+    var varVar = 10;
+  }
+  
+  console.log(letVar);
+  console.log(varVar);
+}
+
+
+foo();

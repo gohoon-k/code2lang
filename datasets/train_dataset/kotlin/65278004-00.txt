@@ -1,0 +1,43 @@
+package com.example.rxjava
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.*
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val compositeDisposable = CompositeDisposable()
+        compositeDisposable.add(
+            ServiceBuilder.buildService().getDataList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({response ->
+                    onResponse(response)
+                },{t ->
+                    onFailure(t)
+                })
+        )
+    }
+
+    private fun onFailure(t: Throwable) {
+        runOnUiThread {
+            Toast.makeText(applicationContext, "Failure", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun onResponse(response: DataListModel) {
+//        Log.e("TAG: ", response.items)
+        val SIZE = response.items?.size
+        for(i in 0..SIZE!! - 1) {
+            Log.e("TAG: ", response.items[i].id.toString())
+        }
+    }
+}

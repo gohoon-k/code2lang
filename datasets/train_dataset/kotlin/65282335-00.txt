@@ -1,0 +1,12 @@
+
+fun String.isValidInt(): Boolean {
+    var isInt: Boolean = false
+    try {
+        if (this.toInt().toString() == this) {
+            isInt = true
+        } 
+    } catch (e: NumberFormatException) {
+        isInt = false
+    }
+    return isInt
+}

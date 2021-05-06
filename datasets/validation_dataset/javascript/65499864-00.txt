@@ -1,0 +1,16 @@
+// index.js
+(async () => {
+    if (!ResizeObserver in window) {
+        const module = await import('resize-observer-polyfill');
+        window.ResizeObserver = module.ResizeObserver
+    }
+}();
+
+// main function exported
+export default () => {
+    function loadResizeObserver() {
+        const ro = new ResizeObserver((entries) => {
+            // ...
+        })
+    }
+}

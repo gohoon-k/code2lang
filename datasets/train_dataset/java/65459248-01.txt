@@ -1,0 +1,7 @@
+@Override
+public ParentDto create(ParentDto parentDto) {
+    if (repository.existsById(parentDto.getId())){
+        throw new ParentWithIdAlreadyExistsException(parentDto.getId());
+    }
+    return mapper.toDto(repository.save(mapper.toDomain(parentDto)));
+}

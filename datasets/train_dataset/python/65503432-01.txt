@@ -1,0 +1,30 @@
+# Third-party libraries
+from flask import Flask, redirect, request, url_for, Blueprint, render_template, abort
+from flask_login import (
+    LoginManager,
+    current_user,
+    login_required,
+    login_user,
+    logout_user
+)
+from oauthlib.oauth2 import WebApplicationClient
+import requests
+from flask_cors import CORS
+
+login_page = Blueprint('login_page', __name__)
+CORS(login_page)
+
+# Login route
+@login_page.route('/login', methods=['GET'])
+def login():
+    # Find out what URL to hit for Google login
+    google_provider_config = get_google_provider_config()
+    authorization_endpoint = google_provider_config["authorization_endpoint"]
+    # Use library to construct the request for Google login and provide
+    # scopes that let you retrieve user's profile from Google
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri = request.base_url + "/callback",
+        scope = ["openid", "email", "profile"]
+    )
+    return redirect(request_uri)

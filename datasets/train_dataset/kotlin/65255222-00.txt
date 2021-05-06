@@ -1,0 +1,42 @@
+class recycleViewadapter(internal var context: Context, var itemList:MutableList<img_db?>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    val global=globalWrapper()
+    lateinit var adapterpager:viewPageradapter
+    var swipePageradapter=HashMap<Int,ViewPager>()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view=LayoutInflater.from(parent.context).inflate(R.layout.memo_main_sub_row,parent,false)
+        return view
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+            val item=itemList[position]
+            if (swipePageradapter.containsKey(position)) {
+            }else{
+                swipePageradapter[position]=holder.viewPager
+                //global.splitRegex = My function to split string
+                val img=global.splitRegex(item!!.fl.toString(),"\|")
+                adapterpager= viewPageradapter(context,img)
+                swipePageradapter[position]!!.adapter=adapterpager
+                swipePageradapter[position]!!.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
+                    override fun onPageScrolled(pst: Int,positionOffset: Float,positionOffsetPixels: Int) {
+    
+                    }
+                    override fun onPageSelected(pst: Int) {
+                        Log.d("CHECK","Row position ${position} and page selected=${pst}")
+                    }
+                    override fun onPageScrollStateChanged(state: Int) {
+    
+                    }
+    
+                })
+
+            }
+    }
+
+    override fun getItemCount(): Int {
+        return itemList.size
+    }
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+    
+        super.onViewRecycled(holder)
+    }
+}

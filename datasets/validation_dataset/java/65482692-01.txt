@@ -1,0 +1,103 @@
+package com.example.weatherapp2;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+// New class to store weather data
+public class weatherData {
+
+private String mTemperature, mIcon, mCity, mWeatherType, mHumid, mPressure, mWSpeed;
+private int mCondition;
+
+public static weatherData fromJson(JSONObject jsonObject) {
+    try {
+        weatherData weatherD = new weatherData();
+        // Gets the city name
+        weatherD.mCity = jsonObject.getString("name");
+
+        // Gets the weather condition
+        weatherD.mCondition = jsonObject.getJSONArray("weather")
+                .getJSONObject(0).getInt("id");
+
+        // Gets the weather type
+        weatherD.mWeatherType = jsonObject.getJSONArray("weather")
+                .getJSONObject(0).getString("main");
+
+        // Updates the icon
+        weatherD.mIcon = updateWeatherIcon(weatherD.mCondition);
+
+        // Gets the temperature and converts it to degrees C from Kelvin(-273)
+        double tempResult = jsonObject.getJSONObject("main").getDouble("temp") - 273.15;
+        // Round temp to nearest whole number
+        int round = (int) Math.rint(tempResult);
+        weatherD.mTemperature = Integer.toString(round);
+
+        double hum = jsonObject.getJSONObject("main").getDouble("humidity");
+        weatherD.mHumid = Double.toString(hum);
+
+        double pre = jsonObject.getJSONObject("main").getDouble("pressure");
+        weatherD.mPressure = Double.toString(pre);
+
+        double ws = jsonObject.getJSONObject("wind").getDouble("speed");
+        weatherD.mWSpeed = Double.toString(ws);
+        return weatherD;
+    } catch (JSONException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+
+private static String updateWeatherIcon(int condition) {
+    if (condition >= 0 && condition <= 299) {
+        return "thunder";
+    } else if (condition >= 300 && condition <= 499) {
+        return "rain";
+    } else if (condition >= 500 && condition <= 599) {
+        return "heavyrain";
+    } else if (condition >= 600 && condition <= 700) {
+        return "snow";
+    } else if (condition >= 701 && condition <= 799) {
+        return "cloud";
+    } else if (condition >= 800) {
+        return "sun";
+    } else if (condition >= 801 && condition <= 804) {
+        return "cloudsun";
+    } else if (condition >= 900 && condition <= 902) {
+        return "thunder";
+    } else if (condition == 903) {
+        return "snow";
+    } else if (condition == 904) {
+        return "sun";
+    } else if (condition >= 905 && condition <= 1000) {
+        return "thunder";
+    }
+    return "";
+}
+
+public String getTemperature() {
+    return mTemperature + "°C";
+}
+
+public String getIcon() {
+    return mIcon;
+}
+
+public String getCity() {
+    return mCity;
+}
+
+public String getWeatherType() {
+    return mWeatherType;
+}
+
+public String getHumid() {
+    return mHumid + "%";
+}
+
+public String getPressure() {
+    return mPressure + "hPa";
+}
+
+public String getWSpeed() {
+    return mWSpeed + "mph";
+}
+}

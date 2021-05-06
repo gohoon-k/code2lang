@@ -1,0 +1,36 @@
+@Data
+@MappedSuperclass
+public abstract class AbstractEntity implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private boolean isRemoved;
+}
+
+@Data
+@Entity
+@NamedQueries({
+        @NamedQuery(name = "Bike.findRent", query = "SELECT b FROM Bike b WHERE NOT b.isRemoved AND b.isRent")
+})
+public class Bike extends AbstractEntity {
+
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private boolean isRent;
+}
+
+@Repository
+public class BikeDao extends BaseDao<Bike> {
+
+    public BikeDao() {
+        super(Bike.class);
+    }
+
+    public List<Bike> findRent() {
+        return em.createNamedQuery("Bike.findRent", Bike.class).getResultList();
+    }
+}

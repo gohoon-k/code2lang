@@ -1,0 +1,9 @@
+  async function saveUsers(){
+     try{
+        let users = await getUsers()
+        saveSomewhere(users);
+     }
+     catch(err){
+        console.error(err);
+     }
+  }

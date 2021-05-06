@@ -1,0 +1,39 @@
+const CAT1 = ["main dish", "combo", "meal", "pasta", "pizza"];
+const CAT2 = ["sandwiches", "burgers"];
+const CAT3 = ['appetizers','salad','soup','frozen','healthy','catering', 'undefined'];
+
+function belongToCategory(dishCategory, categoryArray){
+    categoryArray.forEach(cat => {
+        if(cat.localeCompare(dishCategory.toLowerCase()) === 0)
+            console.log(`DISH ${dishCategory.toLowerCase()} BELONGS TO A CERTAIN CATEGORY ${cat}`) //dishes are being checked properly
+            return true
+    })
+    return false
+}
+
+export const categorySort = (dishArray) => {
+    let cat1Array = dishArray.filter(dish => belongToCategory(dish.category, CAT1)); 
+    let cat2Array = dishArray.filter(dish => belongToCategory(dish.category, CAT2)); 
+    let cat3Array = dishArray.filter(dish => belongToCategory(dish.category, CAT3)); 
+
+    //debuggining: 
+    console.log('array1');
+    console.log(cat1Array);
+    console.log('array2');
+    console.log(cat2Array);
+    console.log('array3');
+    console.log(cat3Array);
+    //all of the above arrays are empty
+    
+    return [...cat1Array, ...cat2Array, ...cat3Array];
+}
+
+//example of dishArray:
+dishArray = [
+  {name: 'Hummus', category: 'Appetizers'}, 
+  {name: 'Mansaf', category: 'Main Dish'}, 
+  {name: 'Cheese Burger', category: 'Burgers'}, 
+  {name: 'Fattoush', category: 'Salad'}, 
+  {name: 'Pepperoni Pizza', category: 'Pizza'}, 
+  {name: 'Shawarma', category: 'Sandwiches'}, 
+]

@@ -1,0 +1,23 @@
+#include <iostream>
+#pragma once
+#ifndef INTEGER_H
+#define INTEGER_H
+#define size 4
+using namespace std;
+
+class Integer {
+    friend istream& operator>>(istream& inp, Integer& obj); // >> operator overloading
+private:
+    int r, i;
+    int ptr[size];
+
+public:
+    //Integer(); //default constructor
+    Integer();
+    Integer(int*);
+    ~Integer(); //destructor
+
+    int& operator[](int index);  //[] operator overloading
+};
+#endif // !INTEGER_H
+

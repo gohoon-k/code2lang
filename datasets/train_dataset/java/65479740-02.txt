@@ -1,0 +1,67 @@
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.Ordered;
+import org.springframework.util.StringUtils;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+
+
+public class GlobalMethodHandlerExeptionResolver
+             implements HandlerExceptionResolver, Ordered {
+
+    @Override
+    public int getOrder() {
+        return -1; //
+    }
+
+    private ExceptionHandlerExceptionResolver realExceptionResolver;
+
+    private List<GlobalMethodExceptionResolverContainer> containers;
+
+    @Autowired
+    public GlobalMethodHandlerExeptionResolver(
+            ExceptionHandlerExceptionResolver realExceptionResolver,
+            List<GlobalMethodExceptionResolverContainer> containers) {
+        this.realExceptionResolver = realExceptionResolver;
+        this.containers = containers;
+    }
+
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request,
+                                         HttpServletResponse response,
+                                         Object handler,
+                                         Exception ex) {              
+        for (GlobalMethodExceptionResolverContainer container : this.containers) {    
+            ModelAndView result = this.realExceptionResolver.resolveException(
+                    request,
+                    response,
+                    handlerMethodPointingGlobalExceptionContainerBean(container),
+                    ex);
+            if (result != null)
+                return result;
+        }
+        // we feel not responsible
+        return null;
+    }
+
+
+    protected HandlerMethod handlerMethodPointingGlobalExceptionContainerBean(
+                               GlobalMethodExceptionResolverContainer container) {
+        try {
+            return new HandlerMethod(container,
+                                     GlobalMethodExceptionResolverContainer.class.
+                                          getMethod("fakeHanderMethod"));            
+        } catch (NoSuchMethodException | SecurityException e) {
+            throw new RuntimeException(e);
+        }            
+    }
+}

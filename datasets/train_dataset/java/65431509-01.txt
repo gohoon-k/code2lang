@@ -1,0 +1,17 @@
+public static void main(String[] args) {
+    String s = "phone";
+    char[] arr = neighbour(s, 'o');
+    System.out.println("previous : "+arr[0]);
+    System.out.println("next : "+arr[1]);
+}
+
+public static char[] neighbour(String s , char c){
+    int index = s.indexOf(c);
+    if(index == -1) throw new Error("character '"+c+"' not exist in \""+s+"\" ");
+    char[] arr = new char[2];
+    if(index > 0)
+        arr[0] = s.charAt(index-1);
+    if(index+1 < s.length())
+        arr[1] = s.charAt(index+1);
+    return arr;
+}

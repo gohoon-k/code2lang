@@ -1,0 +1,10 @@
+async function doSomethingWith(theArray) {
+    const results = [];
+    for (const entry of theArray) {
+        results.push(await doSomethingAsync(entry));
+    }
+    return results;
+}
+doSomethingWith(theArray).then(results => {
+    console.log("Results:", results);
+});

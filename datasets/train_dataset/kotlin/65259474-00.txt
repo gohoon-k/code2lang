@@ -1,0 +1,30 @@
+     companion object {
+          private const val SAVED_All_PLACES_LIVEDATA_KEY = "savedAllPlacesLiveDataKey"
+     }
+
+     private val repository: PlacesRepository = PlacesRepository(this)
+
+     private var allPlacesList: MutableList<Place> = mutableListOf()
+     var allPlacesLiveData: MutableLiveData<MutableList<Place>> = savedStateHandle.getLiveData<MutableList<Place>>(SAVED_All_PLACES_LIVEDATA_KEY)
+
+     fun getAllPlacesFromRepository(...)
+          repository.getAllPlaces(...) //when successfully gets the data then call the viewmodel's addAllPlacesLiveData function
+     }
+
+     fun addAllPlacesLiveData(sites: List<Site>) {
+          allPlacesList.clear()
+          val places = mutableListOf<Place>()
+          for(i in 0..9) {
+               val site = sites[i]
+               val distance = site.distance / 1000
+               val place = Place(site.name, site.formatAddress, distance)
+               places.add(place)
+          }
+          places.sortBy {
+               it.distance
+          }
+          allPlacesList.addAll(places)
+          allPlacesLiveData.value = allPlacesList
+     
+     }
+}

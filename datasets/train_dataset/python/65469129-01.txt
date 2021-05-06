@@ -1,0 +1,30 @@
+def bestsum(sum, numbers, memo={}):
+    if sum == 0:
+        return []
+    elif sum < 0:
+        return False
+    else:
+        if sum not in memo:
+            for number in numbers:
+                remainder = sum - number
+                shortest_combination = bestsum(remainder, numbers, memo)
+                if shortest_combination != False:
+                    # Good news! We found a valid path from `sum` to the end
+                    if (
+                        sum not in memo
+                        or len(memo[sum]) > len(shortest_combination) + 1
+                    ):
+                        # Either there's no entry in memo for `sum` yet
+                        # Or we've found a better subpath than the current one
+                        currently_best_combination = shortest_combination.copy()
+                        currently_best_combination.insert(0, number)
+                        memo[sum] = currently_best_combination
+            if sum in memo:
+                # Return value if we've found a valid path 
+                return memo[sum]
+            else:
+                # Return false if not
+                return False
+        else:
+            # If sum is already in `memo`, it's already the optimal way
+            return memo[sum]

@@ -1,0 +1,23 @@
+(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+    data.fields = options.fields || 'number,short_description,priority,sys_created_on';
+    data.items = getRecentIncidents();
+    
+
+    function getRecentIncidents()
+    {
+        var items = [];
+        var incidentGR = new GlideRecordSecure('x_455525_healthcar_test_table');
+        //incidentGR.setLimit(5);
+        incidentGR.orderByDesc('sys_created_on');
+        incidentGR.query();
+        while(incidentGR.next())
+            {
+                var obj ={};
+                $sp.getRecordElements(obj, incidentGR, data.fields);
+                items.push(obj);
+            }
+            return items;
+    }
+})();

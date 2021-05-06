@@ -1,0 +1,5 @@
+fun Dialog.safeShow(activity: Activity) = activity.runOnUiThread {
+  if (!activity.isFinishing and !this.isShowing and !activity.isDestroyed) {
+    show()
+  }
+}

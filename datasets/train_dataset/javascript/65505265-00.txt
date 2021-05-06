@@ -1,0 +1,19 @@
+function writeToPdf(htmlpath, pdfpath) {
+         const writeStream = fs.createWriteStream(pdfpath);
+         const options = { format: "Letter" };
+         const html = fs.readFileSync(htmlpath, "utf8");
+         return new Promise(function (resolve, reject) {
+                pdf.create(html, options).toStream(function (err, stream) {
+                stream.pipe(writeStream);
+         });
+         writeStream.on("error", function (err) {
+          console.log(err);
+          reject(err);
+         });
+         resolve({});
+       });
+  }
+
+let htmlpath = 'input.html';
+let outpath = 'output.pdf';
+writeToPdf(htmlpath, outpath)

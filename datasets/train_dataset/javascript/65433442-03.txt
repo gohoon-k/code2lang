@@ -1,0 +1,18 @@
+const selectedPlace = 22;
+
+const div = document.getElementById('p' + selectedPlace);
+
+let imgSrc;
+for (let el of div.children) {
+  if (el.tagName == 'IMG') {
+    for (let attr of el.attributes) {
+      if (attr.name == 'src') {
+        imgSrc = attr.value;
+        break;
+      }
+    }
+    break;
+  }
+}
+
+console.log(imgSrc);

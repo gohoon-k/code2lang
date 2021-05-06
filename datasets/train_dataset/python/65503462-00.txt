@@ -1,0 +1,56 @@
+@process_bp.route("/getListCSV")
+def get_list_csv():
+
+    companies_flask_list = db.session.query(Companies, LeadsStatus).join(LeadsStatus,
+                                                                         Companies.id == LeadsStatus.company_id)
+
+    industry_sele = "All"
+    country_sele = "UK"
+    size_sele = "All"
+
+    filters = {'open': True, 'assign': True, 'closed': True}
+
+    status_list = ['open', 'allocated', 'converted', 'not converted']
+
+    if 'industry' in request.form:
+        industry_sele = request.form['industry']
+        country_sele = request.form['country']
+        size_sele = request.form['size']
+
+        if not request.form.get('open'):
+            filters['open'] = False
+            if 'open' in status_list:
+                status_list.remove('open')
+        if not request.form.get('assign'):
+            filters['assign'] = False
+            if 'allocated' in status_list:
+                status_list.remove('allocated')
+        if not request.form.get('closed'):
+            filters['closed'] = False
+            if 'converted' in status_list:
+                status_list.remove('converted')
+            if 'not converted' in status_list:
+                status_list.remove('not converted')
+
+    if 'industry' in request.args:
+        industry_sele = request.args.get('industry')
+        country_sele = request.args.get('country')
+        size_sele = request.args.get('size')
+
+        if request.args.get('open') == 'False':
+            filters['open'] = False
+            if 'open' in status_list:
+                status_list.remove('open')
+
+        if request.args.get('assign') == 'False':
+            filters['assign'] = False
+
+            if 'allocated' in status_list:
+                status_list.remove('allocated')
+
+        if request.args.get('closed') == 'False':
+            filters['closed'] = False
+            if 'converted' in status_list:
+                status_list.remove('converted')
+            if 'not converted' in status_list:
+                status_list.remove('not converted')

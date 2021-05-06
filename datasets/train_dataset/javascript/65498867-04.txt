@@ -1,0 +1,40 @@
+var cr_data = [{
+    timestamp: "2020-12-29T11:45:57-08:00",
+    data: ["a", "b", "c"],
+    local: false,
+    source: true,
+    x_obj: ["5a9b320a-c720-44d1-8f27-288533510f1f"],
+    y_obj: "5e89a36f-de39-4552-af2b-8dd73feed692"
+  },
+  {
+    timestamp: "2020-11-29T11:45:57-08:00",
+    data: ["a", "b", "c"],
+    local: true,
+    source: false,
+    x_obj: [
+      "6a9b320a-c720-44d1-8f27-288533510f1f",
+      "7a9b320a-c720-44d1-8f27-288533510f1f"
+    ],
+    y_obj: "6e89a36f-de39-4552-af2b-8dd73feed692"
+  }
+];
+
+var filter_obj = {
+  local: true,
+  x_obj: [
+    "6a9b320a-c720-44d1-8f27-288533510f1f",
+    "7a9b320a-c720-44d1-8f27-288533510f1f"
+  ],
+  y_obj: "6e89a36f-de39-4552-af2b-8dd73feed692"
+};
+
+var data = _.filter(cr_data, filter_obj).map(function(el) {
+  return {
+    timestamp: el.timestamp,
+    data: el.data,
+    local: el.local,
+    source: el.source
+  }
+});
+
+console.log(data);

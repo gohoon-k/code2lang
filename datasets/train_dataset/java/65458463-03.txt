@@ -1,0 +1,21 @@
+ protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_first_page);
+
+    Click = findViewById(R.id.click);
+    Text = findViewById(R.id.text);
+   
+    Click.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            try {
+                 number = Integer.parseInt(Text.getText().toString());
+            } catch (NumberFormatException e){
+                 number = 2; 
+            }
+            Intent ii= new Intent(FirstPage.this, MainActivity.class);
+            ii.putExtra("value", number);
+            startActivity(ii);
+        }
+    });
+}

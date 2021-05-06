@@ -1,0 +1,17 @@
+val fragments:ArrayList<Fragment> = arrayListOf(
+        Fragment_Onboarding_page1(),
+        Fragment_Onboarding_page2(),
+        Fragment_Onboarding_page3(),
+        Fragment_Onboarding_page4(),
+        Fragment_Onboarding_page5(),
+        Fragment_Onboarding_page6(),
+        Fragment_page6_be_yourself()
+)
+
+override fun getItemCount(): Int {
+    return fragments.size
+}
+
+override fun createFragment(position: Int): Fragment {
+    return fragments[position]
+}

@@ -1,0 +1,13 @@
+template<typename T>
+concept Int = requires(T t){
+    ????????
+};
+
+template<typename T>
+auto operation(T t1, T t2)
+{
+    if constexpr(!Int<T>)
+        return t1 * t2;
+    else
+        return t1 + t2;
+}

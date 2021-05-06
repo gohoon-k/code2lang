@@ -1,0 +1,9 @@
+import string
+
+def lower(text):
+    lookup = str.maketrans(string.ascii_uppercase, string.ascii_lowercase)
+    return text.translate(lookup)
+
+text = lower("Hello, World!")
+
+print(text)

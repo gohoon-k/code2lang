@@ -1,0 +1,16 @@
+public class TestEngine implements ActionListener {
+/*
+     * Check the source of the event, and handle the event accordingly
+     * Possible sources are the answerList Combo box or the Next Button
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == View.answerList) {
+          ...
+        }
+        if (e.getSource() == View.buttonNext ) {
+            ...
+        }
+     
+}

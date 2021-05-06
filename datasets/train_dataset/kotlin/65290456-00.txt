@@ -1,0 +1,26 @@
+abstract class BitmapContainer(
+val res: Resources,
+val downScale: Float,
+val onInitializationCompletedListener: (() -> Unit)? = null) {
+protected fun createBitmap(
+    @DrawableRes resId: Int,
+    useFilter: Boolean = false
+): Bitmap {
+    BitmapFactory.decodeResource(res, resId).also {
+        return Bitmap.createScaledBitmap(
+            it,
+            (it.width / downScale * Screen.ratioX).toInt(),
+            (it.height / downScale * Screen.ratioY).toInt(),
+            useFilter
+        )
+    }
+}
+
+protected fun createBitmapList(
+    resIds: List<Int>,
+    useFilter: Boolean = false
+): List<Bitmap> = ArrayList<Bitmap>().apply {
+    resIds.forEach {
+        this.add(createBitmap(it, useFilter))
+    }
+}

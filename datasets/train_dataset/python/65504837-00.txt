@@ -1,0 +1,23 @@
+    from win32 import win32gui
+
+    def enum_cb(hwnd, results):
+       # CallBack function for enumeration
+       winlist.append((hwnd, win32gui.GetWindowText(hwnd)))
+    def get_screens():
+        win32gui.EnumWindows(enum_cb, winlist)
+        return [(hwnd, title) for hwnd, title in winlist if title]
+    def get_screensbyname(screen_name):
+       # Function who gets a screen by name
+       winlist = get_screens()
+       screens = [(hwnd, title) for hwnd, title in winlist if screen_name in title.lower()]
+       while len(screens) <= 0:
+           winlist = get_screens()
+           screens = [(hwnd, title) for hwnd, title in winlist if screen_name in title.lower()]
+       return screens
+    winlist = []
+    windows = get_screensbyname('firefox')
+    window = windows[0][0]
+    wRect = win32gui.GetWindowRect(window)
+    cRect = win32gui.GetClientRect(window)
+    print('GetWindowRect ', wRect)
+    print('GetCLientRect ', cRect)

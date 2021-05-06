@@ -1,0 +1,25 @@
+class AuthInterceptor(private val context: Context) : Interceptor {
+
+override fun intercept(chain: Interceptor.Chain): Response {
+    var token: String? = null
+    runBlocking {
+        token = context.getSharedPreferences("Authenticate", Context.MODE_PRIVATE)
+            .getString("Authenticate", "")
+    }
+
+    val newRequest = chain.request().newBuilder()
+        .header("Authorization", "Bearer $token")
+        .header("Cache-Control", "no-cache")
+        .header("Accept-Encoding", "gzip, deflate")
+        .build()
+
+    val response = chain.proceed(newRequest)
+
+    if (response.code in 401..504) {
+        //obtain additional data from response
+        println("intercept ${response.code} code")
+        println("intercept message: " + response.message)
+        println("intercept Body: " + response.body)
+    }
+    return response
+}

@@ -1,0 +1,357 @@
+public class Controller {
+private final AmphipolisFrame view;
+private final Board boardModel;
+private Player activePlayer; // the player who's playing this turn
+private String tileAreaUsedAtBeginningOfTurn; // the tile area that the player took tiles from at the beginning of the turn
+private boolean canDraw = true;
+private int remainingTilesThisRound = 2; // keeps track of how many tiles the player can draw each round
+private final ArrayList<Player> players = new ArrayList<>(4);
+
+/**
+ * Constructor for the Controller class.
+ * @param view A JFrame subclass containing the final GUI of the game.
+ * @param boardModel A Model class representing the Board of the game and its functionalities.
+ * Precondition: view is a subclass of JFrame & exposes all necessary view components to the Controller & boardModel
+ *                   is a model class that exposes all necessary functionality of the game's board to the Controller..
+ * Postcondition: A Controller object is created which coordinates everything needed for the uninterrupted flow of a game lot.
+ */
+public Controller(AmphipolisFrame view, Board boardModel) {
+    this.view = view;
+    this.boardModel = boardModel;
+
+    // set draw and end turn button listeners
+    view.getInfoPanel().getDrawBtn().addActionListener(new DrawTileListener());
+    view.getInfoPanel().getEndTurnBtn().addActionListener(new EndTurnListener());
+
+    // set mouse listeners for each tile in each area
+    for(TileLabel tl:view.getBoard().getAmphoraArea().getTileLabels()) {
+        tl.addMouseListener(new TakeTileFromAreaListener(tl));
+    }
+    for(TileLabel tl:view.getBoard().getMosaicArea().getTileLabels()) {
+        tl.addMouseListener(new TakeTileFromAreaListener(tl));
+    }
+    for(TileLabel tl:view.getBoard().getSkeletonArea().getTileLabels()) {
+        tl.addMouseListener(new TakeTileFromAreaListener(tl));
+    }
+    for(TileLabel tl:view.getBoard().getStatueArea().getTileLabels()) {
+        tl.addMouseListener(new TakeTileFromAreaListener(tl));
+    }
+
+    // set mouse listeners for each card
+    view.getInfoPanel().getArchaeologistCard().addMouseListener(new PlayCardListener("Archaeologist"));
+    view.getInfoPanel().getAssistantCard().addMouseListener(new PlayCardListener("Assistant"));
+    view.getInfoPanel().getDiggerCard().addMouseListener(new PlayCardListener("Digger"));
+    view.getInfoPanel().getProfessorCard().addMouseListener(new PlayCardListener("Professor"));
+
+
+    Player p1 = new Player("Player 1", Color.RED);
+    Player p2 = new Player("Player 2", Color.GREEN);
+    Player p3 = new Player("Player 3", Color.BLUE);
+    Player p4 = new Player("Player 4", Color.YELLOW);
+    players.add(p1);
+    players.add(p2);
+    players.add(p3);
+    players.add(p4);
+    boardModel.initializeBoard(players);
+    startGame();
+
+    // set the active player to be the first player and init UI
+    activePlayer = players.get(0);
+    setPlayerInfo(players.get(0));
+}
+
+/**
+ * Called when the Draw button is clicked the first time each round.
+ * Responsible for drawing tiles from the bag, giving them to the player
+ * and placing landslide tiles on the board.
+ */
+private void drawTilesFromBag() {
+    boardModel.draw();
+    updateTileCounts();
+}
+
+/**
+ * Updates the view's tile count of each tile in every area based on the model.
+ */
+private void updateTileCounts() {
+    Arrays.stream(view.getBoard().getAmphoraArea().getTileLabels()).forEach(tileLabel ->
+            tileLabel.setText(("x"+boardModel.getAmphoraTilesArea().getAmphoraCountOfColor(((AmphoraLabel) tileLabel).getColor()))));
+    Arrays.stream(view.getBoard().getMosaicArea().getTileLabels()).forEach(tileLabel ->
+            tileLabel.setText(("x"+boardModel.getMosaicTilesArea().getMosaicCountOfColor(((MosaicLabel) tileLabel).getColor()))));
+    Arrays.stream(view.getBoard().getStatueArea().getTileLabels()).forEach(tileLabel ->
+            tileLabel.setText(("x"+boardModel.getStatueTilesArea().getStatueCountOfCategory(((StatueLabel) tileLabel).getType()))));
+    Arrays.stream(view.getBoard().getSkeletonArea().getTileLabels()).forEach(tileLabel ->
+            tileLabel.setText(("x"+boardModel.getSkeletonTilesArea()
+                    .getSkeletonCountOfCategoryAndPart(((SkeletonLabel) tileLabel).getType(),((SkeletonLabel) tileLabel).getPart()))));
+    Arrays.stream(view.getBoard().getLandslideArea().getTileLabels()).forEach(tileLabel ->
+            tileLabel.setText(("x"+boardModel.getLandSlideTileArea().getLandslideCount())));
+}
+
+/**
+ * Called when the End Turn button is clicked. Responsible
+ * for handling end of turn events, such as swapping player info and
+ * starting the next player's turn.
+ */
+private void endTurn() {}
+
+/**
+ * This method is responsible for showing the GUI of the game
+ * so that the game can begin.
+ */
+public void startGame() {
+    view.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    view.setResizable(false);
+    view.pack();
+    view.setVisible(true);
+}
+
+/**
+ * Method responsible for updating the Player UI info (name,tile collection,cards)
+ * with the passed player's data.
+ * @param curPlayer The current player
+ */
+private void setPlayerInfo(Player curPlayer) {
+    setPlayerNameInView(curPlayer.getName());
+    setPlayerCardSetInView(curPlayer.getCards());
+}
+
+/**
+ * Method responsible for updating the active player's name
+ * shown in the UI.
+ * @param playerName The current player's name
+ */
+private void setPlayerNameInView(String playerName) {
+    view.getInfoPanel().setPlayerName(playerName);
+}
+
+/**
+ * Method responsible for updating the UI with the active player's card set.
+ * @param playerCards The current player's cards
+ */
+private void setPlayerCardSetInView(Card[] playerCards) {
+    //TODO:sp
+}
+
+/**
+ * Method responsible for changing the player's tile collection when
+ * the previous player has ended his turn.
+ * @param playerTiles The current player's tile list
+ */
+private void setPlayerTilesListInView(ArrayList<Tile> playerTiles) {
+    //TODO:sp
+}
+
+/**
+ * Method responsible for executing the effect of the selected
+ * card if it hasn't been used already.
+ * @param cardName The card the player selected to play
+ */
+private void handlePlayCardEvent(String cardName) {
+    System.out.println("cardname =" + cardName);
+    Optional<Card> cardToPlay = Arrays.stream(activePlayer.getCards()).filter(card -> card.getName().equals(cardName)).findFirst();
+    if(cardToPlay.isPresent()) {
+        if(!cardToPlay.get().hasBeenPlayed()) { // card hasn't been played
+            //todo
+            try {
+                boardModel.playCard(activePlayer,cardToPlay.get(),tileAreaUsedAtBeginningOfTurn);
+                view.getInfoPanel().disableCard(cardName);
+            } catch (Exceptions.InvalidCardNameException | Exceptions.CardAlreadyPlayedException | Exceptions.IllegalTileAreaException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+/**
+ * Method responsible for updating the Player tile collection when
+ * tiles are added to it (i.e. when taking tiles from the board).
+ */
+private void updatePlayerTileCount() {}
+
+/**
+ * Observer function which returns whether the player
+ * can draw or not.
+ */
+public boolean getCanDraw() {
+    return canDraw;
+}
+
+/**
+ * Transformer function which changes whether the
+ * player can draw or not.
+ * @param canDraw The value to set canDraw to
+ */
+public void setCanDraw(boolean canDraw) {
+    this.canDraw = canDraw;
+}
+
+/**
+ * Inner class which implements the ActionListener interface in order
+ * to be used as the View's Draw button listener.
+ */
+class DrawTileListener implements ActionListener {
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (getCanDraw()) {
+            drawTilesFromBag();
+            setCanDraw(false);
+        }
+    }
+}
+
+/**
+ * Inner class which implements the ActionListener interface in order
+ * to be used as the View's End turn button listener.
+ */
+class EndTurnListener implements ActionListener {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        endTurn();
+    }
+}
+
+/**
+ * Inner class which implements the MouseListener interface in order
+ * to allow the user to click on a Tile of the board and interact with it.
+ */
+class TakeTileFromAreaListener implements MouseListener {
+
+    private final TileLabel clickedTile;
+
+    /**
+     * Constructor for the TakeTileFromAreaListener class.
+     * @param clickedTile The TileLabel object whose data to change when it is clicked.
+     * Precondition: clickedTile instanceof TileLabel
+     * Postcondition: A new TakeTileFromAreaListener object will be created which executes the
+     *                    necessary code when the given tile label is clicked.
+     */
+    public TakeTileFromAreaListener(TileLabel clickedTile) {
+        this.clickedTile = clickedTile;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //TODO:sp update model
+        if(clickedTile.getCount() > 0 && remainingTilesThisRound > 0) {
+            Optional<TileLabel> optionalTileLabel;
+            TileLabel[] playerTiles = view.getPlayerTiles().getPlayerTiles();
+
+            // Figure out which tile label was clicked in order to decrease its count and also update the model
+            if(clickedTile instanceof AmphoraLabel) {
+                optionalTileLabel = Arrays.stream(playerTiles).filter(tileLabel ->
+                        tileLabel instanceof AmphoraLabel).
+                        filter(tileLabel -> tileLabel.equals(clickedTile)).findFirst();
+
+                try {
+                    boardModel.takeTileFromArea(activePlayer,new Amphora(((AmphoraLabel)optionalTileLabel.get()).getColor()));
+                } catch (Exceptions.NotRemovableTileException | Exceptions.NoSuchTileFoundException notRemovableTileException) {
+                    notRemovableTileException.printStackTrace();
+                }
+
+            } else if(clickedTile instanceof MosaicLabel) {
+                optionalTileLabel = Arrays.stream(playerTiles).filter(tileLabel ->
+                        tileLabel instanceof MosaicLabel).
+                        filter(tileLabel -> tileLabel.equals(clickedTile)).findFirst();
+
+                try {
+                    boardModel.takeTileFromArea(activePlayer,new Mosaic(((MosaicLabel)optionalTileLabel.get()).getColor()));
+                } catch (Exceptions.NotRemovableTileException | Exceptions.NoSuchTileFoundException notRemovableTileException) {
+                    notRemovableTileException.printStackTrace();
+                }
+
+            } else if(clickedTile instanceof SkeletonLabel) {
+                optionalTileLabel = Arrays.stream(playerTiles).filter(tileLabel ->
+                        tileLabel instanceof SkeletonLabel).
+                        filter(tileLabel -> tileLabel.equals(clickedTile))
+                        .findFirst();
+
+                try {
+                    SkeletonLabel skeleton = (SkeletonLabel)optionalTileLabel.get();
+                    boardModel.takeTileFromArea(activePlayer,new Skeleton(skeleton.getType(),skeleton.getPart()));
+                } catch (Exceptions.NotRemovableTileException | Exceptions.NoSuchTileFoundException notRemovableTileException) {
+                    notRemovableTileException.printStackTrace();
+                }
+
+            } else if(clickedTile instanceof StatueLabel) {
+                optionalTileLabel = Arrays.stream(playerTiles).filter(tileLabel ->
+                        tileLabel instanceof StatueLabel).
+                        filter(tileLabel -> tileLabel.equals(clickedTile)).findFirst();
+
+                StatueLabel statueLbl = (StatueLabel) optionalTileLabel.get();
+                Statue statue;
+                try {
+                    statue = (Statue) Class.forName("model.tiles.findings."+statueLbl.getType()).newInstance();
+                    boardModel.takeTileFromArea(activePlayer,statue);
+                } catch (Exceptions.NotRemovableTileException | Exceptions.NoSuchTileFoundException | IllegalAccessException | InstantiationException | ClassNotFoundException notRemovableTileException) {
+                    notRemovableTileException.printStackTrace();
+                }
+
+            } else throw new IllegalArgumentException("Clicked tile isn't valid!");
+
+            if(optionalTileLabel.isPresent()) {
+                optionalTileLabel.get().increaseCnt(); // increase player tile count
+                clickedTile.decreaseCnt(); // decrease tile area's tile count
+                remainingTilesThisRound--;
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+}
+
+/**
+ * Inner class which implements the MouseListener interface in order
+ * to allow the user to click on a card of the board and interact with it.
+ */
+class PlayCardListener implements MouseListener {
+
+    private final String card;
+
+    public PlayCardListener(String cardName) {
+        this.card = cardName;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        handlePlayCardEvent(card);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+}

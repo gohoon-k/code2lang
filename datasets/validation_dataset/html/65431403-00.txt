@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="main.css" rel="stylesheet" type="text/css"/>
+    <title>Document</title>
+</head>
+<body>
+    <div class='header'>
+        <button class='home'><a href='home.html'>Home</button>
+        <h1 class='secret'><a class='secretButton' href='secret.html'>CloudBoard</a></h1>
+    </div>
+    <!--<div class='about'>
+        <p>CloudBoard is a code file storage application that can transfer your code through the cloud. We know everyone at one point has wanted to transfer code from one device to another, and emialing it to yourself is just to much time. Here you can easily upload your code then login to a different device and BOOM! Your code is there! Wasn't that easy? For more infomation please click <a href='about.html'>here!</a> To login or register please scroll down to continue :)</a></p>
+    </div>
+        <div class='name'>
+            <label type='name'>Name</label>
+            <input type="text"class='name' placeholder="Your Name...">
+        </div>
+    </div>
+    -->
+</body>
+</html>

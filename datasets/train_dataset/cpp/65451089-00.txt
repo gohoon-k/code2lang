@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string a, b, c, e;
+    double d;
+    string x[] = { "Yes","yes","No","no","Modern","Warfare","modern","warfare" };
+    cout << "Hello user, What is your first name?" << "\n";
+    cin >> a;
+    cout << "Thank you," << " " << a << "! Can I ask you a question? Yes or No?" << "\n";
+    cin >> b;
+    if (b == x[0] || b == x[1]) {
+        cout << "Which game do you like between Modern Warfare and Cold  War?" << "\n";
+        cin >> c >> e;
+        if (c == x[4] && e == x[5] || c == x[6] && e == x[7]) {
+            cout << "What is your kd?" << "\n";
+            cin >> d;
+            if (d <= 1) { 
+                cout << "You're dog water. Uninstall." << "\n";
+            }
+            else if (1 < d && d < 2) { 
+                cout << "You're alright in the game, keep practicing." << "\n";
+            }
+            else if (2 < d && d < 3) { 
+                cout << "you can play with us!" << "\n";
+            }
+            else {
+                cout << "Go stream on Twitch, you're a goat!";
+            }
+        }
+        else {   
+            cout << "We dont play that game, sorry." << "\n";
+        }
+    }
+    else {
+        cout << "Thank you for participating, have a great day!";
+    }
+}

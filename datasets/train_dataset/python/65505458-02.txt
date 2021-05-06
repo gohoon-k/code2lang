@@ -1,0 +1,9 @@
+@client.event
+async def on_message(ctx):
+    message = ctx.content.lower()
+    for word in ban_words:
+        if word in message:
+            await ctx.delete()
+            return
+
+    await client.process_commands(ctx)

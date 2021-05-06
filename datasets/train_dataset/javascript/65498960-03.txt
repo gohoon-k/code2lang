@@ -1,0 +1,19 @@
+const bannerColletion = [
+        ["masaje", "https://hottdates.com/es/other-services-massages"],
+        ["scorts", "https://hottdates.com/es/other-services-agencies"],
+        ["dinero", "https://hottdates.com/es/make-money"]
+];    
+
+
+var arr = [[0,1],[1,0]]
+
+
+arr.map(i => {
+  
+  let [first, second] = i;
+  
+ 
+  console.log(bannerColletion[first][second])
+              
+              
+              })

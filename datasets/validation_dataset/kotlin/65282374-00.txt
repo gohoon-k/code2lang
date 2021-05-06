@@ -1,0 +1,43 @@
+class SelectedListDateAdapter(var listDate: List<DateDay>, private val onItemCheckListener: OnItemCheckListener) :
+RecyclerView.Adapter<SelectedListDateAdapter.SelectedListDateViewHolder>() {
+lateinit var  binding: ItemCheckBoxDateBinding
+inner class SelectedListDateViewHolder(item: ItemCheckBoxDateBinding) : RecyclerView.ViewHolder(item.root) {
+    val checkBoxList = item.checkBox
+}
+
+override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectedListDateViewHolder {
+    binding = ItemCheckBoxDateBinding.inflate(
+        LayoutInflater.from(parent.context),
+        parent,
+        false
+    )
+    return SelectedListDateViewHolder(binding)
+}
+
+override fun onBindViewHolder(holder: SelectedListDateViewHolder, position: Int) {
+    holder.checkBoxList.setOnCheckedChangeListener(null)
+    holder.checkBoxList.isChecked = listDate[position].isSelected
+    holder.itemView.apply {
+        val currentItem = listDate[position]
+        binding.tvDateList.text = listDate[position].date
+
+        setOnClickListener {
+            binding.checkBox.isChecked = !binding.checkBox.isChecked
+            if (binding.checkBox.isChecked) {
+                binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                    currentItem.isSelected = isChecked
+                }
+                onItemCheckListener.onItemCheck(currentItem)
+            } else {
+                binding.checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
+                    currentItem.isSelected = isChecked
+                }
+                onItemCheckListener.onItemUncheck(currentItem)
+            }
+        }
+    }
+}
+
+override fun getItemCount(): Int {
+    return listDate.size
+}
